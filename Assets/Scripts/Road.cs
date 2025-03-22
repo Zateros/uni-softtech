@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Road : MonoBehaviour, IPurchasable
@@ -5,8 +6,9 @@ public class Road : MonoBehaviour, IPurchasable
     private int _price;
     private int _salePrice;
 
-    public Road() { }
+    public int Cost => throw new System.NotImplementedException();
 
+    public Road() { }
 
     public void Buy(IEntity e)
     {

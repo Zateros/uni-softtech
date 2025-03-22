@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private Vehicle _vehicles;
     private List<Tourist> _tourists;
     private List<Poacher> _poachers;
+    public List<List<Vector2>> Routes {  get; private set; }
 
     private Load _gameLoader;
     private Save _gameSaver;

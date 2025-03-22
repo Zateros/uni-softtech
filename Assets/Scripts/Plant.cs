@@ -13,6 +13,7 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
 
     public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsGrown { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public int Cost => throw new NotImplementedException();
 
     public Plant() { }
 
