@@ -18,15 +18,15 @@ public class GameManager : MonoBehaviour
     private int _minTouristCount;
 
     private List<Animal> _animals;
-    private Vehicle _vehicles;
+    private List<Vehicle> _vehicles;
     private List<Tourist> _tourists;
     private List<Poacher> _poachers;
-    public List<List<Vector2>> Routes {  get; private set; }
 
     private Load _gameLoader;
     private Save _gameSaver;
 
-
+    public Map GameTable { get; private set; }
+    public List<List<Vector2>> Routes { get; private set; }
     public bool IsGameRunnning { get; private set; }
 
     public GameManager() { }

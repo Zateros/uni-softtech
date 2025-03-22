@@ -8,7 +8,8 @@ public class Tourist : MonoBehaviour, IEntity
 {
     private readonly float _visionRange = 6f; //TODO: finallize
     private Vector2 _position;
-    private readonly float _size; //TODO: finallize
+    private readonly float _size = 1f; //TODO: finallize
+    private readonly float _speed = 1f; //TODO: finallize
     private GameObject _tourist;
     private int _satisfaction;
     private GameManager _game;
@@ -34,9 +35,11 @@ public class Tourist : MonoBehaviour, IEntity
     public void Move()
     {
         Vector2 path = GeneratePath();
+        _tourist.transform.Translate(_speed * Time.deltaTime * (path - _position).normalized);
+        _position += _speed * Time.deltaTime * (path - _position).normalized;
     }
     public Vector2 GeneratePath()
     {
-        throw new NotImplementedException();
+        _game.GameTable
     }
 }

@@ -11,6 +11,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     private readonly float _speed = 5f; //TODO: finallize
     private readonly int _price;
     private readonly int _salePrice;
+    private bool atEnd = false;
     private List<Tourist> _passengers;
     private List<Vector2> _route;
     private int _routepos = 0;
@@ -25,12 +26,12 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     {
         _passengers = new List<Tourist>();
         _position = jeep.transform.position;
+        _jeep = jeep;
+        _game = game;
 
         //TODO: change prices based on difficulty
         _price = 10;
         _salePrice = 2;
-        _jeep = jeep;
-        _game = game;
         GeneratePath();
     }
 
@@ -40,10 +41,29 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     }
 
     public void Move()
-    {
-        _jeep.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
-        _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
-        if (_route[_routepos] == _position) _routepos++;
+    {   
+        if(IsFull && !atEnd)
+        {
+            _jeep.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
+            _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
+            if (_route[_routepos] == _position) _routepos++;
+            if (_routepos == _route.Count)
+            {
+                atEnd = true;
+                _passengers.Clear();
+                _routepos--;
+            }
+        }
+        else if (atEnd)
+        {
+            _jeep.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
+            _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
+            if (_route[_routepos] == _position) _routepos--;
+            if (_routepos == -1)
+            {
+                atEnd = false;
+            }
+        }
     }
 
     public Vector2 GeneratePath()
