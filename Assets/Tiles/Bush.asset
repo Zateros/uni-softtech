@@ -12,17 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1514134bc4fbd41bb739b1b9a49231, type: 3}
   m_Name: Bush
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: -793383982, guid: 0575f195f8508c1b5a8485f0db56e45a, type: 3}
+  m_DefaultSprite: {fileID: 724961091, guid: a0b6d48ef9bbd992a8fa5a19ad70e42f, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 0
   m_TilingRules:
   - m_Id: 0
     m_Sprites:
-    - {fileID: -722007487, guid: 0575f195f8508c1b5a8485f0db56e45a, type: 3}
-    - {fileID: 2002080277, guid: 0575f195f8508c1b5a8485f0db56e45a, type: 3}
-    - {fileID: 1082120351, guid: 0575f195f8508c1b5a8485f0db56e45a, type: 3}
-    - {fileID: -793383982, guid: 0575f195f8508c1b5a8485f0db56e45a, type: 3}
-    - {fileID: 739107605, guid: 0575f195f8508c1b5a8485f0db56e45a, type: 3}
+    - {fileID: -1622168842, guid: a0b6d48ef9bbd992a8fa5a19ad70e42f, type: 3}
+    - {fileID: 724961091, guid: a0b6d48ef9bbd992a8fa5a19ad70e42f, type: 3}
+    - {fileID: 264758305, guid: a0b6d48ef9bbd992a8fa5a19ad70e42f, type: 3}
+    - {fileID: 492764299, guid: a0b6d48ef9bbd992a8fa5a19ad70e42f, type: 3}
+    - {fileID: 1109208993, guid: a0b6d48ef9bbd992a8fa5a19ad70e42f, type: 3}
     m_GameObject: {fileID: 0}
     m_MinAnimationSpeed: 1
     m_MaxAnimationSpeed: 1
