@@ -64,6 +64,9 @@ public class Map : MonoBehaviour
     [SerializeField, Range(1f, 4f)]
     private float foliagePadding = 1.15f;
 
+    [SerializeField]
+    private int maxIterationForEntranceGeneration = 10;
+
     // Can be serialized and be used for the minimap
     public Terrain[,] gameMap { get; private set; }
 
@@ -95,60 +98,73 @@ public class Map : MonoBehaviour
     private void GenerateEntranceExitPair()
     {
         if (entrance == null || exit == null) return;
-        int axis = Random.Range(1, 3); // 1 - along x axis, 2 - along y axis
         int rotated = Random.Range(1, 3); // 1 - no = entry on the bottom, exit on the top, 2 - vice versa
-        int minMove = Random.Range(2, (axis == 1 ? Size.x : Size.y) - 4);
-        for (int i = 0; i < (axis == 1 ? Size.x : Size.y); i++)
+        int iteration = 0;
+
+        // This is ugly, need to find a better way to generate them
+        // without spawning in front of an obstacle, basically softlocking the session
+
+        // Guarantee spawned entrance-exit pair
+        while ((spawnedEntrance == null || spawnedExit == null) && iteration < maxIterationForEntranceGeneration)
         {
-            Vector3Int pos = Vector3Int.zero;
-            if (axis == 1) pos.x = i;
-            else pos.y = i;
-            List<Terrain> cell = new();
-            for (int y = pos.y + 1; y < pos.y - 1; --y)
+            int axis = Random.Range(1, 3); // 1 - along x axis, 2 - along y axis
+            int minMove = Random.Range(2, (axis == 1 ? Size.x : Size.y) - 4);
+            for (int i = 0; i < (axis == 1 ? Size.x : Size.y); i++)
             {
-                for (int x = pos.x + 1; x < pos.x - 1; --x)
+                Vector3Int pos = Vector3Int.zero;
+                if (axis == 1) pos.x = i;
+                else pos.y = i;
+                List<Terrain> cell = new();
+
+                // Collecting radius 1 neighbouring cells
+                for (int y = pos.y + 1; y < pos.y - 1; --y)
                 {
-                    try
+                    for (int x = pos.x + 1; x < pos.x - 1; --x)
                     {
-                        cell.Add(gameMap[x, y]);
+                        try
+                        {
+                            cell.Add(gameMap[x, y]);
+                        }
+                        catch { }
                     }
-                    catch { }
+                }
+
+                if (!(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL)) && i >= minMove)
+                {
+                    GameObject gate = Instantiate(rotated == 1 ? entrance : exit, baseTilemap.CellToWorld(pos), Quaternion.identity);
+                    if (rotated == 1) spawnedEntrance = gate;
+                    else spawnedExit = gate;
+                    gameMap[pos.x, pos.y] = rotated == 1 ? Terrain.ENTRANCE : Terrain.EXIT;
+                    break;
                 }
             }
-            if (!(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL)) && i >= minMove)
+            for (int i = 0; i < (axis == 1 ? Size.x : Size.y); i++)
             {
-                GameObject gate = Instantiate(rotated == 1 ? entrance : exit, baseTilemap.CellToWorld(pos), Quaternion.identity);
-                if (rotated == 1) spawnedEntrance = gate;
-                else spawnedExit = gate;
-                gameMap[pos.x, pos.y] = rotated == 1 ? Terrain.ENTRANCE : Terrain.EXIT;
-                break;
-            }
-        }
-        for (int i = 0; i < (axis == 1 ? Size.x : Size.y); i++)
-        {
-            Vector3Int pos = new(axis == 1 ? 0 : Size.x - 1, axis == 2 ? 0 : Size.y - 1);
-            if (axis == 1) pos.x = i;
-            else pos.y = i;
-            List<Terrain> cell = new();
-            for (int y = pos.y + 1; y < pos.y - 1; --y)
-            {
-                for (int x = pos.x + 1; x < pos.x - 1; --x)
+                Vector3Int pos = new(axis == 1 ? 0 : Size.x - 1, axis == 2 ? 0 : Size.y - 1);
+                if (axis == 1) pos.x = i;
+                else pos.y = i;
+                List<Terrain> cell = new();
+                for (int y = pos.y + 1; y < pos.y - 1; --y)
                 {
-                    try
+                    for (int x = pos.x + 1; x < pos.x - 1; --x)
                     {
-                        cell.Add(gameMap[x, y]);
+                        try
+                        {
+                            cell.Add(gameMap[x, y]);
+                        }
+                        catch { }
                     }
-                    catch { }
+                }
+                if (!(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL)) && i >= minMove)
+                {
+                    GameObject gate = Instantiate(rotated == 1 ? exit : entrance, baseTilemap.CellToWorld(pos), Quaternion.identity);
+                    if (rotated == 2) spawnedEntrance = gate;
+                    else spawnedExit = gate;
+                    gameMap[pos.x, pos.y] = rotated == 1 ? Terrain.EXIT : Terrain.ENTRANCE;
+                    break;
                 }
             }
-            if (!(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL)) && i >= minMove)
-            {
-                GameObject gate = Instantiate(rotated == 1 ? exit : entrance, baseTilemap.CellToWorld(pos), Quaternion.identity);
-                if (rotated == 2) spawnedEntrance = gate;
-                else spawnedExit = gate;
-                gameMap[pos.x, pos.y] = rotated == 1 ? Terrain.EXIT : Terrain.ENTRANCE;
-                break;
-            }
+            iteration++;
         }
     }
 
