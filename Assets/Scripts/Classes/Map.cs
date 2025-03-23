@@ -91,6 +91,9 @@ public class Map : MonoBehaviour
         GenerateMap();
     }
 
+    private Color GetMapColor(int x, int y) => map[x * size.x + y];
+    private void SetMapColor(Color newColor, int x, int y) { map[x * size.x + y] = newColor; }
+    
     private void GenerateEntranceExitPair()
     {
         if (entrance == null || exit == null) return;
