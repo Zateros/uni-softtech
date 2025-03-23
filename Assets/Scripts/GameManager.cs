@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     private int _minTouristCount;
 
     private List<Animal> _animals;
-    private Vehicle _vehicles;
+    private List<Vehicle> _vehicles;
     private List<Tourist> _tourists;
     private List<Poacher> _poachers;
 
