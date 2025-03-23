@@ -248,7 +248,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cfa14c8e9c1023a12bcaf840478e3ad7, type: 2}
   - {fileID: 11400000, guid: 4a1f3473895ab865391eddf440d05f49, type: 2}
   - {fileID: 11400000, guid: 93df57423d979e2f3bf0c181bb1499a5, type: 2}
-  - {fileID: 11400000, guid: d362e51f16d4f78a584d6b895ee80dfc, type: 2}
+  - {fileID: 11400000, guid: 2a26f99def83c8a23b9527f28e372099, type: 2}
   entrance: {fileID: 0}
   exit: {fileID: 0}
   blurKernel: 7
@@ -265,6 +265,7 @@ MonoBehaviour:
   obstacleThreshold: 0.754
   foliageChance: 0.877
   foliagePadding: 3.14
+  maxIterationForEntranceGeneration: 10
 --- !u!156049354 &206398168
 Grid:
   m_ObjectHideFlags: 0
