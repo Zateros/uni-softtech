@@ -5,7 +5,6 @@ using Random = System.Random;
 
 public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 {
-    private readonly float _visionRange = 10f; //TODO: finallize
     private Vector2 _position;
     private readonly float _size = 1f; //TODO: finallize
     private readonly float _speed = 5f; //TODO: finallize
@@ -18,6 +17,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     private GameObject _jeep;
     private GameManager _game;
 
+    public Vector2 Position { get; }
     public bool IsVisible { get => true; set => throw new Exception(); }
     public int Cost { get => _price; }
     public bool IsFull { get => _passengers.Count == 4; }
@@ -62,6 +62,8 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             if (_routepos == -1)
             {
                 atEnd = false;
+                GeneratePath();
+                _routepos = 0;
             }
         }
     }
@@ -71,6 +73,12 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
         Random random = new Random();
         _route = _game.Routes[random.Next(0, _game.Routes.Count)];
         return new Vector2();
+    }
+
+    public void Enter(Tourist tourist)
+    {
+        if (IsFull) return;
+        _passengers.Add(tourist);
     }
 
     public void Buy(IEntity e)
