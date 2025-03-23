@@ -2,6 +2,8 @@ using UnityEngine;
 
 public enum Terrain
 {
+    GRASSY,
+    SANDY,
     RIVER,
     POND,
     ROAD,
