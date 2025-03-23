@@ -10,7 +10,7 @@ public class Herbivore : Animal
         throw new NotImplementedException();
     }
 
-    public override void GeneratePath()
+    public override Vector2 GeneratePath()
     {
         throw new NotImplementedException();
     }

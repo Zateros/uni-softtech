@@ -22,7 +22,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public bool IsThirsty { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsHungry { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsCaptured { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public int Cost { get => throw new NotImplementedException(); }
+    public int Cost { get => _price; }
 
     public Animal() { }
 
@@ -32,7 +32,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         throw new NotImplementedException();
     }
 
-    public abstract void GeneratePath();
+    public abstract Vector2 GeneratePath();
 
     public void Buy(IEntity e)
     {
