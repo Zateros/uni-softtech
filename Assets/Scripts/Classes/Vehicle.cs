@@ -61,7 +61,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             {
                 gameObject.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
                 _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
-                if (_route[_routepos] == _position) _routepos++;
+                if (Vector2.Distance(_route[_routepos], _position) <= GameManager.Instance.eps) _routepos++;
                 if (_routepos == _route.Count)
                 {
                     atEnd = true;
@@ -73,7 +73,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             {
                 gameObject.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
                 _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
-                if (_route[_routepos] == _position) _routepos--;
+                if (Vector2.Distance(_route[_routepos], _position) <= GameManager.Instance.eps) _routepos--;
                 if (_routepos == -1)
                 {
                     atEnd = false;

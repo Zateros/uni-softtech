@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private int _minCarnivoreCount;
     private int _minMoney;
     private int _minTouristCount;
+    public readonly float eps = 0.1f;
 
     private List<GameObject> _animals;
     private List<GameObject> _vehicles;

@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Giraffe : Herbivore
 {
-    public void Awake()
+    public new void Awake()
     {
-
+        base.Awake();
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:

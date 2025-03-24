@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Zebra : Herbivore
 {
-    public void Awake()
+    public new void Awake()
     {
+        base.Awake();
 
         switch (GameManager.Instance.Difficulty)
         {

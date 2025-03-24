@@ -7,7 +7,6 @@ public class Tourist : MonoBehaviour, IEntity
     private Vector2 _position;
     private readonly float _size = 1f; //TODO: finallize
     private readonly float _speed = 1f; //TODO: finallize
-    private GameObject _tourist;
     private int _satisfaction;
     private bool inJeep = false;
     private Vehicle vehicle = null;
@@ -32,9 +31,9 @@ public class Tourist : MonoBehaviour, IEntity
     {
         if (vehicle != null && !vehicle.IsFull)
         {
-            _tourist.transform.Translate(_speed * Time.deltaTime * (path - _position).normalized);
+            gameObject.transform.Translate(_speed * Time.deltaTime * (path - _position).normalized);
             _position += _speed * Time.deltaTime * (path - _position).normalized;
-            if (_position == path)
+            if (Vector2.Distance(path, _position) <= GameManager.Instance.eps)
             {
                 vehicle.Enter(this);
                 inJeep = true;
