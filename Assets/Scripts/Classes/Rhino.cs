@@ -6,8 +6,9 @@ using System;
 
 public class Rhino : Herbivore
 {
-    public void Awake()
+    public new void Awake()
     {
+        base.Awake();
 
         switch (GameManager.Instance.Difficulty)
         {

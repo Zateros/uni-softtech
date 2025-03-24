@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class Cheetah : Carnivore
 {
-    public void Awake()
+    public new void Awake()
     {
-
+        base.Awake();
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:

@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private int _minCarnivoreCount;
     private int _minMoney;
     private int _minTouristCount;
+    public readonly float eps = 0.1f;
 
     private List<GameObject> _animals;
     private List<GameObject> _vehicles;
@@ -29,7 +30,9 @@ public class GameManager : MonoBehaviour
     private Load _gameLoader;
     private Save _gameSaver;
 
-
+    public List<GameObject> Vehicles { get => _vehicles; }
+    public Map GameTable { get => _gameTable; }
+    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money;}
     public Difficulty Difficulty { get => _difficulty;}

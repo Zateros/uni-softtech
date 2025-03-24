@@ -12,7 +12,7 @@ public class Poacher : MonoBehaviour, IEntity
 
     public Poacher() { }
 
-    public void GeneratePath()
+    public Vector2 GeneratePath()
     {
         throw new NotImplementedException();
     }

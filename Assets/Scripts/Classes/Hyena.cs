@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class Hyena : Carnivore
 {
-    public void Awake()
+    public new void Awake()
     {
+        base.Awake();
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:

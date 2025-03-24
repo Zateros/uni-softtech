@@ -1,25 +1,31 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Random = System.Random;
 
 public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 {
     private int _visionRange;
     private Vector2 _position;
-    private int _size;
+    private readonly float _size = 1f; //TODO: finallize
+    private readonly float _speed = 5f; //TODO: finallize
     private int _price;
     private int _salePrice;
+    private bool atEnd = false;
     private List<Tourist> _passengers;
+    private List<Vector2> _route;
+    private int _routepos = 0;
 
-    public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-    public bool IsFull { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Vector2 Position { get; }
+    public bool IsVisible { get => true; set => throw new Exception(); }
+    public bool IsFull { get => _passengers.Count == 4; }
 
     public int Price { get => _price; }
     public int SalePrice {  get => _salePrice; }
 
     public void Awake()
     {
-
+        _passengers = new List<Tourist>();
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
@@ -37,16 +43,64 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             default:
                 break;
         }
+        _position = gameObject.transform.position;
+        GeneratePath();
     }
 
+
+    public void Update()
+    {
+        Move();
+    }
 
     public void Move()
     {
-        throw new NotImplementedException();
+        if(_route != null)
+        {
+            if (IsFull && !atEnd)
+            {
+                gameObject.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
+                _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
+                if (Vector2.Distance(_route[_routepos], _position) <= GameManager.Instance.eps) _routepos++;
+                if (_routepos == _route.Count)
+                {
+                    atEnd = true;
+                    _passengers.Clear();
+                    _routepos--;
+                }
+            }
+            else if (atEnd)
+            {
+                gameObject.transform.Translate(_speed * Time.deltaTime * (_route[_routepos] - _position).normalized);
+                _position += _speed * Time.deltaTime * (_route[_routepos] - _position).normalized;
+                if (Vector2.Distance(_route[_routepos], _position) <= GameManager.Instance.eps) _routepos--;
+                if (_routepos == -1)
+                {
+                    atEnd = false;
+                    GeneratePath();
+                    _routepos = 0;
+                }
+            }
+        }
+        else
+        {
+            GeneratePath();
+        }
     }
 
-    public void GeneratePath()
+    public Vector2 GeneratePath()
     {
-        throw new NotImplementedException();
+        if (GameManager.Instance.Routes.Count > 0)
+        {
+            Random random = new Random();
+            _route = GameManager.Instance.Routes[random.Next(0, GameManager.Instance.Routes.Count)];
+        }
+        return new Vector2();
+    }
+
+    public void Enter(Tourist tourist)
+    {
+        if (IsFull) return;
+        _passengers.Add(tourist);
     }
 }
