@@ -1460,8 +1460,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4a1f3473895ab865391eddf440d05f49, type: 2}
   - {fileID: 11400000, guid: 93df57423d979e2f3bf0c181bb1499a5, type: 2}
   - {fileID: 11400000, guid: 2a26f99def83c8a23b9527f28e372099, type: 2}
-  entrance: {fileID: 0}
-  exit: {fileID: 0}
+  entrance: {fileID: 9107300023667832229, guid: 2067f05c84348774f83e88ff0da168b1, type: 3}
+  exit: {fileID: 9107300023667832229, guid: a60071c3aacc0b24485c0a398775ca96, type: 3}
   blurKernel: 7
   sigma: 3
   scale: 3.79

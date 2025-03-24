@@ -51,7 +51,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         {
             _path = GeneratePath();
             System.Random rand = new System.Random();
-            framecnt = rand.Next(1200, 1800);
+            framecnt = rand.Next(900, 1100);
         }
     }
 
