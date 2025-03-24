@@ -30,7 +30,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         throw new NotImplementedException();
     }
 
-    public abstract void GeneratePath();
+    public abstract Vector2 GeneratePath();
 
     public abstract void Eat(IEntity e);
 

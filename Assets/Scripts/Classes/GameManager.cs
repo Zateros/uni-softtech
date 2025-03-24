@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour
     private Load _gameLoader;
     private Save _gameSaver;
 
-
+    public List<GameObject> Vehicles { get => _vehicles; }
+    public Map GameTable { get => _gameTable; }
+    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money;}
     public Difficulty Difficulty { get => _difficulty;}

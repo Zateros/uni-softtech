@@ -22,7 +22,7 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
         throw new NotImplementedException();
     }
 
-    public void GeneratePath()
+    public Vector2 GeneratePath()
     {
         throw new NotImplementedException();
     }
