@@ -67,6 +67,9 @@ public class Map : MonoBehaviour
     [SerializeField]
     private int maxIterationForEntranceGeneration = 10;
 
+    public delegate void OnMapGenerated();
+    public static OnMapGenerated onMapGenerated;
+
     // Can be serialized and be used for the minimap
     public Terrain[,] gameMap { get; private set; }
 
@@ -78,7 +81,7 @@ public class Map : MonoBehaviour
     private Color[] map;
     private Vector2Int pastSize;
 
-    void Start()
+    void Awake()
     {
         baseTilemap = GameObject.FindWithTag("Base").GetComponent<Tilemap>();
         waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
@@ -251,5 +254,6 @@ public class Map : MonoBehaviour
         }
 
         GenerateEntranceExitPair();
+        onMapGenerated?.Invoke();
     }
 }
