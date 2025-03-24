@@ -7,7 +7,7 @@ using System.IO;
 public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
 {    
     protected float _visionRange;
-    protected float _speed = 5f;
+    protected float _speed = 2f;
     protected Vector2 _position;
     private Vector2 _path;
     protected int _size;
@@ -18,7 +18,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected int _thirst;
     protected bool _hasChip;
     protected int _sleepTime;
-    private int framecnt = 60;
+    private int framecnt = 1200;
 
     public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsAsleep { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -51,7 +51,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         {
             _path = GeneratePath();
             System.Random rand = new System.Random();
-            framecnt = rand.Next(40, 120);
+            framecnt = rand.Next(1200, 1800);
         }
     }
 
