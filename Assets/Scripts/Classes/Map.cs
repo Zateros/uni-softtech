@@ -203,7 +203,6 @@ public class Map : MonoBehaviour
                     genTools.Fbm(2343f + X * obstacleScale, 233f + Y * obstacleScale, octave) * obstacleAmp, //Green - Obstacles
                     -genTools.Fbm(545f + X * waterScale, 33f + Y * waterScale, octave) * waterAmp //Blue - Waters //TODO: Rivers
                 );
-                temp.a = temp.r * foliagePadding; //Alpha - Foliage (Base map with padding around sandy regions)
                 SetMapColor(temp, xx, yy);
             }
         }
@@ -241,7 +240,7 @@ public class Map : MonoBehaviour
                 }
 
                 // Foliage
-                if (current.a <= sandyThreshold && !(gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
+                if (!inSandyRange && !(gameMap[x,y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
                 {
                     if (Random.Range(0f, 1f) > foliageChance)
                     {
