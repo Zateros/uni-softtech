@@ -6,6 +6,9 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private Texture2D cursor;
+
     public static GameManager Instance;
 
     private Map _gameTable;
@@ -59,6 +62,8 @@ public class GameManager : MonoBehaviour
         _vehicles = new List<GameObject>();
         _tourists = new List<GameObject>();
         _poachers = new List<GameObject>();
+
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         DontDestroyOnLoad(this);
     }
