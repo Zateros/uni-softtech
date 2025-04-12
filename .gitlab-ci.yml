@@ -101,15 +101,15 @@ build-StandaloneOSX:
 build-StandaloneWindows64:
   <<: *build
   image: $IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
-  before_script:
-    - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
-    - apt-get update && apt-get install ffmpeg -y
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-WebGL:
   <<: *build
   image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
+  before_script:
+    - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+    - apt-get update && apt-get install ffmpeg -y
   variables:
     BUILD_TARGET: WebGL
     
