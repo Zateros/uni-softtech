@@ -1,6 +1,10 @@
 stages:
   - prepare
-  - build_and_test
+  - test-editmode
+  - test-playmode
+  - build-windows
+  - build-linux
+  - build-webgl
   - deploy
 
 variables:
@@ -57,7 +61,6 @@ get-unity-version:
     - *unity_after_script
 
 .test: &test
-  stage: build_and_test
   <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
@@ -67,19 +70,20 @@ get-unity-version:
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
 
 test-playmode:
+  stage: test-playmode
   <<: *test
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test-editmode:
+  stage: test-editmode
   <<: *test
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
 
 .build: &build
-  stage: build_and_test
   <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
@@ -88,23 +92,20 @@ test-editmode:
       - $UNITY_DIR/Builds/
 
 build-StandaloneLinux64:
+  stage: build-linux
   <<: *build
   variables:
     BUILD_TARGET: StandaloneLinux64
 
-build-StandaloneOSX:
-  <<: *build
-  image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
-  variables:
-    BUILD_TARGET: StandaloneOSX
-
 build-StandaloneWindows64:
+  stage: build-windows
   <<: *build
   image: $IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-WebGL:
+  stage: build-webgl
   <<: *build
   image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
   before_script:
