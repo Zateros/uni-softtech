@@ -70,15 +70,15 @@ get-unity-version:
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
 
 test-playmode:
-  stage: test-playmode
   <<: *test
+  stage: test-playmode
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
 
 test-editmode:
-  stage: test-editmode
   <<: *test
+  stage: test-editmode
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
@@ -92,21 +92,21 @@ test-editmode:
       - $UNITY_DIR/Builds/
 
 build-StandaloneLinux64:
-  stage: build-linux
   <<: *build
+  stage: build-linux
   variables:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneWindows64:
-  stage: build-windows
   <<: *build
+  stage: build-windows
   image: $IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   variables:
     BUILD_TARGET: StandaloneWindows64
 
 build-WebGL:
-  stage: build-webgl
   <<: *build
+  stage: build-webgl
   image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
   before_script:
     - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
