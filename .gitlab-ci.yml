@@ -72,6 +72,7 @@ get-unity-version:
 test-playmode:
   stage: test-playmode
   <<: *test
+  needs: [test-editmode]
   variables:
     TEST_PLATFORM: playmode
     TESTING_TYPE: NUNIT
@@ -79,6 +80,7 @@ test-playmode:
 test-editmode:
   stage: test-editmode
   <<: *test
+  needs: []
   variables:
     TEST_PLATFORM: editmode
     TESTING_TYPE: NUNIT
@@ -93,12 +95,14 @@ test-editmode:
 
 build-StandaloneLinux64:
   stage: build-linux
+  needs: [test-editmode, test-playmode, build-windows]
   <<: *build
   variables:
     BUILD_TARGET: StandaloneLinux64
 
 build-StandaloneWindows64:
   stage: build-windows
+  needs: [test-editmode, test-playmode]
   <<: *build
   image: $IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   variables:
@@ -106,6 +110,7 @@ build-StandaloneWindows64:
 
 build-WebGL:
   stage: build-webgl
+  needs: [test-editmode, test-playmode, build-windows, build-linux]
   <<: *build
   image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
   before_script:
