@@ -1,14 +1,19 @@
 stages:
-  - build_and_test
+  - test-editmode
+  - test-playmode
+  - build-windows
+  - build-linux
+  - build-webgl
   - deploy
 
 variables:
   BUILD_NAME: SzenvedIK
-  UNITY_ACTIVATION_FILE: ./unity3d.alf
-  UNITY_VERSION: "6000.0.38f1"
   IMAGE: unityci/editor # https://hub.docker.com/r/unityci/editor
   IMAGE_VERSION: "3"
   UNITY_DIR: $CI_PROJECT_DIR
+  UNITY_VERSION: "6000.0.38f1"
+  VERSION_NUMBER_VAR: $CI_COMMIT_REF_SLUG-$CI_PIPELINE_ID-$CI_JOB_ID
+  VERSION_BUILD_VAR: $CI_PIPELINE_IID
 
 image: $IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
 
@@ -16,40 +21,31 @@ image: $IMAGE:$UNITY_VERSION-base-$IMAGE_VERSION
   before_script:
     - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
 
+.unity_after_script: &unity_after_script
+  after_script:
+    - chmod +x ./ci/return_license.sh && ./ci/return_license.sh
+
 .cache: &cache
   cache:
     key: "$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME-$CI_COMMIT_REF_SLUG-$TEST_PLATFORM"
     paths:
       - $UNITY_DIR/Library/
+      - $UNITY_DIR/../unity-builder
 
 .license: &license
   rules:
-    - if: '$UNITY_LICENSE != null'
+    - if: '$UNITY_LICENSE != null || $UNITY_SERIAL != null'
       when: always
 
-# run this job when you need to request a license
-# you may need to follow activation steps from documentation
-get-activation-file:
-  # Known unity activation issue in GitLab CI
-  # See: https://gitlab.com/game-ci/unity3d-gitlab-ci-example/-/issues/171
-  # Workaround implemented as: https://gitlab.com/game-ci/unity3d-gitlab-ci-example/-/issues/171#note_974622879 
-  image: $IMAGE:2021.3.4f1-base-1.0.1
-  rules:
-    - if: '$UNITY_LICENSE == null'
-      when: manual
-  stage: build_and_test
-  script:
-    - chmod +x ./ci/get_activation_file.sh && ./ci/get_activation_file.sh
-  artifacts:
-    paths:
-      - $UNITY_ACTIVATION_FILE
-    expire_in: 10 min # Expiring this as artifacts may contain sensitive data and should not be kept public
+.unity_defaults: &unity_defaults
+  <<:
+    - *unity_before_script
+    - *cache
+    - *license
+    - *unity_after_script
 
 .test: &test
-  stage: build_and_test
-  <<: *unity_before_script
-  <<: *cache
-  <<: *license
+  <<: *unity_defaults
   script:
     - chmod +x ./ci/test.sh && ./ci/test.sh
   artifacts:
@@ -57,47 +53,56 @@ get-activation-file:
     expire_in: 2 weeks
   coverage: /<Linecoverage>(.*?)</Linecoverage>/
 
-test-playmode:
-  <<: *test
-  variables:
-    TEST_PLATFORM: playmode
-
 test-editmode:
   <<: *test
+  stage: test-editmode
   variables:
     TEST_PLATFORM: editmode
+    TESTING_TYPE: NUNIT
+
+test-playmode:
+  <<: *test
+  stage: test-playmode
+  needs:
+    - job: test-editmode
+  variables:
+    TEST_PLATFORM: playmode
+    TESTING_TYPE: NUNIT
 
 .build: &build
-  stage: build_and_test
-  <<: *unity_before_script
-  <<: *cache
-  <<: *license
+  <<: *unity_defaults
   script:
     - chmod +x ./ci/build.sh && ./ci/build.sh
   artifacts:
     paths:
       - $UNITY_DIR/Builds/
 
-build-StandaloneLinux64:
-  <<: *build
-  variables:
-    BUILD_TARGET: StandaloneLinux64
-
-build-StandaloneOSX:
-  <<: *build
-  image: $IMAGE:$UNITY_VERSION-mac-mono-$IMAGE_VERSION
-  variables:
-    BUILD_TARGET: StandaloneOSX
-
 build-StandaloneWindows64:
   <<: *build
+  stage: build-windows
+  needs:
+    - job: test-playmode
   image: $IMAGE:$UNITY_VERSION-windows-mono-$IMAGE_VERSION
   variables:
     BUILD_TARGET: StandaloneWindows64
 
+build-StandaloneLinux64:
+  <<: *build
+  stage: build-linux
+  needs:
+    - job: build-StandaloneWindows64
+  variables:
+    BUILD_TARGET: StandaloneLinux64
+
 build-WebGL:
   <<: *build
+  stage: build-webgl
+  needs:
+    - job: build-StandaloneLinux64
   image: $IMAGE:$UNITY_VERSION-webgl-$IMAGE_VERSION
+  before_script:
+    - chmod +x ./ci/before_script.sh && ./ci/before_script.sh
+    - apt-get update && apt-get install ffmpeg -y
   variables:
     BUILD_TARGET: WebGL
     
