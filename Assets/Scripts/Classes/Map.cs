@@ -61,15 +61,12 @@ public class Map : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float foliageChance = .7f;
 
-    [SerializeField, Range(1f, 4f)]
-    private float foliagePadding = 1.15f;
-
     [SerializeField]
     private int maxIterationForEntranceGeneration = 10;
 
     public static Vector3[] bounds { get; private set; }
-    public delegate void OnMapGenerated();
-    public static OnMapGenerated onMapGenerated;
+    public delegate void OnMapChanged();
+    public static OnMapChanged onMapChanged;
 
     // Can be serialized and be used for the minimap
     public Terrain[,] gameMap { get; private set; }
@@ -97,7 +94,7 @@ public class Map : MonoBehaviour
 
     private Color GetMapColor(int x, int y) => map[x * size.x + y];
     private void SetMapColor(Color newColor, int x, int y) { map[x * size.x + y] = newColor; }
-    
+
     private void GenerateEntranceExitPair()
     {
         if (entrance == null || exit == null) return;
@@ -171,6 +168,18 @@ public class Map : MonoBehaviour
         }
     }
 
+    public void SetCell(Terrain terrain, int x, int y)
+    {
+        if (gameMap[x, y] == Terrain.BUSH || gameMap[x, y] == Terrain.GRASS)
+        {
+            foliageTilemap.SetTile(new Vector3Int(x, y, -2), null);
+        }
+        gameMap[x, y] = terrain;
+        onMapChanged?.Invoke();
+    }
+
+    public bool IsInBounds(int x, int y) => (0 <= x && x < Size.x) && (0 <= y && y < Size.y);
+
     public void GenerateMap()
     {
         baseTilemap.ClearAllTiles();
@@ -227,6 +236,7 @@ public class Map : MonoBehaviour
                 // Obstacles
                 if (current.g > obstacleThreshold)
                 {
+                    tilePos.z = -4;
                     obstaclesTilemap.SetTile(tilePos, tiles[5]);
                     gameMap[x, y] = Terrain.HILL;
                 }
@@ -235,15 +245,17 @@ public class Map : MonoBehaviour
                 //TODO: Rivers
                 if (current.b > waterThreshold && !(gameMap[x, y] == Terrain.HILL))
                 {
+                    tilePos.z = -1;
                     waterTilemap.SetTile(tilePos, tiles[2]);
                     gameMap[x, y] = Terrain.POND;
                 }
 
                 // Foliage
-                if (!inSandyRange && !(gameMap[x,y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
+                if (!inSandyRange && !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
                 {
                     if (Random.Range(0f, 1f) > foliageChance)
                     {
+                        tilePos.z = -2;
                         int foliageType = Random.Range(3, 5);
                         foliageTilemap.SetTile(tilePos, tiles[foliageType]);
                         gameMap[x, y] = foliageType == 3 ? Terrain.GRASS : Terrain.BUSH;
@@ -263,6 +275,6 @@ public class Map : MonoBehaviour
             baseTilemap.CellToWorld(new Vector3Int(Size.x, Size.y))
         };
 
-        onMapGenerated?.Invoke();
+        onMapChanged?.Invoke();
     }
 }
