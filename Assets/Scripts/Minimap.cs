@@ -22,7 +22,7 @@ public class Minimap : MonoBehaviour
             new Color(162f/255f, 169f/255f, 71f/255f),
             new Color(251f/255f, 185f/255f, 84f/255f),
             new Color(143f/255f, 211f/255f, 255f/255f),
-            new Color(62f/255f, 53f/255f, 70f/255f),
+            new Color(158/255f, 69/255f, 57/255f),
             new Color(103f/255f, 102f/255f, 51f/255f),
             new Color(158f/255f, 69f/255f, 57f/255f),
             new Color(143f/255f, 149f/255f, 59f/255f),
@@ -30,7 +30,7 @@ public class Minimap : MonoBehaviour
         };
 
         Refresh();
-        Map.onMapGenerated += Refresh;
+        Map.onMapChanged += Refresh;
     }
 
     void Refresh()
