@@ -11,7 +11,7 @@ public class MoveCamera : MonoBehaviour
     void Start()
     {
         RecalculateBounds();
-        Map.onMapGenerated += RecalculateBounds;
+        Map.onMapChanged += RecalculateBounds;
     }
 
     void RecalculateBounds()
