@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         #if UNITY_EDITOR
             KeyCode esc = KeyCode.J;
         #else
-            KeyCode esc = KeyCode.escape;
+            KeyCode esc = KeyCode.Escape;
         #endif
         if(Input.GetKeyDown(esc) && PurchaseMode) {
             PurchaseMode = false;
