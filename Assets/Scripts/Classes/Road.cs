@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Road : MonoBehaviour, IPurchasable
+public class Road : IPurchasable
 {
     private int _price;
     private int _salePrice;
@@ -9,7 +9,7 @@ public class Road : MonoBehaviour, IPurchasable
     public int SalePrice { get => _salePrice; }
 
 
-    public void Awake()
+    public Road()
     {
 
         switch (GameManager.Instance.Difficulty)
