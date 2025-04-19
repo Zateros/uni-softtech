@@ -21,6 +21,8 @@ public class PurchasableBtnClick : MonoBehaviour
     [SerializeField] public GameObject Tree;
     [SerializeField] public GameObject Jeep;
     [SerializeField] public GameObject Road;
+    [SerializeField] public GameObject Chip;
+
 
     private Camera mainCamera;
     private Vector3 mousePosition;
@@ -83,6 +85,10 @@ public class PurchasableBtnClick : MonoBehaviour
             case "RoadBtn":
                 var myRoad = Instantiate(Road, mousePosition, Quaternion.identity);
                 myRoad.name = "Road";
+                break;
+            case "ChipBtn":
+                var myChip = Instantiate(Chip, mousePosition, Quaternion.identity);
+                myChip.name = "Chip";
                 break;
             default:
                 break;

@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
     private Save _gameSaver;
 
     public List<GameObject> Vehicles { get => _vehicles; }
+    public List<GameObject> Animals { get => _animals; }
     public Map GameTable { get => _gameTable; }
     public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
@@ -100,7 +101,8 @@ public class GameManager : MonoBehaviour
 
     public void Buy(GameObject gameObject)
     {
-        if (gameObject == null) { Debug.Log("OhNo"); }
+        if (gameObject == null) { throw new NullReferenceException(); }
+
         switch (gameObject.name)
         {
             case "Rhino":

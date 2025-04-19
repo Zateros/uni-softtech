@@ -26,11 +26,13 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public bool IsThirsty { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsHungry { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsCaptured { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public bool HasChip { get => _hasChip; set => _hasChip = value; }
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
 
     public void Awake()
     {
+        _hasChip = false;
         _position = gameObject.transform.position;
         _path = GeneratePath();
     }
