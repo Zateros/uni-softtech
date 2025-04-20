@@ -15,7 +15,7 @@ public class Chip : MonoBehaviour, IPurchasable
     public int SalePrice { get => _salePrice; }
 
 
-    public void Awake()
+    void Awake()
     {
         switch (GameManager.Instance.Difficulty)
         {
