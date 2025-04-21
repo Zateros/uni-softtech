@@ -65,7 +65,9 @@ public class Map : MonoBehaviour
     private int maxIterationForEntranceGeneration = 10;
 
     public static Vector3[] bounds { get; private set; }
+    public delegate void OnMapGenerated();
     public delegate void OnMapChanged();
+    public static OnMapGenerated onMapGenerated;
     public static OnMapChanged onMapChanged;
 
     // Can be serialized and be used for the minimap
@@ -275,6 +277,6 @@ public class Map : MonoBehaviour
             baseTilemap.CellToWorld(new Vector3Int(Size.x, Size.y))
         };
 
-        onMapChanged?.Invoke();
+        onMapGenerated?.Invoke();
     }
 }
