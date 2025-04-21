@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     private Load _gameLoader;
     private Save _gameSaver;
-    private bool _purchaseMode;
+    private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
     public event OnPurchaseModeDisable onPurchaseModeDisable;

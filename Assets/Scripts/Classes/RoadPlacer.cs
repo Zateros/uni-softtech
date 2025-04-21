@@ -68,7 +68,7 @@ public class RoadPlacer : MonoBehaviour
             int pxx = Mathf.Clamp(prevCellPos.x, 0, map.Size.x);
             int pyy = Mathf.Clamp(prevCellPos.y, 0, map.Size.y);
 
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(0))
             {
                 if (!placing)
                 {
