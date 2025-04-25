@@ -1,15 +1,11 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.HID;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-namespace Christina.UI
-{
-    public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
+public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     {
         [Header("Slider setup")]
         [SerializeField, Range(0, 1f)]
@@ -145,4 +141,3 @@ namespace Christina.UI
             _slider.value = endValue;
         }
     }
-}
