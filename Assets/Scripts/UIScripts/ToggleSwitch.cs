@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.HID;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
-    {
+{
         [Header("Slider setup")]
         [SerializeField, Range(0, 1f)]
         protected float sliderValue;
