@@ -149,46 +149,12 @@ public class GameManager : MonoBehaviour
 
     public void Sell(GameObject gameObject)
     {
-        switch (gameObject.name)
-        {
-            case "Rhino":
-                _animals.Remove(gameObject);
-                break;
-            case "Zebra":
-                _animals.Remove(gameObject);
-                break;
-            case "Giraffe":
-                _animals.Remove(gameObject);
-                break;
-            case "Lion":
-                _animals.Remove(gameObject);
-                break;
-            case "Hyena":
-                _animals.Remove(gameObject);
-                break;
-            case "Cheetah":
-                _animals.Remove(gameObject);
-                break;
-            case "Grass":
+        if(_animals.Contains(gameObject))
+            _animals.Remove(gameObject);
 
-                break;
-            case "Bush":
+        if(_vehicles.Contains(gameObject))
+            _vehicles.Remove(gameObject);
 
-                break;
-            case "Tree":
-
-                break;
-            case "Jeep":
-                _vehicles.Remove(gameObject);
-                break;
-            case "Road":
-
-                break;
-            default:
-                break;
-
-        }
-        
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         _money += salePrice;
 
