@@ -37,7 +37,6 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         _hasChip = false;
         _position = gameObject.transform.position;
         _path = GeneratePath();
-        GameManager.Instance.Minimap.AddBlip(gameObject);
     }
 
     public void Update()
