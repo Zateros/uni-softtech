@@ -60,10 +60,6 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         onAnimalDestroy?.Invoke();
     }
 
-    void OnDestroy()
-    {
-        onAnimalDestroy?.Invoke();
-    }
 
     public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
     {
