@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +9,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-    private Map _gameTable;
+    [SerializeField]
+    private Map gameTable;
+
+    [SerializeField]
+    private Minimap minimap;
+
     private DateTime _time;
     private Speed _gameSpeed;
     private Difficulty _difficulty;
@@ -39,7 +42,8 @@ public class GameManager : MonoBehaviour
 
     public List<GameObject> Vehicles { get => _vehicles; }
     public List<GameObject> Animals { get => _animals; }
-    public Map GameTable { get => _gameTable; }
+    public Map GameTable { get => gameTable; }
+    public Minimap Minimap { get => minimap; }
     public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money; }

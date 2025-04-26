@@ -3185,7 +3185,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 1112395295668308335, guid: b1b1d221553fb688187d1e0b9c7c319b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -5925,6 +5925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 2800000, guid: 46740b76b5b231614a2d0cb9e01977e4, type: 3}
+  gameTable: {fileID: 206398167}
+  minimap: {fileID: 843939582}
 --- !u!4 &1585813862
 Transform:
   m_ObjectHideFlags: 0
