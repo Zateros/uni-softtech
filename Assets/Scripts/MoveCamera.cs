@@ -16,7 +16,7 @@ public class MoveCamera : MonoBehaviour
 
     void RecalculateBounds()
     {
-        foreach (Vector3 vec in Map.bounds)
+        foreach (Vector3 vec in Map.Bounds)
         {
             lowerX = Mathf.Min(lowerX, vec.x);
             upperX = Mathf.Max(upperX, vec.x);
