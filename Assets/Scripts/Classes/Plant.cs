@@ -17,12 +17,12 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
 
-    public void Move()
+    public Vector2 GeneratePath()
     {
         throw new NotImplementedException();
     }
 
-    public Vector2 GeneratePath()
+    public void Move(Vector2 goal)
     {
         throw new NotImplementedException();
     }
