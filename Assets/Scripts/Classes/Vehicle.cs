@@ -103,4 +103,9 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
         if (IsFull) return;
         _passengers.Add(tourist);
     }
+
+    public void Move(Vector2 goal)
+    {
+        throw new NotImplementedException();
+    }
 }

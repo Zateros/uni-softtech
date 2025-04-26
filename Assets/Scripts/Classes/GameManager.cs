@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
 using static UnityEngine.EventSystems.EventTrigger;
+using System.Xml;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     private Load _gameLoader;
     private Save _gameSaver;
 
+    public Node[,] WMap { get; private set; }
     public List<GameObject> Vehicles { get => _vehicles; }
     public List<GameObject> Animals { get => _animals; }
     public Map GameTable { get => _gameTable; }
@@ -65,6 +67,28 @@ public class GameManager : MonoBehaviour
         _poachers = new List<GameObject>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
+
+        for (int i = 0; i < _gameTable.Size.x; i++)
+        {
+            for (int j = 0; j < _gameTable.Size.y; j++)
+            {
+                switch (_gameTable.gameMap[i, j])
+                {
+                    case Terrain.HILL:
+                        WMap[i, j] = new Node(i,j,2);
+                        break;
+                    case Terrain.RIVER:
+                        WMap[i, j] = new Node(i, j, 2);
+                        break;
+                    case Terrain.POND:
+                        WMap[i, j] = new Node(i, j, -1);
+                        break;
+                    default:
+                        WMap[i, j] = new Node(i, j, 1);
+                        break;
+                }
+            }
+        }
 
         DontDestroyOnLoad(this);
     }

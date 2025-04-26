@@ -17,10 +17,6 @@ public class Poacher : MonoBehaviour, IEntity
         throw new NotImplementedException();
     }
 
-    public void Move()
-    {
-        throw new NotImplementedException();
-    }
 
     public void CaptureAnimal(Animal animal)
     {
@@ -28,6 +24,11 @@ public class Poacher : MonoBehaviour, IEntity
     }
 
     public void ShootAnimal(Animal animal)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Move(Vector2 goal)
     {
         throw new NotImplementedException();
     }
