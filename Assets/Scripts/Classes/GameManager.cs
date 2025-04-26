@@ -232,6 +232,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
+
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
