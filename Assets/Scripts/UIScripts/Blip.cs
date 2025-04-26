@@ -6,14 +6,21 @@ public class Blip : MonoBehaviour
     private Image image;
     public GameObject mimic;
     public Minimap minimap;
+    private RectTransform rect;
     void OnEnable()
     {
         image = GetComponent<Image>();
-        image.sprite = mimic.GetComponent<Animal>().BlipIcon;
+        rect = GetComponent<RectTransform>();
     }
 
     void Update()
     {
-        transform.position = minimap.WorldToMinimap(mimic.transform.position);
+        rect.anchoredPosition = minimap.WorldToMinimap(mimic.transform.position);
+    }
+
+    public void SetMimic(ref GameObject gameObject)
+    {
+        mimic = gameObject;
+        image.sprite = mimic.GetComponent<Animal>().BlipIcon;
     }
 }
