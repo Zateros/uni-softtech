@@ -15,15 +15,15 @@ public class Road : IPurchasable
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
-                _price = 10;
+                _price = 100;
                 _salePrice = 0;
                 break;
             case Difficulty.MEDIUM:
-                _price = 20;
+                _price = 150;
                 _salePrice = 0;
                 break;
             case Difficulty.HARD:
-                _price = 30;
+                _price = 250;
                 _salePrice = 0;
                 break;
             default:

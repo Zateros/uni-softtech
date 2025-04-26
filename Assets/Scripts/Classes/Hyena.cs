@@ -8,16 +8,16 @@ public class Hyena : Carnivore
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
-                _price = 10;
-                _salePrice = 10;
+                _price = 300;
+                _salePrice = 300;
                 break;
             case Difficulty.MEDIUM:
-                _price = 20;
-                _salePrice = 20;
+                _price = 400;
+                _salePrice = 350;
                 break;
             case Difficulty.HARD:
-                _price = 30;
-                _salePrice = 30;
+                _price = 500;
+                _salePrice = 400;
                 break;
             default:
                 break;
