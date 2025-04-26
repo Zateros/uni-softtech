@@ -6,6 +6,9 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private Texture2D cursor;
+
     public static GameManager Instance;
 
     private Map _gameTable;
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
     private Save _gameSaver;
 
     public List<GameObject> Vehicles { get => _vehicles; }
+    public List<GameObject> Animals { get => _animals; }
     public Map GameTable { get => _gameTable; }
     public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
@@ -59,6 +63,8 @@ public class GameManager : MonoBehaviour
         _vehicles = new List<GameObject>();
         _tourists = new List<GameObject>();
         _poachers = new List<GameObject>();
+
+        Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         DontDestroyOnLoad(this);
     }
@@ -95,7 +101,8 @@ public class GameManager : MonoBehaviour
 
     public void Buy(GameObject gameObject)
     {
-        if (gameObject == null) { Debug.Log("OhNo"); }
+        if (gameObject == null) { throw new NullReferenceException(); }
+
         switch (gameObject.name)
         {
             case "Rhino":
@@ -142,46 +149,12 @@ public class GameManager : MonoBehaviour
 
     public void Sell(GameObject gameObject)
     {
-        switch (gameObject.name)
-        {
-            case "Rhino":
-                _animals.Remove(gameObject);
-                break;
-            case "Zebra":
-                _animals.Remove(gameObject);
-                break;
-            case "Giraffe":
-                _animals.Remove(gameObject);
-                break;
-            case "Lion":
-                _animals.Remove(gameObject);
-                break;
-            case "Hyena":
-                _animals.Remove(gameObject);
-                break;
-            case "Cheetah":
-                _animals.Remove(gameObject);
-                break;
-            case "Grass":
+        if(_animals.Contains(gameObject))
+            _animals.Remove(gameObject);
 
-                break;
-            case "Bush":
+        if(_vehicles.Contains(gameObject))
+            _vehicles.Remove(gameObject);
 
-                break;
-            case "Tree":
-
-                break;
-            case "Jeep":
-                _vehicles.Remove(gameObject);
-                break;
-            case "Road":
-
-                break;
-            default:
-                break;
-
-        }
-        
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         _money += salePrice;
 

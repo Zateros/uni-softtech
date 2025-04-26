@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class FollowMouse : MonoBehaviour
 {
     private Camera mainCamera;
-    private Vector3 mousePosition;
+    private Vector3 mousePos;
 
 
     void Start()
@@ -17,15 +17,15 @@ public class FollowMouse : MonoBehaviour
 
     void Update()
     {
-        if(!Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            transform.position = new Vector3(mousePosition.x, mousePosition.y, 0);
-        }
-        else
+        if(Mouse.current.leftButton.wasPressedThisFrame)
         {
             enabled = false;
             GameManager.Instance.Buy(gameObject);
+        }
+        else
+        {
+            mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            transform.position = new Vector3(mousePos.x, mousePos.y, 0);
         }
 
 

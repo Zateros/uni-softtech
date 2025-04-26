@@ -9,6 +9,12 @@ TagManager:
   - Water
   - Foliage
   - Obstacles
+  - Animal
+  - Plant
+  - Vehicle
+  - Tourist
+  - Poacher
+  - Road
   layers:
   - Default
   - TransparentFX
