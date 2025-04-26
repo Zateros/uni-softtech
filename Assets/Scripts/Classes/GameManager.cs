@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
     public List<GameObject> Cheetahs { get => _cheetahs; }
     public List<GameObject> Turists { get => _turists; }
     public List<GameObject> Vehicles { get => _vehicles; }
-    public List<GameObject> Animals { get => _animals; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
     public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
