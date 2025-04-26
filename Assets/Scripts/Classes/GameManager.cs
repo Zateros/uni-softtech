@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
-using Unity.VisualScripting;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,7 +9,12 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance;
 
-    private Map _gameTable;
+    [SerializeField]
+    private Map gameTable;
+
+    [SerializeField]
+    private Minimap minimap;
+
     private DateTime _time;
     private Speed _gameSpeed;
     private Difficulty _difficulty;
@@ -32,14 +35,31 @@ public class GameManager : MonoBehaviour
 
     private Load _gameLoader;
     private Save _gameSaver;
+    private bool _purchaseMode = false;
+
+    public delegate void OnPurchaseModeDisable();
+    public event OnPurchaseModeDisable onPurchaseModeDisable;
 
     public List<GameObject> Vehicles { get => _vehicles; }
     public List<GameObject> Animals { get => _animals; }
-    public Map GameTable { get => _gameTable; }
+    public Map GameTable { get => gameTable; }
+    public Minimap Minimap { get => minimap; }
     public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
-    public int Money { get => _money;}
-    public Difficulty Difficulty { get => _difficulty;}
+    public int Money { get => _money; }
+    public Difficulty Difficulty { get => _difficulty; }
+    public bool PurchaseMode
+    {
+        get => _purchaseMode;
+        set
+        {
+            if (value != _purchaseMode)
+            {
+                _purchaseMode = value;
+                if(value == false) onPurchaseModeDisable?.Invoke();
+            }
+        }
+    }
 
     void Awake()
     {
@@ -67,6 +87,13 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         DontDestroyOnLoad(this);
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape) && PurchaseMode) {
+            PurchaseMode = false;
+        }
     }
 
     public void StartGame()
@@ -101,49 +128,52 @@ public class GameManager : MonoBehaviour
 
     public void Buy(GameObject gameObject)
     {
-        if (gameObject == null) { throw new NullReferenceException(); }
-
-        switch (gameObject.name)
+        int price;
+        if (gameObject == null)
         {
-            case "Rhino":
-                _animals.Add(gameObject);
-                break;
-            case "Zebra":
-                _animals.Add(gameObject);
-                break;
-            case "Giraffe":
-                _animals.Add(gameObject);
-                break;
-            case "Lion":
-                _animals.Add(gameObject);
-                break;
-            case "Hyena":
-                _animals.Add(gameObject);
-                break;
-            case "Cheetah":
-                _animals.Add(gameObject);
-                break;
-            case "Grass":
-                
-                break;
-            case "Bush":
-                
-                break;
-            case "Tree":
-                
-                break;
-            case "Jeep":
-                _vehicles.Add(gameObject);
-                break;
-            case "Road":
-                
-                break;
-            default:
-                break;
-
+            Road road = new();
+            price = road.Price;
         }
+        else
+        {
+            switch (gameObject.name)
+            {
+                case "Rhino":
+                    _animals.Add(gameObject);
+                    break;
+                case "Zebra":
+                    _animals.Add(gameObject);
+                    break;
+                case "Giraffe":
+                    _animals.Add(gameObject);
+                    break;
+                case "Lion":
+                    _animals.Add(gameObject);
+                    break;
+                case "Hyena":
+                    _animals.Add(gameObject);
+                    break;
+                case "Cheetah":
+                    _animals.Add(gameObject);
+                    break;
+                case "Grass":
 
-        int price = gameObject.GetComponent<IPurchasable>().Price;
+                    break;
+                case "Bush":
+
+                    break;
+                case "Tree":
+
+                    break;
+                case "Jeep":
+                    _vehicles.Add(gameObject);
+                    break;
+                default:
+                    break;
+
+            }
+            price = gameObject.GetComponent<IPurchasable>().Price;
+        }
         _money -= price;
     }
 

@@ -187,6 +187,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &23048939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1464,6 +1465,7 @@ MonoBehaviour:
   Jeep: {fileID: 6283642253247966636, guid: bdef79afd9cda604f95ab5ef8243aedf, type: 3}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &178753294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1841,6 +1843,7 @@ GameObject:
   - component: {fileID: 206398169}
   - component: {fileID: 206398168}
   - component: {fileID: 206398167}
+  - component: {fileID: 206398170}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1883,7 +1886,6 @@ MonoBehaviour:
   waterThreshold: 0.769
   obstacleThreshold: 0.754
   foliageChance: 0.877
-  foliagePadding: 3.12
   maxIterationForEntranceGeneration: 10
 --- !u!156049354 &206398168
 Grid:
@@ -1917,6 +1919,23 @@ Transform:
   - {fileID: 684541448}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &206398170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 206398166}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be24a6de713b4d7039bbebfbb60bceaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  map: {fileID: 206398167}
+  roadTile: {fileID: 11400000, guid: adf81ef08d1befae394b91c12629e4de, type: 2}
+  userBoughtTag: UserBought
+  validColor: {r: 0.6078, g: 0.9411, b: 0.9098, a: 0.8}
+  invalidColor: {r: 1, g: 0.1921, b: 0, a: 0.8}
 --- !u!1 &241916129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,7 +1963,7 @@ Transform:
   m_GameObject: {fileID: 241916129}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2273,6 +2292,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &333293816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2711,7 +2731,7 @@ Transform:
   m_GameObject: {fileID: 684541447}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3011,6 +3031,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &757151807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3164,7 +3185,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 1112395295668308335, guid: b1b1d221553fb688187d1e0b9c7c319b, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -3248,6 +3269,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &801329734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3485,6 +3507,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &839706453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3647,6 +3670,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &842825167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3891,7 +3915,7 @@ Transform:
   m_GameObject: {fileID: 1012924394}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4055,6 +4079,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &1100828985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4522,7 +4547,8 @@ MonoBehaviour:
   Bush: {fileID: 0}
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
-  Road: {fileID: 1282853813361847568, guid: a3ffae140d7f04242a3f55d2f655d911, type: 3}
+  Road: {fileID: 0}
+  roadPlacer: {fileID: 206398170}
   Chip: {fileID: 0}
 --- !u!114 &1165414722
 MonoBehaviour:
@@ -4836,6 +4862,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &1246704609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5773,6 +5800,7 @@ MonoBehaviour:
   Jeep: {fileID: 0}
   Road: {fileID: 0}
   Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!114 &1512162939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5897,6 +5925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 2800000, guid: 46740b76b5b231614a2d0cb9e01977e4, type: 3}
+  gameTable: {fileID: 206398167}
+  minimap: {fileID: 843939582}
 --- !u!4 &1585813862
 Transform:
   m_ObjectHideFlags: 0
@@ -6326,7 +6356,7 @@ Transform:
   m_GameObject: {fileID: 1775754463}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

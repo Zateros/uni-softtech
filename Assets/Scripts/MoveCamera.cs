@@ -27,7 +27,8 @@ public class MoveCamera : MonoBehaviour
 
     void LateUpdate()
     {
-        if (Input.GetMouseButton(0))
+        int button = GameManager.Instance.PurchaseMode ? 1 : 0; // Default: left click to move, in purchase mode: right click to move
+        if (Input.GetMouseButton(button))
         {
             difference = Camera.main.ScreenToWorldPoint(Input.mousePosition) - Camera.main.transform.position;
             if (drag == false)
@@ -38,7 +39,8 @@ public class MoveCamera : MonoBehaviour
         }
         else { drag = false; }
 
-        if (drag) { 
+        if (drag)
+        {
             Camera.main.transform.position = origin - difference;
             float x, y;
             x = Camera.main.transform.position.x;

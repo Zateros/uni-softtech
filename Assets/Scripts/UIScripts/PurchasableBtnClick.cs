@@ -1,8 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class PurchasableBtnClick : MonoBehaviour
 {
@@ -23,14 +20,19 @@ public class PurchasableBtnClick : MonoBehaviour
     [SerializeField] public GameObject Road;
     [SerializeField] public GameObject Chip;
 
+    [SerializeField] private RoadPlacer roadPlacer;
 
     private Camera mainCamera;
     private Vector3 mousePosition;
     private Vector3 offset;
-
-    private void Start()
+    void Start()
     {
         mainCamera = Camera.main;
+        if (roadPlacer != null)
+        {
+            RoadPlacer.onRoadPlaced += BuyRoad;
+            GameManager.Instance.onPurchaseModeDisable += DisablePurchaseMode;
+        }
     }
 
     public void SpawnEntity()
@@ -83,8 +85,8 @@ public class PurchasableBtnClick : MonoBehaviour
                 myJeep.name = "Jeep";
                 break;
             case "RoadBtn":
-                var myRoad = Instantiate(Road, mousePosition, Quaternion.identity);
-                myRoad.name = "Road";
+                GameManager.Instance.PurchaseMode = true;
+                roadPlacer.enabled = true;
                 break;
             case "ChipBtn":
                 var myChip = Instantiate(Chip, mousePosition, Quaternion.identity);
@@ -99,4 +101,17 @@ public class PurchasableBtnClick : MonoBehaviour
         if (PanelVehicle != null && PanelVehicle.activeInHierarchy) { PanelVehicle.SetActive(false); }
     }
 
+    private void BuyRoad(int count)
+    {
+        while (count != 0)
+        {
+            GameManager.Instance.Buy(null);
+            count--;
+        }
+    }
+
+    private void DisablePurchaseMode()
+    {
+        roadPlacer.enabled = false;
+    }
 }
