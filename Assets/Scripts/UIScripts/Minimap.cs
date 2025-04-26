@@ -26,10 +26,12 @@ public class Minimap : MonoBehaviour
     private RawImage image;
     private Texture2D texture;
     private Color[] textureColors;
+    private RectTransform rect;
 
     void Start()
     {
         image = GetComponent<RawImage>();
+        rect = GetComponent<RectTransform>();
         texture = new(map.Size.x, map.Size.y)
         {
             filterMode = FilterMode.Point
@@ -71,13 +73,25 @@ public class Minimap : MonoBehaviour
         };
     }
 
-    public Vector3 WorldToMinimap(Vector3 pos) => new Vector3(2 * pos.x, 2 * pos.y, transform.position.z);
+    public Vector2 WorldToMinimap(Vector3 pos)
+    {
+        Vector3Int worldmapAdjusted = map.WorldToCell(pos);
+        float normalizedX = Mathf.InverseLerp(0f, map.Size.x, worldmapAdjusted.x);
+        float normalizedY = Mathf.InverseLerp(0f, map.Size.y, worldmapAdjusted.y);
+        float minimapWidth = rect.rect.width;
+        float minimapHeight = rect.rect.height;
+
+        float iconX = (normalizedX * minimapWidth) - (minimapWidth / 2f);
+        float iconY = (normalizedY * minimapHeight) - (minimapHeight / 2f);
+
+        return new Vector2(iconX, iconY);
+    }
 
     public void AddBlip(GameObject gameObject)
     {
         GameObject newBlip = Instantiate(blipPrefab, blipsMask.transform);
         Blip blip = newBlip.GetComponent<Blip>();
         blip.minimap = this;
-        blip.mimic = gameObject;
+        blip.SetMimic(ref gameObject);
     }
 }
