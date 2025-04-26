@@ -21,10 +21,12 @@ public class GameManager : MonoBehaviour
     private bool _hasWon;
 
     private int _money;
-    private int _entranceFee;
-    private int _minHerbivoreCount;
-    private int _minCarnivoreCount;
     private int _minMoney;
+    private int _entranceFee;
+    private int _herbivoreCount;
+    private int _minHerbivoreCount;
+    private int _carnivoreCount;
+    private int _minCarnivoreCount;
     private int _minTouristCount;
     public readonly float eps = 0.1f;
 
@@ -36,16 +38,25 @@ public class GameManager : MonoBehaviour
     private List<GameObject> _cheetahs;
 
     private List<GameObject> _vehicles;
-    private List<GameObject> _tourists;
+    private List<GameObject> _turists;
     private List<GameObject> _poachers;
 
     private Load _gameLoader;
     private Save _gameSaver;
+
     private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
     public event OnPurchaseModeDisable onPurchaseModeDisable;
 
+    public int MinTuristCount { get => _minTouristCount; }
+    public List<GameObject> Rhinos { get => _rhinos; }
+    public List<GameObject> Zebras { get => _zebras; }
+    public List<GameObject> Giraffes { get => _giraffes; }
+    public List<GameObject> Lions { get => _lions; }
+    public List<GameObject> Hyenas { get => _hyenas; }
+    public List<GameObject> Cheetahs { get => _cheetahs; }
+    public List<GameObject> Turists { get => _turists; }
     public List<GameObject> Vehicles { get => _vehicles; }
     public List<GameObject> Animals { get => _animals; }
     public Map GameTable { get => gameTable; }
@@ -84,6 +95,10 @@ public class GameManager : MonoBehaviour
         }
 
         _money = 1500;
+        _minCarnivoreCount = 2;
+        _minHerbivoreCount = 2;
+        _minMoney = 1000;
+        _minTouristCount = 0;
 
         _rhinos = new List<GameObject>();
         _zebras = new List<GameObject>();
@@ -93,7 +108,7 @@ public class GameManager : MonoBehaviour
         _cheetahs = new List<GameObject>();
 
         _vehicles = new List<GameObject>();
-        _tourists = new List<GameObject>();
+        _turists = new List<GameObject>();
         _poachers = new List<GameObject>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
@@ -112,7 +127,7 @@ public class GameManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
-
+        
     public void GameLoop()
     {
         throw new NotImplementedException();
@@ -177,6 +192,14 @@ public class GameManager : MonoBehaviour
         
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
+
+
+        _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
+        _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
+
+        if (_money < _minMoney + 500)
+            Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
+
         _money -= price;
     }
 
@@ -208,7 +231,18 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        
+
+        _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
+        _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
+
+        if (_herbivoreCount < _minHerbivoreCount + 1)
+            Notifier.Instance.Notify($"Herbivore count is low ({_herbivoreCount})!\nMin herbivore count: {_minHerbivoreCount}");
+
+
+        if (_carnivoreCount < _minCarnivoreCount + 1)
+            Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
+
+
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         _money += salePrice;
 

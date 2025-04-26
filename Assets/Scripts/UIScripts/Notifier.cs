@@ -1,21 +1,35 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.Playables;
 
 public class Notifier : MonoBehaviour
 {
+    public static Notifier Instance;
+
     public GameObject NotificationText;
 
+    private int turistCount;
+
+    public bool NotifiedTuristCount;
+
+    private void Awake()
+    {
+        Instance = this;
+
+        NotifiedTuristCount = false;
+    }
 
     void Update()
     {
-        if(GameManager.Instance.Money <= 1400)
+        if (turistCount < GameManager.Instance.MinTuristCount + 1)
         {
-            enabled = false;
-            Notify($"Money low: {GameManager.Instance.Money}");
-            Notify("Second notif to see if works");
-            Notify("Third notif to see if works");
+            if (!NotifiedTuristCount)
+            {
+                Notify($"Turist count is low ({turistCount})!\nMin turist count: {GameManager.Instance.MinTuristCount}");
+                NotifiedTuristCount = true;
+            }
         }
+        else
+            NotifiedTuristCount = false;
     }
 
     public void Notify(string message)
