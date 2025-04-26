@@ -6,19 +6,8 @@ public class Minimap : MonoBehaviour
     [SerializeField]
     private Map map;
 
-    private RawImage image;
-    private Texture2D texture;
-    private Color[] textureColors;
-    private Color[] colors;
-
-    void Start()
-    {
-        image = GetComponent<RawImage>();
-        texture = new Texture2D(map.Size.x, map.Size.y);
-        texture.filterMode = FilterMode.Point;
-        image.texture = texture;
-        textureColors = new Color[map.Size.x * map.Size.y];
-        colors = new Color[]{
+    [SerializeField]
+    private Color[] mapColors = new Color[]{
             new Color(162f/255f, 169f/255f, 71f/255f),
             new Color(251f/255f, 185f/255f, 84f/255f),
             new Color(143f/255f, 211f/255f, 255f/255f),
@@ -28,6 +17,25 @@ public class Minimap : MonoBehaviour
             new Color(143f/255f, 149f/255f, 59f/255f),
             new Color(144f/255f, 144f/255f, 144f/255f),
         };
+
+    [SerializeField]
+    private GameObject blipPrefab;
+    [SerializeField]
+    private GameObject blipsMask;
+
+    private RawImage image;
+    private Texture2D texture;
+    private Color[] textureColors;
+
+    void Start()
+    {
+        image = GetComponent<RawImage>();
+        texture = new(map.Size.x, map.Size.y)
+        {
+            filterMode = FilterMode.Point
+        };
+        image.texture = texture;
+        textureColors = new Color[map.Size.x * map.Size.y];
 
         Refresh();
         Map.onMapChanged += Refresh;
@@ -39,7 +47,7 @@ public class Minimap : MonoBehaviour
         {
             for (int x = 0; x < map.Size.x; x++)
             {
-                textureColors[x + y*texture.height] = colors[GetColorOfCell(map.gameMap[x, y])];
+                textureColors[x + y * texture.height] = mapColors[GetColorOfCell(map.gameMap[x, y])];
             }
         }
         texture.SetPixels(textureColors);
@@ -61,5 +69,15 @@ public class Minimap : MonoBehaviour
             Terrain.HILL => 6,
             _ => 7,
         };
+    }
+
+    public Vector3 WorldToMinimap(Vector3 pos) => new Vector3(2 * pos.x, 2 * pos.y, transform.position.z);
+
+    public void AddBlip(GameObject gameObject)
+    {
+        GameObject newBlip = Instantiate(blipPrefab, blipsMask.transform);
+        Blip blip = newBlip.GetComponent<Blip>();
+        blip.minimap = this;
+        blip.mimic = gameObject;
     }
 }
