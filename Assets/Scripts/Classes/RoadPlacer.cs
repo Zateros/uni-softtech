@@ -90,6 +90,7 @@ public class RoadPlacer : MonoBehaviour
                     RemoveGhostLine();
                     placing = false;
                     lastMouseWorldPos = mouseWorldPos;
+                    onInvalidRoadPlacement?.Invoke();
                     return;
                 }
                 PlaceRoads();
