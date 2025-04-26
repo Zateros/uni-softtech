@@ -9,7 +9,7 @@ public class PurchasableBtnClick : MonoBehaviour
     public GameObject PanelAnimal;
     public GameObject PanelPlant;
     public GameObject PanelVehicle;
-    [SerializeField] public GameObject Canvas;
+
     [SerializeField] public GameObject Rhino;
     [SerializeField] public GameObject Zebra;
     [SerializeField] public GameObject Giraffe;
@@ -26,7 +26,6 @@ public class PurchasableBtnClick : MonoBehaviour
 
     private Camera mainCamera;
     private Vector3 mousePosition;
-    private Vector3 offset;
 
     private void Start()
     {

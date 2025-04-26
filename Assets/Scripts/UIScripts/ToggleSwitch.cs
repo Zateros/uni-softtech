@@ -58,13 +58,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
                 
                 if (hitObject.tag == "Animal" || hitObject.tag == "Plant" || hitObject.tag == "Vehicle" || hitObject.tag == "Road")
                 {
-
-                    if(GameManager.Instance.Animals.Contains(hitObject))
-                        GameManager.Instance.Animals.Remove(hitObject);
-
-                    if(GameManager.Instance.Vehicles.Contains(hitObject))
-                        GameManager.Instance.Vehicles.Remove(hitObject);
-
                     GameManager.Instance.Sell(hitObject);
                     Destroy(hitObject);
                 }
