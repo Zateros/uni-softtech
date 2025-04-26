@@ -8,16 +8,16 @@ public class Grass : Plant
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
-                _price = 50;
-                _salePrice = 10;
+                _price = 5;
+                _salePrice = 5;
                 break;
             case Difficulty.MEDIUM:
-                _price = 20;
-                _salePrice = 20;
+                _price = 7;
+                _salePrice = 5;
                 break;
             case Difficulty.HARD:
-                _price = 30;
-                _salePrice = 30;
+                _price = 10;
+                _salePrice = 7;
                 break;
             default:
                 break;

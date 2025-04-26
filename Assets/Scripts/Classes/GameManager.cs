@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
     private int _minHerbivoreCount;
     private int _carnivoreCount;
     private int _minCarnivoreCount;
-    private int _minTouristCount;
+    private int _minTuristCount;
+    private int _minTuristSatisfaction;
     public readonly float eps = 0.1f;
 
     private List<GameObject> _rhinos;
@@ -49,7 +50,7 @@ public class GameManager : MonoBehaviour
     public delegate void OnPurchaseModeDisable();
     public event OnPurchaseModeDisable onPurchaseModeDisable;
 
-    public int MinTuristCount { get => _minTouristCount; }
+    public int MinTuristCount { get => _minTuristCount; }
     public List<GameObject> Rhinos { get => _rhinos; }
     public List<GameObject> Zebras { get => _zebras; }
     public List<GameObject> Giraffes { get => _giraffes; }
@@ -80,24 +81,40 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        _difficulty = Difficulty.EASY;
+        _difficulty = Difficulty.MEDIUM;
+
         switch (_difficulty)
         {
             case Difficulty.EASY:
+                _money = 1000000;
+                _minMoney = 10000;
+                _entranceFee = 5;
+                _minHerbivoreCount = 10;
+                _minCarnivoreCount = 10;
+                _minTuristCount = 10;
+                _minTuristSatisfaction = 30;
                 break;
             case Difficulty.MEDIUM:
+                _money = 750000;
+                _minMoney = 15000;
+                _entranceFee = 10;
+                _minHerbivoreCount = 15;
+                _minCarnivoreCount = 15;
+                _minTuristCount = 15;
+                _minTuristSatisfaction = 40;
                 break;
             case Difficulty.HARD:
+                _money = 500000;
+                _minMoney = 20000;
+                _entranceFee = 15;
+                _minHerbivoreCount = 20;
+                _minCarnivoreCount = 20;
+                _minTuristCount = 20;
+                _minTuristSatisfaction = 50;
                 break;
             default:
                 break;
         }
-
-        _money = 1500;
-        _minCarnivoreCount = 2;
-        _minHerbivoreCount = 2;
-        _minMoney = 1000;
-        _minTouristCount = 0;
 
         _rhinos = new List<GameObject>();
         _zebras = new List<GameObject>();
@@ -244,6 +261,9 @@ public class GameManager : MonoBehaviour
 
 
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
+        if (gameObject.tag == "Animal" && gameObject.GetComponent<Animal>().HasChip)
+            salePrice += 100;
+        
         _money += salePrice;
 
         Destroy(gameObject);

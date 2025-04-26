@@ -10,16 +10,16 @@ public class Rhino : Herbivore
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
-                _price = 10;
-                _salePrice = 10;
+                _price = 1500;
+                _salePrice = 1500;
                 break;
             case Difficulty.MEDIUM:
-                _price = 20;
-                _salePrice = 20;
+                _price = 2000;
+                _salePrice = 1750;
                 break;
             case Difficulty.HARD:
-                _price = 30;
-                _salePrice = 30;
+                _price = 2500;
+                _salePrice = 2000;
                 break;
             default:
                 break;
