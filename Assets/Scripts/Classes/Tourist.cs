@@ -79,4 +79,9 @@ public class Tourist : MonoBehaviour, IEntity
     {
         throw new NotImplementedException();
     }
+
+    public void Move(Vector2 goal)
+    {
+        throw new NotImplementedException();
+    }
 }

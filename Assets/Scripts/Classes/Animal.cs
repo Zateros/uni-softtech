@@ -3,13 +3,21 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.IO;
+using System.Collections;
+using static UnityEngine.GraphicsBuffer;
 
 public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
 {
     protected float _visionRange;
-    protected float _speed = 2f;
+    protected float _speed;
+    protected float turnSpeed;
+    protected float pathUpdateMoveThreshold = .5f;
+    protected float minPathUpdateTime = .2f;
+    protected float turnDst = 5;
+    protected float stoppingDst = 10;
     protected Vector2 _position;
-    private Vector2 _path;
+    private Path _path;
+    protected Vector2 target;
     protected int _size;
     protected int _price;
     protected int _salePrice;
@@ -38,12 +46,13 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     {
         _hasChip = false;
         _position = gameObject.transform.position;
-        _path = GeneratePath();
+        target = GenerateRandomTarget();
+        StartCoroutine(UpdatePath());
     }
 
-    public void Update()
+    private Vector2 GenerateRandomTarget()
     {
-        Move();
+        return UnityEngine.Random.onUnitSphere * _visionRange;
     }
 
     void OnDestroy()
@@ -51,18 +60,89 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         onAnimalDestroy?.Invoke();
     }
 
-    public void Move()
+    void OnDestroy()
     {
-        if (Time.frameCount % framecnt != 0)
+        onAnimalDestroy?.Invoke();
+    }
+
+    public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
+    {
+        if (pathSuccessful)
         {
-            transform.Translate(_speed * Time.deltaTime * _path);
-            _position += _speed * Time.deltaTime * _path.normalized;
+            _path = new Path(waypoints, transform.position, turnDst, stoppingDst);
+
+            StopCoroutine("FollowPath");
+            StartCoroutine("FollowPath");
         }
-        else
+    }
+
+    IEnumerator UpdatePath()
+    {
+
+        if (Time.timeSinceLevelLoad < .3f)
         {
-            _path = GeneratePath();
-            System.Random rand = new System.Random();
-            framecnt = rand.Next(900, 1100);
+            yield return new WaitForSeconds(.3f);
+        }
+        PathManager.RequestPath(new PathRequest(transform.position, target, OnPathFound));
+
+        float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
+        Vector2 targetPosOld = target;
+
+        while (true)
+        {
+            yield return new WaitForSeconds(minPathUpdateTime);
+            if ((target - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+            {
+                PathManager.RequestPath(new PathRequest(transform.position, target, OnPathFound));
+                targetPosOld = target;
+            }
+        }
+    }
+
+    IEnumerator FollowPath()
+    {
+
+        bool followingPath = true;
+        int pathIndex = 0;
+        transform.LookAt(_path.lookPoints[0]);
+
+        float speedPercent = 1;
+
+        while (followingPath)
+        {
+            Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
+            while (_path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            {
+                if (pathIndex == _path.finishLineIndex)
+                {
+                    followingPath = false;
+                    break;
+                }
+                else
+                {
+                    pathIndex++;
+                }
+            }
+
+            if (followingPath)
+            {
+
+                if (pathIndex >= _path.slowDownIndex && stoppingDst > 0)
+                {
+                    speedPercent = Mathf.Clamp01(_path.turnBoundaries[_path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst);
+                    if (speedPercent < 0.01f)
+                    {
+                        followingPath = false;
+                    }
+                }
+
+                Quaternion targetRotation = Quaternion.LookRotation(_path.lookPoints[pathIndex] - (Vector2)transform.position);
+                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+                transform.Translate(Vector3.forward * Time.deltaTime * _speed * speedPercent, Space.Self);
+            }
+
+            yield return null;
+
         }
     }
 
@@ -76,6 +156,11 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     }
 
     public void Mate()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Move(Vector2 goal)
     {
         throw new NotImplementedException();
     }
