@@ -28,7 +28,13 @@ public class GameManager : MonoBehaviour
     private int _minTouristCount;
     public readonly float eps = 0.1f;
 
-    private List<GameObject> _animals;
+    private List<GameObject> _rhinos;
+    private List<GameObject> _zebras;
+    private List<GameObject> _giraffes;
+    private List<GameObject> _lions;
+    private List<GameObject> _hyenas;
+    private List<GameObject> _cheetahs;
+
     private List<GameObject> _vehicles;
     private List<GameObject> _tourists;
     private List<GameObject> _poachers;
@@ -79,7 +85,13 @@ public class GameManager : MonoBehaviour
 
         _money = 1500;
 
-        _animals = new List<GameObject>();
+        _rhinos = new List<GameObject>();
+        _zebras = new List<GameObject>();
+        _giraffes = new List<GameObject>();
+        _lions = new List<GameObject>();
+        _hyenas = new List<GameObject>();
+        _cheetahs = new List<GameObject>();
+
         _vehicles = new List<GameObject>();
         _tourists = new List<GameObject>();
         _poachers = new List<GameObject>();
@@ -139,39 +151,30 @@ public class GameManager : MonoBehaviour
             switch (gameObject.name)
             {
                 case "Rhino":
-                    _animals.Add(gameObject);
+                    _rhinos.Add(gameObject);
                     break;
                 case "Zebra":
-                    _animals.Add(gameObject);
+                    _zebras.Add(gameObject);
                     break;
                 case "Giraffe":
-                    _animals.Add(gameObject);
+                    _giraffes.Add(gameObject);
                     break;
                 case "Lion":
-                    _animals.Add(gameObject);
+                    _lions.Add(gameObject);
                     break;
                 case "Hyena":
-                    _animals.Add(gameObject);
+                    _hyenas.Add(gameObject);
                     break;
                 case "Cheetah":
-                    _animals.Add(gameObject);
-                    break;
-                case "Grass":
-
-                    break;
-                case "Bush":
-
-                    break;
-                case "Tree":
-
+                    _cheetahs.Add(gameObject);
                     break;
                 case "Jeep":
                     _vehicles.Add(gameObject);
                     break;
                 default:
                     break;
-
             }
+        
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
         _money -= price;
@@ -179,12 +182,33 @@ public class GameManager : MonoBehaviour
 
     public void Sell(GameObject gameObject)
     {
-        if(_animals.Contains(gameObject))
-            _animals.Remove(gameObject);
-
-        if(_vehicles.Contains(gameObject))
-            _vehicles.Remove(gameObject);
-
+        switch (gameObject.name)
+        {
+            case "Rhino":
+                _rhinos.Remove(gameObject);
+                break;
+            case "Zebra":
+                _zebras.Remove(gameObject);
+                break;
+            case "Giraffe":
+                _giraffes.Remove(gameObject);
+                break;
+            case "Lion":
+                _lions.Remove(gameObject);
+                break;
+            case "Hyena":
+                _hyenas.Remove(gameObject);
+                break;
+            case "Cheetah":
+                _cheetahs.Remove(gameObject);
+                break;
+            case "Jeep":
+                _vehicles.Remove(gameObject);
+                break;
+            default:
+                break;
+        }
+        
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         _money += salePrice;
 

@@ -50,7 +50,7 @@ public class Chip : MonoBehaviour, IPurchasable
             {
                 GameObject hitObject = hit2D.collider.gameObject;
 
-                if (GameManager.Instance.Animals.Contains(hitObject) && hitObject.GetComponent<Animal>().HasChip != true)
+                if (hitObject.tag == "Animal" && hitObject.GetComponent<Animal>().HasChip != true)
                 {
                     enabled = false;
                     GameManager.Instance.Buy(gameObject);
