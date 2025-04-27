@@ -26,7 +26,7 @@ public class Lion : Carnivore
         }
     }
 
-    public override List<Animal> GetNeighbours()
+    public override List<Animal> GetNeighbours(float range)
     {
         throw new System.NotImplementedException();
     }

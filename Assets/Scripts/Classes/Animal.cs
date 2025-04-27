@@ -2,13 +2,15 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 
 public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
 {
-    protected float _wonderPriority = 40;
+    protected float _wonderPriority = 70;
     protected float _cohesionPriority = 60;
-    protected float _alligmentPriority = 40;
+    protected float _alligmentPriority = 50;
+    protected float _seperationPriority = 50;
     protected float _FOV;
     protected float _visionRange;
     protected float _speed;
@@ -18,7 +20,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected Vector2 _position;
     private Vector2[] _path;
     protected Vector2 target;
-    protected int _size;
+    protected float _size;
     protected int _price;
     protected int _salePrice;
     protected int _age;
@@ -33,7 +35,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
             if (GameManager.Instance.WMap[(int)pos.x, (int)pos.y].passible)
             {
-                dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority;
+                dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
                 dir = dir.normalized;
                 target = _position + dir * _visionRange;
                 pos = GameManager.Instance.GameTable.WorldToCell(target);
@@ -66,10 +68,29 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         _path = new Vector2[0];
     }
 
+    Vector2 Seperation()
+    {
+        Vector2 sepVec = new Vector2();
+        var neighbours = GetNeighbours(_size);
+        if (neighbours.Count == 0) return sepVec;
+        foreach (var neighbour in neighbours)
+        {
+            if (inFOV(neighbour._position))
+            {
+                Vector2 movTowards = _position - neighbour._position;
+                if(movTowards.magnitude > 0) 
+                    {
+                    sepVec += movTowards.normalized / movTowards.magnitude;
+                    }
+            }
+        }
+        return sepVec.normalized;
+    }
+
     Vector2 Alligment()
     {
         Vector2 allign = new Vector2();
-        var neighbours = GetNeighbours();
+        var neighbours = GetNeighbours(_visionRange);
         if (neighbours.Count == 0) return allign;
         foreach (var neighbour in neighbours)
         {
@@ -86,7 +107,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     {
         Vector2 cohesion = new Vector2();
         int cnt = 0;
-        var neighbours = GetNeighbours();
+        var neighbours = GetNeighbours(_visionRange);
         if(neighbours.Count == 0) return cohesion;
         foreach (var neighbour in neighbours)
         {
@@ -162,7 +183,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             if (targetIndex >= _path.Length)
             {
                 targetIndex = 0;
-                dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority;
+                dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
                 dir = dir.normalized;
                 Vector3 pos = GameManager.Instance.GameTable.WorldToCell(target);
                 if (pos.x < 0 || pos.y < 0 || pos.x >= GameManager.Instance.GameTable.Size.x || pos.y >= GameManager.Instance.GameTable.Size.y)
@@ -207,7 +228,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     }
 
     public abstract void Eat(IEntity e);
-    public abstract List<Animal> GetNeighbours();
+    public abstract List<Animal> GetNeighbours(float range);
 
 public void Drink()
     {

@@ -27,7 +27,7 @@ public class Rhino : Herbivore
         }
     }
 
-    public override List<Animal> GetNeighbours()
+    public override List<Animal> GetNeighbours(float range)
     {
         throw new NotImplementedException();
     }
