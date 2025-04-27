@@ -20,7 +20,14 @@ public class Blip : MonoBehaviour
 
     public void SetMimic(ref GameObject gameObject)
     {
+        if(mimic != null) mimic.GetComponent<Animal>().onAnimalDestroy -= OnMimicDestroyed;
         mimic = gameObject;
-        image.sprite = mimic.GetComponent<Animal>().BlipIcon;
+        Animal animal = mimic.GetComponent<Animal>();
+        image.sprite = animal.BlipIcon;
+        animal.onAnimalDestroy += OnMimicDestroyed;
+    }
+
+    void OnMimicDestroyed() {
+        Destroy(gameObject);
     }
 }
