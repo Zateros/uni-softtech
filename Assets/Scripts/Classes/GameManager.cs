@@ -213,7 +213,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && PurchaseMode) {
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
+        if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
+        {
             PurchaseMode = false;
         }
     }
@@ -359,4 +361,6 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void SpeedUp() { Time.timeScale += .25f; }
+    public void SlowDown() { Time.timeScale -= .25f; }
 }
