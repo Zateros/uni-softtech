@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class Rhino : Herbivore
 {
@@ -26,5 +27,8 @@ public class Rhino : Herbivore
         }
     }
 
-
+    public override List<Animal> GetNeighbours()
+    {
+        throw new NotImplementedException();
+    }
 }

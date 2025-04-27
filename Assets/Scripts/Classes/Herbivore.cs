@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class Herbivore : Animal
+public abstract class Herbivore : Animal
 {
     public new void Awake()
     {
@@ -11,10 +11,5 @@ public class Herbivore : Animal
     public override void Eat(IEntity e)
     {
         throw new NotImplementedException();
-    }
-
-    public override Vector2 GeneratePath()
-    {
-        return UnityEngine.Random.onUnitSphere;
     }
 }

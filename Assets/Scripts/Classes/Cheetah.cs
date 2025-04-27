@@ -1,9 +1,14 @@
+using NUnit.Framework;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class Cheetah : Carnivore
 {
     public new void Awake()
     {
+        _FOV = 210f;
+        _speed = 1f;
+        _visionRange = 2f;
         base.Awake();
         switch (GameManager.Instance.Difficulty)
         {
@@ -22,5 +27,19 @@ public class Cheetah : Carnivore
             default:
                 break;
         }
+    }
+
+    public override List<Animal> GetNeighbours()
+    {
+        List<Animal> neighbours = new List<Animal>();
+        foreach (Cheetah cheetah in GameManager.Instance.Cheetahs)
+        {
+            if (this == cheetah) continue;
+            if(Vector2.Distance(cheetah._position, _position) <= _visionRange)
+            {
+                neighbours.Add(cheetah);
+            }
+        }
+        return neighbours;
     }
 }
