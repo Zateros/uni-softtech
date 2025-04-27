@@ -20,7 +20,7 @@ public class FollowMouse : MonoBehaviour
         if(Mouse.current.leftButton.wasPressedThisFrame)
         {
             enabled = false;
-            GameManager.Instance.Minimap.AddBlip(gameObject);
+            if(GetComponent<Animal>() != null) GameManager.Instance.Minimap.AddBlip(gameObject);
             GameManager.Instance.Buy(gameObject);
         }
         else
