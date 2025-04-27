@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     private DateTime _time;
     private uint _daysPassed;
-    private Speed _gameSpeed;
+    private bool _isNight;
     private Difficulty _difficulty;
     private bool _hasWon;
 
@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
     public uint DaysPassed { get => _daysPassed; }
+    public bool IsNight { get => _isNight; set { if (value != _isNight) _isNight = value; } }
     public Heap<VehiclePath> Routes { get; private set; }
     public Vector3 Enterance { get; private set; }
     public Vector2 Exit { get; private set; }
