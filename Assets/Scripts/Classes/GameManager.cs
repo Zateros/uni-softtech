@@ -82,7 +82,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
-        _difficulty = Difficulty.MEDIUM;
+
+        _difficulty = (Difficulty)DifficultyBtns.difficulty;
 
         switch (_difficulty)
         {
