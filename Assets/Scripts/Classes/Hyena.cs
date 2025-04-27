@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Hyena : Carnivore
@@ -22,5 +23,10 @@ public class Hyena : Carnivore
             default:
                 break;
         }
+    }
+
+    public override List<Animal> GetNeighbours()
+    {
+        throw new System.NotImplementedException();
     }
 }

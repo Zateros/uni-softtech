@@ -1,8 +1,8 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine;
 using System.Xml;
 
 public class GameManager : MonoBehaviour
@@ -34,16 +34,16 @@ public class GameManager : MonoBehaviour
     private int _minTuristSatisfaction;
     public readonly float eps = 0.1f;
 
-    private List<GameObject> _rhinos;
-    private List<GameObject> _zebras;
-    private List<GameObject> _giraffes;
-    private List<GameObject> _lions;
-    private List<GameObject> _hyenas;
-    private List<GameObject> _cheetahs;
+    private List<Rhino> _rhinos;
+    private List<Zebra> _zebras;
+    private List<Giraffe> _giraffes;
+    private List<Lion> _lions;
+    private List<Hyena> _hyenas;
+    private List<Cheetah> _cheetahs;
 
-    private List<GameObject> _vehicles;
-    private List<GameObject> _turists;
-    private List<GameObject> _poachers;
+    private List<Vehicle> _vehicles;
+    private List<Turist> _turists;
+    private List<Poacher> _poachers;
 
     private Load _gameLoader;
     private Save _gameSaver;
@@ -56,14 +56,14 @@ public class GameManager : MonoBehaviour
 
     public int MinTuristCount { get => _minTuristCount; }
     public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
-    public List<GameObject> Rhinos { get => _rhinos; }
-    public List<GameObject> Zebras { get => _zebras; }
-    public List<GameObject> Giraffes { get => _giraffes; }
-    public List<GameObject> Lions { get => _lions; }
-    public List<GameObject> Hyenas { get => _hyenas; }
-    public List<GameObject> Cheetahs { get => _cheetahs; }
-    public List<GameObject> Turists { get => _turists; }
-    public List<GameObject> Vehicles { get => _vehicles; }
+    public List<Rhino> Rhinos { get => _rhinos; }
+    public List<Zebra> Zebras { get => _zebras; }
+    public List<Giraffe> Giraffes { get => _giraffes; }
+    public List<Lion> Lions { get => _lions; }
+    public List<Hyena> Hyenas { get => _hyenas; }
+    public List<Cheetah> Cheetahs { get => _cheetahs; }
+    public List<Turist> Turists { get => _turists; }
+    public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
     public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
@@ -122,16 +122,16 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        _rhinos = new List<GameObject>();
-        _zebras = new List<GameObject>();
-        _giraffes = new List<GameObject>();
-        _lions = new List<GameObject>();
-        _hyenas = new List<GameObject>();
-        _cheetahs = new List<GameObject>();
+        _rhinos = new List<Rhino>();
+        _zebras = new List<Zebra>();
+        _giraffes = new List<Giraffe>();
+        _lions = new List<Lion>();
+        _hyenas = new List<Hyena>();
+        _cheetahs = new List<Cheetah>();
 
-        _vehicles = new List<GameObject>();
-        _turists = new List<GameObject>();
-        _poachers = new List<GameObject>();
+        _vehicles = new List<Vehicle>();
+        _turists = new List<Turist>();
+        _poachers = new List<Poacher>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
@@ -212,30 +212,35 @@ public class GameManager : MonoBehaviour
             switch (gameObject.name)
             {
                 case "Rhino":
-                    _rhinos.Add(gameObject);
+                    _rhinos.Add(gameObject.GetComponent<Rhino>());
+                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Zebra":
-                    _zebras.Add(gameObject);
+                    _zebras.Add(gameObject.GetComponent<Zebra>());
+                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Giraffe":
-                    _giraffes.Add(gameObject);
+                    _giraffes.Add(gameObject.GetComponent<Giraffe>());
+                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Lion":
-                    _lions.Add(gameObject);
+                    _lions.Add(gameObject.GetComponent<Lion>());
+                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Hyena":
-                    _hyenas.Add(gameObject);
+                    _hyenas.Add(gameObject.GetComponent<Hyena>());
+                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Cheetah":
-                    _cheetahs.Add(gameObject);
+                    _cheetahs.Add(gameObject.GetComponent<Cheetah>());
+                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Jeep":
-                    _vehicles.Add(gameObject);
+                    _vehicles.Add(gameObject.GetComponent<Vehicle>());
                     break;
                 default:
                     break;
-            }
-            gameObject.GetComponent<Animal>().Placed = true;
+            }            
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
 
@@ -254,25 +259,25 @@ public class GameManager : MonoBehaviour
         switch (gameObject.name)
         {
             case "Rhino":
-                _rhinos.Remove(gameObject);
+                _rhinos.Remove(gameObject.GetComponent<Rhino>());
                 break;
             case "Zebra":
-                _zebras.Remove(gameObject);
+                _zebras.Remove(gameObject.GetComponent<Zebra>());
                 break;
             case "Giraffe":
-                _giraffes.Remove(gameObject);
+                _giraffes.Remove(gameObject.GetComponent<Giraffe>());
                 break;
             case "Lion":
-                _lions.Remove(gameObject);
+                _lions.Remove(gameObject.GetComponent<Lion>());
                 break;
             case "Hyena":
-                _hyenas.Remove(gameObject);
+                _hyenas.Remove(gameObject.GetComponent<Hyena>());
                 break;
             case "Cheetah":
-                _cheetahs.Remove(gameObject);
+                _cheetahs.Remove(gameObject.GetComponent<Cheetah>());
                 break;
             case "Jeep":
-                _vehicles.Remove(gameObject);
+                _vehicles.Remove(gameObject.GetComponent<Vehicle>());
                 break;
             default:
                 break;
@@ -282,13 +287,13 @@ public class GameManager : MonoBehaviour
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
-        if (_herbivoreCount < _minHerbivoreCount + 1)
+        /*if (_herbivoreCount < _minHerbivoreCount + 1)
             Notifier.Instance.Notify($"Herbivore count is low ({_herbivoreCount})!\nMin herbivore count: {_minHerbivoreCount}");
 
 
         if (_carnivoreCount < _minCarnivoreCount + 1)
             Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
-
+        */
 
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         if (gameObject.tag == "Animal" && gameObject.GetComponent<Animal>().HasChip)

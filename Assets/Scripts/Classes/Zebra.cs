@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Zebra : Herbivore
@@ -23,5 +24,10 @@ public class Zebra : Herbivore
             default:
                 break;
         }
+    }
+
+    public override List<Animal> GetNeighbours()
+    {
+        throw new System.NotImplementedException();
     }
 }

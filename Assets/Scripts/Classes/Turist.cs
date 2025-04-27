@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class Tourist : MonoBehaviour, IEntity
+public class Turist : MonoBehaviour, IEntity
 {
     private readonly float _visionRange = 6f; //TODO: finallize
     private Vector2 _position;
@@ -63,9 +63,8 @@ public class Tourist : MonoBehaviour, IEntity
     {
         Vehicle closest = null;
         float distance = float.PositiveInfinity;
-        foreach (GameObject obj in GameManager.Instance.Vehicles)
+        foreach (Vehicle vehicle in GameManager.Instance.Vehicles)
         {
-            Vehicle vehicle = obj.GetComponent<Vehicle>();
             if (!vehicle.IsFull && (vehicle.Position - _position).magnitude < distance)
             {
                 closest = vehicle;

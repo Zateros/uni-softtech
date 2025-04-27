@@ -12,7 +12,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     private int _price;
     private int _salePrice;
     private bool atEnd = false;
-    private List<Tourist> _passengers;
+    private List<Turist> _passengers;
     private List<Vector2> _route;
     private int _routepos = 0;
 
@@ -25,7 +25,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 
     public void Awake()
     {
-        _passengers = new List<Tourist>();
+        _passengers = new List<Turist>();
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
@@ -98,10 +98,10 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
         return new Vector2();
     }
 
-    public void Enter(Tourist tourist)
+    public void Enter(Turist turist)
     {
         if (IsFull) return;
-        _passengers.Add(tourist);
+        _passengers.Add(turist);
     }
 
     public void Move(Vector2 goal)
