@@ -13,7 +13,7 @@ public class Chip : MonoBehaviour, IPurchasable
 
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
-
+    public bool Placed { get; set; }
 
     void Awake()
     {

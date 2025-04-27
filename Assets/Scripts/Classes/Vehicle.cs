@@ -22,6 +22,15 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 
     public int Price { get => _price; }
     public int SalePrice {  get => _salePrice; }
+    private bool placed = false;
+    public bool Placed
+    {
+        get => placed; set
+        {
+            _position = gameObject.transform.position;
+            placed = true;
+        }
+    }
 
     public void Awake()
     {
@@ -102,10 +111,5 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     {
         if (IsFull) return;
         _passengers.Add(turist);
-    }
-
-    public void Move(Vector2 goal)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using static UnityEngine.GraphicsBuffer;
 
 public class Plant : MonoBehaviour, IEntity, IPurchasable
 {
@@ -16,14 +17,17 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
 
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
-
-    public Vector2 GeneratePath()
+    private bool placed;
+    public bool Placed
     {
-        throw new NotImplementedException();
+        get => placed; set
+        {
+            _position = gameObject.transform.position;
+            placed = true;
+        }
     }
-
-    public void Move(Vector2 goal)
+    public void Eat()
     {
-        throw new NotImplementedException();
+
     }
 }

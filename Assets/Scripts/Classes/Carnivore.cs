@@ -1,5 +1,5 @@
 using UnityEngine;
-using System;
+using System.Collections;
 
 public abstract class Carnivore : Animal
 {
@@ -8,8 +8,15 @@ public abstract class Carnivore : Animal
         base.Awake();
     }
 
-    public override void Eat(IEntity e)
+    public override IEnumerable Eat(IEntity e)
     {
-        throw new NotImplementedException();
+        if (e is Herbivore)
+        {
+            Herbivore herbivore = (Herbivore)e;
+            herbivore.Die();
+            _hunger = _hungerMax;
+            yield return new WaitForSeconds(_sleepDuration);
+        }
+        yield break;
     }
 }
