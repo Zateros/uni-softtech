@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MoveCamera : MonoBehaviour
 {
@@ -41,6 +42,8 @@ public class MoveCamera : MonoBehaviour
 
         if (drag)
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
             Camera.main.transform.position = origin - difference;
             float x, y;
             x = Camera.main.transform.position.x;
