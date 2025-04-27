@@ -11,10 +11,10 @@ public class AStar : MonoBehaviour
 
         Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
-        Vector3 start = GameManager.Instance.GameTable.WorldToCell(request.pathStart);
-        Vector3 end = GameManager.Instance.GameTable.WorldToCell(request.pathEnd);
-        Node startNode = GameManager.Instance.WMap[(int)start.x, (int)start.y];
-        Node targetNode = GameManager.Instance.WMap[(int)end.x, (int)end.y];
+        Vector3Int start = GameManager.Instance.GameTable.WorldToCell(request.pathStart);
+        Vector3Int end = GameManager.Instance.GameTable.WorldToCell(request.pathEnd);
+        Node startNode = GameManager.Instance.WMap[start.x, start.y];
+        Node targetNode = GameManager.Instance.WMap[end.x, end.y];
         startNode.parent = startNode;
 
         if (startNode.passible && targetNode.passible)

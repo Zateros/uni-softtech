@@ -5,7 +5,7 @@ using System.Collections;
 
 public interface IEntity
 {
-    public bool IsVisible { get; set; }
+    public bool IsVisible { get; }
 
     /// <summary>
     /// A* with weights: 
@@ -15,6 +15,5 @@ public interface IEntity
     /// pond: impassable
     /// </summary>
     /// <param name="goal"> where the entity wants to go</param>
-    public abstract void Move(Vector2 goal);
 
 }

@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private Texture2D cursor;
-
+    [SerializeField] public GameObject bush;
+    [SerializeField] public GameObject tree;
     public static GameManager Instance;
 
     [SerializeField]
@@ -28,7 +30,7 @@ public class GameManager : MonoBehaviour
     private int _carnivoreCount;
     private int _minCarnivoreCount;
     private int _minTouristCount;
-    public readonly float eps = 0.1f;
+    public readonly float eps = 0.01f;
 
     private List<Rhino> _rhinos;
     private List<Zebra> _zebras;
@@ -45,12 +47,20 @@ public class GameManager : MonoBehaviour
     private Save _gameSaver;
 
     public Node[,] WMap { get; private set; }
+    public Plant[,] Plants { get; private set; }
     private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
     public event OnPurchaseModeDisable onPurchaseModeDisable;
 
     public int MinTuristCount { get => _minTouristCount; }
+    public List<Herbivore> Herbivores { get {
+            List<Herbivore> herbivores = new List<Herbivore>();
+            herbivores.AddRange(_rhinos);
+            herbivores.AddRange(_zebras);
+            herbivores.AddRange(_giraffes);
+            return herbivores;
+        } }
     public List<Rhino> Rhinos { get => _rhinos; }
     public List<Zebra> Zebras { get => _zebras; }
     public List<Giraffe> Giraffes { get => _giraffes; }
@@ -136,7 +146,23 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
+        Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
+        for (int i = 0; i < gameTable.Size.x; i++)
+        {
+            for (int j = 0; j < gameTable.Size.y; j++)
+            {
+                if (gameTable.gameMap[i, j] == Terrain.BUSH)
+                {
+                    /*var obj = Instantiate(bush, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
+                    Plants[i, j] = obj.GetComponent<Bush>();*/
+                }
+                else if (gameTable.gameMap[i, j] == Terrain.TREE)
+                {
+                    /*var obj = Instantiate(tree, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
+                    Plants[i, j] = obj.GetComponent<Tree>();*/
+                }
+            }
+        }
         DontDestroyOnLoad(this);
     }
 
@@ -187,38 +213,46 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            Vector3Int pos;
             switch (gameObject.name)
             {
                 case "Rhino":
                     _rhinos.Add(gameObject.GetComponent<Rhino>());
-                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Zebra":
                     _zebras.Add(gameObject.GetComponent<Zebra>());
-                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Giraffe":
                     _giraffes.Add(gameObject.GetComponent<Giraffe>());
-                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Lion":
                     _lions.Add(gameObject.GetComponent<Lion>());
-                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Hyena":
                     _hyenas.Add(gameObject.GetComponent<Hyena>());
-                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Cheetah":
                     _cheetahs.Add(gameObject.GetComponent<Cheetah>());
-                    gameObject.GetComponent<Animal>().Placed = true;
                     break;
                 case "Jeep":
                     _vehicles.Add(gameObject.GetComponent<Vehicle>());
                     break;
+                case "Bush":
+                    pos = GameTable.WorldToCell(gameObject.transform.position);
+                    Plants[pos.x, pos.y] = gameObject.GetComponent<Bush>();
+                    break;
+                case "Tree":
+                    pos = GameTable.WorldToCell(gameObject.transform.position);
+                    Plants[pos.x, pos.y] = gameObject.GetComponent<Tree>();
+                    break;
+                case "Grass":
+                    pos = GameTable.WorldToCell(gameObject.transform.position);
+                    Plants[pos.x, pos.y] = gameObject.GetComponent<Grass>();
+                    break;
                 default:
                     break;
-            }            
+            }
+            gameObject.GetComponent<IPurchasable>().Placed = true;
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
 

@@ -7,7 +7,7 @@ public class Road : IPurchasable
 
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
-
+    public bool Placed { get; set; }
 
     public Road()
     {
