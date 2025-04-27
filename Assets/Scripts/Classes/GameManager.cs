@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public event OnPurchaseModeDisable onPurchaseModeDisable;
 
     public int MinTuristCount { get => _minTuristCount; }
+    public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
     public List<GameObject> Rhinos { get => _rhinos; }
     public List<GameObject> Zebras { get => _zebras; }
     public List<GameObject> Giraffes { get => _giraffes; }
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
                 _minHerbivoreCount = 10;
                 _minCarnivoreCount = 10;
                 _minTuristCount = 10;
-                _minTuristSatisfaction = 30;
+                _minTuristSatisfaction = 20;
                 break;
             case Difficulty.MEDIUM:
                 _money = 750000;
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
                 _minHerbivoreCount = 15;
                 _minCarnivoreCount = 15;
                 _minTuristCount = 15;
-                _minTuristSatisfaction = 40;
+                _minTuristSatisfaction = 25;
                 break;
             case Difficulty.HARD:
                 _money = 500000;
@@ -110,7 +111,7 @@ public class GameManager : MonoBehaviour
                 _minHerbivoreCount = 20;
                 _minCarnivoreCount = 20;
                 _minTuristCount = 20;
-                _minTuristSatisfaction = 50;
+                _minTuristSatisfaction = 30;
                 break;
             default:
                 break;
@@ -164,9 +165,9 @@ public class GameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    public void CalculateSatisfaction()
+    public int CalculateSatisfaction()
     {
-        throw new NotImplementedException();
+        return 50;
     }
 
     public void Buy(GameObject gameObject)

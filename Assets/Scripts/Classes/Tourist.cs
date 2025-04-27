@@ -18,8 +18,21 @@ public class Tourist : MonoBehaviour, IEntity
     private void Awake()
     {
         _position = gameObject.transform.position;
-        //TODO: Change starting satisfaction based on difficulty
-        _satisfaction = 50;
+
+        switch (GameManager.Instance.Difficulty)
+        {
+            case Difficulty.EASY:
+                _satisfaction = 70;
+                break;
+            case Difficulty.MEDIUM:
+                _satisfaction = 60;
+                break;
+            case Difficulty.HARD:
+                _satisfaction = 50;
+                break;
+            default:
+                break;
+        }
     }
 
     public void Update()
