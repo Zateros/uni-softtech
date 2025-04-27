@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using System.IO;
 
 public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
-{    
+{
     protected float _visionRange;
     protected float _speed = 2f;
     protected Vector2 _position;
@@ -19,8 +19,10 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected bool _hasChip;
     protected int _sleepTime;
     private int framecnt = 1200;
+    public Sprite _blipIcon;
 
     public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+    public Sprite BlipIcon { get => _blipIcon; set { _blipIcon = value; } }
     public bool IsAsleep { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsAdult { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsThirsty { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -44,7 +46,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
 
     public void Move()
     {
-        if(Time.frameCount % framecnt != 0)
+        if (Time.frameCount % framecnt != 0)
         {
             transform.Translate(_speed * Time.deltaTime * _path);
             _position += _speed * Time.deltaTime * _path.normalized;

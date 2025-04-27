@@ -64,7 +64,7 @@ public class Map : MonoBehaviour
     [SerializeField]
     private int maxIterationForEntranceGeneration = 10;
 
-    public static Vector3[] bounds { get; private set; }
+    public static Vector3[] Bounds { get; private set; }
     public delegate void OnMapGenerated();
     public delegate void OnMapChanged();
     public static OnMapGenerated onMapGenerated;
@@ -182,6 +182,8 @@ public class Map : MonoBehaviour
 
     public bool IsInBounds(int x, int y) => (0 <= x && x < Size.x) && (0 <= y && y < Size.y);
 
+    public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
+
     public void GenerateMap()
     {
         baseTilemap.ClearAllTiles();
@@ -270,7 +272,7 @@ public class Map : MonoBehaviour
         GenerateEntranceExitPair();
 
         // Generate world coordinate bounds of the map
-        bounds = new Vector3[] {
+        Bounds = new Vector3[] {
             baseTilemap.CellToWorld(new Vector3Int(0, 0)),
             baseTilemap.CellToWorld(new Vector3Int(Size.x, 0)),
             baseTilemap.CellToWorld(new Vector3Int(0, Size.y)),
