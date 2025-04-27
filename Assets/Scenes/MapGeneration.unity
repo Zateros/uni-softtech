@@ -5134,6 +5134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9512726747e324c4c88f6e33211a7a0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScrollView: {fileID: 1684200488}
+  NotifHolder: {fileID: 1206166354}
   NotificationText: {fileID: 1339269905878690054, guid: 9b5e61c131a2b02428203409bcbea1bb, type: 3}
   NotifiedTuristCount: 0
 --- !u!1 &1235992186
