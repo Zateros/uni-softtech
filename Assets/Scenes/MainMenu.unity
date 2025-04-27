@@ -4610,6 +4610,7 @@ GameObject:
   - component: {fileID: 1899599792}
   - component: {fileID: 1899599791}
   - component: {fileID: 1899599790}
+  - component: {fileID: 1899599793}
   m_Layer: 5
   m_Name: QuitBtn
   m_TagString: Untagged
@@ -4680,7 +4681,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1899599791}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1899599793}
+        m_TargetAssemblyTypeName: MenuManager, Assembly-CSharp
+        m_MethodName: OnQuitBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1899599791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4719,6 +4732,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899599788}
   m_CullTransparentMesh: 1
+--- !u!114 &1899599793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1899599788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e1711ced9f9074594740dfb5139bb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SetProfilePanel: {fileID: 0}
+  SettingsPanel: {fileID: 0}
 --- !u!1 &1921728066
 GameObject:
   m_ObjectHideFlags: 0

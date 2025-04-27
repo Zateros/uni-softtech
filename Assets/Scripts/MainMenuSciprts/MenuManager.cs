@@ -14,4 +14,9 @@ public class MenuManager : MonoBehaviour
     {
         SettingsPanel.SetActive(true);
     }
+
+    public void OnQuitBtnClick()
+    {
+        Application.Quit();
+    }
 }
