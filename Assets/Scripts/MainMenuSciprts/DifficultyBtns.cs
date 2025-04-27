@@ -9,6 +9,11 @@ public class DifficultyBtns : MonoBehaviour
 
     public static int difficulty;
 
+    void Awake()
+    {
+        EasyBtnClick();
+    }
+
     public void EasyBtnClick()
     {
         EasyBtn.enabled = false;

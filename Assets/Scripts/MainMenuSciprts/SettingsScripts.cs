@@ -6,6 +6,8 @@ public class SettingsScripts : MonoBehaviour
     [SerializeField] public Toggle FullScreenToggle;
     [SerializeField] public Toggle VSyncToggle;
 
+    public string playerName;
+
     void Start()
     {
         FullScreenToggle.isOn = Screen.fullScreen;
@@ -32,5 +34,10 @@ public class SettingsScripts : MonoBehaviour
         {
             QualitySettings.vSyncCount = 0;
         }
+    }
+
+    public void GetName(string input)
+    {
+        playerName = input;
     }
 }
