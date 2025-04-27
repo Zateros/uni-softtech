@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
+    private uint _daysPassed;
     private Speed _gameSpeed;
     private Difficulty _difficulty;
     private bool _hasWon;
@@ -80,6 +81,7 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
+    public uint DaysPassed { get => _daysPassed; }
     public Heap<VehiclePath> Routes { get; private set; }
     public Vector3 Enterance { get; private set; }
     public Vector2 Exit { get; private set; }
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
             if (value != _purchaseMode)
             {
                 _purchaseMode = value;
-                if(value == false) onPurchaseModeDisable?.Invoke();
+                if (value == false) onPurchaseModeDisable?.Invoke();
             }
         }
     }
@@ -220,7 +222,7 @@ public class GameManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
-        
+
     public void GameLoop()
     {
         throw new NotImplementedException();
@@ -296,9 +298,9 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
-
 
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
@@ -338,7 +340,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
@@ -352,7 +353,7 @@ public class GameManager : MonoBehaviour
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         if (gameObject.tag == "Animal" && gameObject.GetComponent<Animal>().HasChip)
             salePrice += 100;
-        
+
         _money += salePrice;
 
         Destroy(gameObject);
