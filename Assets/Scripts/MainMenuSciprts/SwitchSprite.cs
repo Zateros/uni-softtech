@@ -7,6 +7,7 @@ public class SwitchSprite : MonoBehaviour
     [SerializeField] public Image ProfileImg;
     [SerializeField] public Sprite Sprite1;
     [SerializeField] public Sprite Sprite2;
+    [SerializeField] public Sprite Sprite3;
 
     private List<Sprite> spriteList;
 
@@ -15,6 +16,7 @@ public class SwitchSprite : MonoBehaviour
         spriteList = new List<Sprite>();
         spriteList.Add(Sprite1);
         spriteList.Add(Sprite2);
+        spriteList.Add(Sprite3);
     }
 
     public void PreviousBtnClick()

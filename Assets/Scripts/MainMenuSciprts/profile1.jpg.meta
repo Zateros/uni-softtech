@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: b81d8936e38990640ba445ad60547206
+guid: 6537e19fb48d9124082718c1a3709724
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5864101458112632582
-    second: profile2_0
+      213: 8698248527754002512
+    second: profile1_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: profile2_0
+      name: profile1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 600
-        height: 469
+        width: 507
+        height: 360
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 60757a1f439716150800000000000000
-      internalID: 5864101458112632582
+      spriteID: 05087d063f266b870800000000000000
+      internalID: 8698248527754002512
       vertices: []
       indices: 
       edges: []
