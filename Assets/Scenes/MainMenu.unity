@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 85838123}
   - component: {fileID: 85838122}
   - component: {fileID: 85838121}
-  - component: {fileID: 85838120}
   m_Layer: 5
   m_Name: NameInput
   m_TagString: Untagged
@@ -159,21 +158,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &85838120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 85838118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d69876e06c847940b4eedde17992855, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FullScreenToggle: {fileID: 383816518}
-  VSyncToggle: {fileID: 1536382666}
-  playerName: 
 --- !u!114 &85838121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,19 +219,7 @@ MonoBehaviour:
   m_CharacterLimit: 0
   m_OnEndEdit:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 85838120}
-        m_TargetAssemblyTypeName: SettingsScripts, Assembly-CSharp
-        m_MethodName: GetName
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls: []
@@ -279,7 +251,7 @@ MonoBehaviour:
   m_RichText: 1
   m_GlobalFontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_OnFocusSelectAll: 1
-  m_ResetOnDeActivation: 1
+  m_ResetOnDeActivation: 0
   m_KeepTextSelectionVisible: 0
   m_RestoreOriginalTextOnEscape: 1
   m_isRichTextEditingAllowed: 0
@@ -1018,6 +990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4020a27dee670704994aef704a8af004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviousPanel: {fileID: 0}
   CurrentPanel: {fileID: 177799129}
 --- !u!114 &255754111
 MonoBehaviour:
@@ -1786,7 +1759,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FullScreenToggle: {fileID: 383816518}
   VSyncToggle: {fileID: 1536382666}
-  playerName: 
 --- !u!1 &406919143
 GameObject:
   m_ObjectHideFlags: 0
@@ -1839,6 +1811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4020a27dee670704994aef704a8af004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviousPanel: {fileID: 0}
   CurrentPanel: {fileID: 959271633}
 --- !u!114 &406919146
 MonoBehaviour:
@@ -2624,7 +2597,6 @@ GameObject:
   - component: {fileID: 675688031}
   - component: {fileID: 675688030}
   - component: {fileID: 675688029}
-  - component: {fileID: 675688028}
   m_Layer: 5
   m_Name: ConfirmBtn
   m_TagString: Untagged
@@ -2652,23 +2624,6 @@ RectTransform:
   m_AnchoredPosition: {x: 15, y: -429}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &675688028
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675688026}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39fa07e2e2ca5ed43886e9133f42a9f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ConfirmBtn1: {fileID: 0}
-  ConfirmBtn2: {fileID: 0}
-  CheckBox: {fileID: 0}
-  TutorialPanel: {fileID: 0}
-  TutorialText: {fileID: 0}
 --- !u!114 &675688029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4819,7 +4774,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FullScreenToggle: {fileID: 383816518}
   VSyncToggle: {fileID: 1536382666}
-  playerName: 
 --- !u!1 &1564216355
 GameObject:
   m_ObjectHideFlags: 0
@@ -5121,8 +5075,9 @@ GameObject:
   - component: {fileID: 1699966847}
   - component: {fileID: 1699966849}
   - component: {fileID: 1699966848}
+  - component: {fileID: 1699966850}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: TutorialText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5177,7 +5132,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5197,7 +5152,7 @@ MonoBehaviour:
   m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -5246,6 +5201,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1699966846}
   m_CullTransparentMesh: 1
+--- !u!114 &1699966850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699966846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b2207e8544129249a4ded1b0d8571df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SetProfilePanel: {fileID: 959271633}
+  TutorialPanel: {fileID: 678961722}
+  InputName: {fileID: 0}
+  TutorialCheck: {fileID: 1931660860}
+  TutorialText: {fileID: 1699966848}
+  _playerName: 
 --- !u!1 &1715892458
 GameObject:
   m_ObjectHideFlags: 0
@@ -5446,6 +5419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4020a27dee670704994aef704a8af004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PreviousPanel: {fileID: 959271633}
   CurrentPanel: {fileID: 678961722}
 --- !u!114 &1750005107
 MonoBehaviour:
@@ -5624,7 +5598,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1773228129}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1773228131}
+        m_TargetAssemblyTypeName: TutorialScripts, Assembly-CSharp
+        m_MethodName: OnFirstConfirmBtnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1773228129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5672,14 +5658,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1773228126}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 39fa07e2e2ca5ed43886e9133f42a9f4, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b2207e8544129249a4ded1b0d8571df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ConfirmBtn1: {fileID: 0}
-  ConfirmBtn2: {fileID: 0}
-  CheckBox: {fileID: 0}
-  TutorialPanel: {fileID: 0}
-  TutorialText: {fileID: 0}
+  SetProfilePanel: {fileID: 959271633}
+  TutorialPanel: {fileID: 678961722}
+  InputName: {fileID: 85838121}
+  TutorialCheck: {fileID: 1931660860}
+  TutorialText: {fileID: 1699966848}
+  _playerName: 
 --- !u!1 &1872232614
 GameObject:
   m_ObjectHideFlags: 0
@@ -6075,7 +6062,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -127}
+  m_AnchoredPosition: {x: 18, y: -137}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1931660860
@@ -6730,8 +6717,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 9, y: -0.5}
-  m_SizeDelta: {x: -28, y: -3}
+  m_AnchoredPosition: {x: 11.5, y: -0.5}
+  m_SizeDelta: {x: -23, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2003413016
 MonoBehaviour:
