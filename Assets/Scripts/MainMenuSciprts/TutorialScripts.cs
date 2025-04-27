@@ -28,6 +28,11 @@ public class TutorialScripts : MonoBehaviour
         }
     }
 
+    public void OnSecondConfirmBtnClick()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+
     public void SetTutorialMessage()
     {
         if(InputName.text == null)
