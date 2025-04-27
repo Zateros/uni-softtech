@@ -4,19 +4,18 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using System.IO;
 using System.Collections;
-using static UnityEngine.GraphicsBuffer;
+using UnityEditor.PackageManager.Requests;
+using static UnityEditor.PlayerSettings;
 
 public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
 {    
-    protected float _visionRange;
-    protected float _speed;
+    protected float _visionRange = 2f;
+    protected float _speed = 2f;
     protected float turnSpeed;
-    protected float pathUpdateMoveThreshold = .5f;
-    protected float minPathUpdateTime = .2f;
-    protected float turnDst = 5;
-    protected float stoppingDst = 10;
+    protected float pathUpdateMoveThreshold = .1f;
+    protected float minPathUpdateTime = .01f;
     protected Vector2 _position;
-    private Path _path;
+    private Vector2[] _path;
     protected Vector2 target;
     protected int _size;
     protected int _price;
@@ -26,7 +25,18 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected int _thirst;
     protected bool _hasChip;
     protected int _sleepTime;
-    private int framecnt = 1200;
+    private int targetIndex = 0;
+    private bool placed;
+    public bool Placed { get => placed; set {
+            _position = gameObject.transform.position;
+            Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
+            if (GameManager.Instance.WMap[(int)pos.x, (int)pos.y].passible)
+            {
+                target = GenerateRandomTarget();
+                StartCoroutine(UpdatePath());
+                placed = true;
+            }     
+        } }
 
     public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool IsAsleep { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -41,92 +51,74 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public void Awake()
     {
         _hasChip = false;
-        _position = gameObject.transform.position;
-        target = GenerateRandomTarget();
-        StartCoroutine(UpdatePath());
+        _path = new Vector2[0];
     }
 
     private Vector2 GenerateRandomTarget()
     {
-        return UnityEngine.Random.onUnitSphere * _visionRange;
+        Vector2 target = _position + UnityEngine.Random.insideUnitCircle * _visionRange;
+        Vector3 pos = GameManager.Instance.GameTable.WorldToCell(target);
+        while (pos.x < 0 || pos.y < 0 || pos.x >= GameManager.Instance.GameTable.Size.x || pos.y >= GameManager.Instance.GameTable.Size.y)
+        {
+            target = _position + UnityEngine.Random.insideUnitCircle * _visionRange;
+            pos = GameManager.Instance.GameTable.WorldToCell(target);
+        }
+        return target;
     }
 
     public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
     {
+        
         if (pathSuccessful)
         {
-            _path = new Path(waypoints, transform.position, turnDst, stoppingDst);
-
+            _path = waypoints;
+            targetIndex = 0;
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
+        }
+        else
+        {
+            StopCoroutine(UpdatePath());
+            target = GenerateRandomTarget();
+            StartCoroutine(UpdatePath());
         }
     }
 
     IEnumerator UpdatePath()
     {
-
-        if (Time.timeSinceLevelLoad < .3f)
-        {
-            yield return new WaitForSeconds(.3f);
-        }
-        PathManager.RequestPath(new PathRequest(transform.position, target, OnPathFound));
-
-        float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
-        Vector2 targetPosOld = target;
-
+        yield return new WaitForSeconds(.1f);
+        PathManager.RequestPath(new PathRequest(_position, target, OnPathFound));
         while (true)
         {
             yield return new WaitForSeconds(minPathUpdateTime);
-            if ((target - targetPosOld).sqrMagnitude > sqrMoveThreshold)
+            if (_path.Length == 0) yield break;
+            if (targetIndex >= _path.Length)
             {
-                PathManager.RequestPath(new PathRequest(transform.position, target, OnPathFound));
-                targetPosOld = target;
+                targetIndex = 0;
+                target = GenerateRandomTarget();
+                PathManager.RequestPath(new PathRequest(_position, target, OnPathFound));
             }
         }
     }
 
     IEnumerator FollowPath()
     {
+        Vector2 currentWaypoint = _path[0];
 
-        bool followingPath = true;
-        int pathIndex = 0;
-        transform.LookAt(_path.lookPoints[0]);
-
-        float speedPercent = 1;
-
-        while (followingPath)
+        while (true)
         {
-            Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
-            while (_path.turnBoundaries[pathIndex].HasCrossedLine(pos2D))
+            if ((Vector2)transform.position == currentWaypoint)
             {
-                if (pathIndex == _path.finishLineIndex)
+                targetIndex++;
+                if (targetIndex >= _path.Length)
                 {
-                    followingPath = false;
-                    break;
+                    yield break;
                 }
-                else
-                {
-                    pathIndex++;
-                }
+                currentWaypoint = _path[targetIndex];
             }
 
-            if (followingPath)
-            {
-
-                if (pathIndex >= _path.slowDownIndex && stoppingDst > 0)
-                {
-                    speedPercent = Mathf.Clamp01(_path.turnBoundaries[_path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst);
-                    if (speedPercent < 0.01f)
-                    {
-                        followingPath = false;
-                    }
-                }
-
-                Quaternion targetRotation = Quaternion.LookRotation(_path.lookPoints[pathIndex] - (Vector2)transform.position);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-                transform.Translate(Vector3.forward * Time.deltaTime * _speed * speedPercent, Space.Self);
-            }
-
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed * Time.deltaTime);
+            _position = transform.position;
             yield return null;
 
         }
@@ -136,7 +128,8 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
 
     public abstract void Eat(IEntity e);
 
-    public void Drink()
+
+public void Drink()
     {
         throw new NotImplementedException();
     }

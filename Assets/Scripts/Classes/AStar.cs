@@ -1,25 +1,25 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using System.Collections;
+using Mono.Cecil.Cil;
 
 public class AStar : MonoBehaviour
 {
 
-        public void FindPath(PathRequest request, Action<PathResult> callback)
+    public void FindPath(PathRequest request, Action<PathResult> callback)
     {
 
         Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
-
-        Node startNode = GameManager.Instance.WMap[(int)request.pathStart.x, (int)request.pathStart.y];
-        Node targetNode = GameManager.Instance.WMap[(int)request.pathEnd.x, (int)request.pathEnd.y];
+        Vector3 start = GameManager.Instance.GameTable.WorldToCell(request.pathStart);
+        Vector3 end = GameManager.Instance.GameTable.WorldToCell(request.pathEnd);
+        Node startNode = GameManager.Instance.WMap[(int)start.x, (int)start.y];
+        Node targetNode = GameManager.Instance.WMap[(int)end.x, (int)end.y];
         startNode.parent = startNode;
-
 
         if (startNode.passible && targetNode.passible)
         {
-            Heap<Node> openSet = new Heap<Node>(Math.Max(GameManager.Instance.GameTable.Size.x, GameManager.Instance.GameTable.Size.y));
+            Heap<Node> openSet = new Heap<Node>(GameManager.Instance.GameTable.Size.x * GameManager.Instance.GameTable.Size.y);
             HashSet<Node> closedSet = new HashSet<Node>();
             openSet.Add(startNode);
 

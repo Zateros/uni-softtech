@@ -17,7 +17,6 @@ public class PurchasableBtnClick : MonoBehaviour
     [SerializeField] public GameObject Bush;
     [SerializeField] public GameObject Tree;
     [SerializeField] public GameObject Jeep;
-    [SerializeField] public GameObject Road;
     [SerializeField] public GameObject Chip;
 
     [SerializeField] private RoadPlacer roadPlacer;

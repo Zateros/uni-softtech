@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
 using static UnityEngine.EventSystems.EventTrigger;
-using System.Xml;
-using System.Xml;
 
 public class GameManager : MonoBehaviour
 {
@@ -117,11 +115,13 @@ public class GameManager : MonoBehaviour
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
-        for (int i = 0; i < _gameTable.Size.x; i++)
+        WMap = new Node[gameTable.Size.x, gameTable.Size.y];
+
+        for (int i = 0; i < gameTable.Size.x; i++)
         {
-            for (int j = 0; j < _gameTable.Size.y; j++)
+            for (int j = 0; j < gameTable.Size.y; j++)
             {
-                switch (_gameTable.gameMap[i, j])
+                switch (gameTable.gameMap[i, j])
                 {
                     case Terrain.HILL:
                         WMap[i, j] = new Node(i,j,2);
@@ -178,8 +178,8 @@ public class GameManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
-
-    public void Buy(GameObject gameObject)
+#nullable enable
+    public void Buy(GameObject? gameObject)
     {
         int price;
         if (gameObject == null)
@@ -215,7 +215,7 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
-        
+            gameObject.GetComponent<Animal>().Placed = true;
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
 
@@ -223,8 +223,8 @@ public class GameManager : MonoBehaviour
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
-        if (_money < _minMoney + 500)
-            Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
+        /*if (_money < _minMoney + 500)
+            Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");*/
 
         _money -= price;
     }
