@@ -1,8 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
-using static UnityEngine.GraphicsBuffer;
 
 public class Turist : MonoBehaviour, IEntity
 {
@@ -11,6 +9,7 @@ public class Turist : MonoBehaviour, IEntity
     private readonly float _speed = 1f; //TODO: finallize
     private int _satisfaction;
     private bool inJeep = false;
+    private bool _enRoute = false;
     private Vehicle vehicle = null;
     protected Vector2 dir;
     protected Vector2 _position;
@@ -22,36 +21,20 @@ public class Turist : MonoBehaviour, IEntity
 
     private void Awake()
     {
-        _position = gameObject.transform.position;
+        _position = transform.position;
         //TODO: Change starting satisfaction based on difficulty
         _satisfaction = 50;
-        StartCoroutine(UpdatePath());
     }
 
-    IEnumerator UpdatePath()
+    void Update()
     {
-        if(vehicle != null)
+        if (!inJeep && !_enRoute)
         {
-            if (Time.timeSinceLevelLoad < .3f)
+            vehicle = PickNearestVehicle();
+            if (vehicle != null)
             {
-                yield return new WaitForSeconds(.3f);
-            }
-            PathManager.RequestPath(new PathRequest(transform.position, vehicle.Position, OnPathFound));
-        }
-        while (true && !inJeep)
-        {
-            if(vehicle == null || vehicle.IsFull)
-            {
-                vehicle = PickNearestVehicle();
-            }
-            else
-            {
-                yield return new WaitForSeconds(0.1f);
-                if (targetIndex >= _path.Length)
-                {
-                    targetIndex = 0;
-                    PathManager.RequestPath(new PathRequest(_position, vehicle.Position, OnPathFound));
-                }
+                PathManager.RequestPath(new PathRequest(_position, vehicle.Position, OnPathFound));
+                _enRoute = true;
             }
         }
     }
@@ -62,25 +45,32 @@ public class Turist : MonoBehaviour, IEntity
         dir = currentWaypoint.normalized;
         while (true)
         {
-            if (Vector2.Distance((Vector2)transform.position, currentWaypoint) <= GameManager.Instance.eps)
+            if(vehicle.IsFull)
+            {
+                _enRoute = false;
+                yield break;
+            }
+            if (_position == currentWaypoint)
             {
                 targetIndex++;
                 if (targetIndex >= _path.Length)
                 {
+                    bool succes = vehicle.Enter(this);
+                    if (succes)
+                    {
+                        _position = vehicle.Position;
+                        transform.position = new Vector3(_position.x, _position.y,-10);
+                    }
+                    inJeep = succes;
+                    _enRoute = false;
                     yield break;
                 }
                 currentWaypoint = _path[targetIndex];
                 dir = currentWaypoint.normalized;
             }
-            var prevpos = _position;
 
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed * Time.deltaTime);
             _position = transform.position;
-            if (prevpos == _position)
-            {
-                OnPathFound(new Vector2[0], false);
-                yield break;
-            }
             yield return null;
         }
     }
@@ -99,10 +89,17 @@ public class Turist : MonoBehaviour, IEntity
     private Vehicle PickNearestVehicle()
     {
         Vehicle closest = null;
-        float distance = float.PositiveInfinity;
+        float distance = -1;
         foreach (Vehicle vehicle in GameManager.Instance.Vehicles)
         {
-            if (Vector2.Distance(_position, vehicle.Position) < distance && !vehicle.IsFull)
+            /*Debug.Log(distance);
+            Debug.Log(Vector2.Distance(_position, vehicle.Position));*/
+            if(distance == -1 && Vector2.Distance(_position, vehicle.Position) <= _visionRange && !vehicle.IsFull)
+            {
+                closest = vehicle;
+                distance = Vector2.Distance(_position, vehicle.Position);
+            }
+            else if (Vector2.Distance(_position, vehicle.Position) < distance && !vehicle.IsFull && Vector2.Distance(_position, vehicle.Position) <= _visionRange)
             {
                 closest = vehicle;
                 distance = Vector2.Distance(_position, vehicle.Position);

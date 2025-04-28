@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
     private Texture2D cursor;
     [SerializeField] public GameObject bush;
     [SerializeField] public GameObject tree;
+    [SerializeField] public GameObject turist;
     public static GameManager Instance;
 
     [SerializeField]
@@ -30,7 +32,10 @@ public class GameManager : MonoBehaviour
     private int _carnivoreCount;
     private int _minCarnivoreCount;
     private int _minTouristCount;
-    public readonly float eps = 0.01f;
+    public readonly float eps = 0.1f;
+
+    private Vector2 _enterance;
+    private Vector2 _exit;
 
     private List<Rhino> _rhinos;
     private List<Zebra> _zebras;
@@ -71,7 +76,9 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
-    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
+    public Heap<VehiclePath> Routes { get; private set; }
+    public Vector3 Enterance { get; private set; }
+    public Vector2 Exit { get; private set; }
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
@@ -108,7 +115,7 @@ public class GameManager : MonoBehaviour
         _minCarnivoreCount = 2;
         _minHerbivoreCount = 2;
         _minMoney = 1000;
-        _minTouristCount = 0;
+        _minTouristCount = 10;
 
         _rhinos = new List<Rhino>();
         _zebras = new List<Zebra>();
@@ -122,6 +129,8 @@ public class GameManager : MonoBehaviour
         _poachers = new List<Poacher>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
+
+        Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
 
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
 
@@ -161,7 +170,20 @@ public class GameManager : MonoBehaviour
                     /*var obj = Instantiate(tree, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
                     Plants[i, j] = obj.GetComponent<Tree>();*/
                 }
+                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.ENTRANCE)
+                {
+                    _enterance = gameTable.CellToWorld(new Vector3Int(i, j, 0));
+                }
+                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.EXIT)
+                {
+                    _exit = gameTable.CellToWorld(new Vector3Int(i, j, 0));
+                }
             }
+        }
+
+        for (int i = 0; i < _minTouristCount; i++)
+        {
+            Instantiate(turist, _enterance, Quaternion.identity);
         }
         DontDestroyOnLoad(this);
     }
@@ -213,6 +235,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            gameObject.GetComponent<IPurchasable>().Placed = true;
             Vector3Int pos;
             switch (gameObject.name)
             {
@@ -252,7 +275,6 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
-            gameObject.GetComponent<IPurchasable>().Placed = true;
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
 

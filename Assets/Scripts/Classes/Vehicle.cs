@@ -1,11 +1,10 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using Random = System.Random;
 
 public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 {
-    private int _visionRange;
+    private float _visionRange = 2f;
     private Vector2 _position;
     private readonly float _size = 1f; //TODO: finallize
     private readonly float _speed = 5f; //TODO: finallize
@@ -16,7 +15,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     private List<Vector2> _route;
     private int _routepos = 0;
 
-    public Vector2 Position { get; }
+    public Vector2 Position { get => _position; }
     public bool IsVisible { get => true; set => throw new Exception(); }
     public bool IsFull { get => _passengers.Count == 4; }
 
@@ -27,7 +26,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     {
         get => placed; set
         {
-            _position = gameObject.transform.position;
+            _position = transform.position;
             placed = true;
         }
     }
@@ -52,14 +51,13 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             default:
                 break;
         }
-        _position = gameObject.transform.position;
-        GeneratePath();
+        //GeneratePath();
     }
 
 
     public void Update()
     {
-        Move();
+        //Move();
     }
 
     public void Move()
@@ -99,17 +97,14 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 
     public Vector2 GeneratePath()
     {
-        if (GameManager.Instance.Routes.Count > 0)
-        {
-            Random random = new Random();
-            _route = GameManager.Instance.Routes[random.Next(0, GameManager.Instance.Routes.Count)];
-        }
-        return new Vector2();
+        throw new NotImplementedException();
     }
 
-    public void Enter(Turist turist)
+    public bool Enter(Turist turist)
     {
-        if (IsFull) return;
+        if (IsFull) return false;
+        Debug.Log("entered");
         _passengers.Add(turist);
+        return true;
     }
 }
