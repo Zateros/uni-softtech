@@ -81,11 +81,16 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
-    public uint DaysPassed { get => _daysPassed; }
-    public bool IsNight { get => _isNight; set { if (value != _isNight) _isNight = value; } }
-    public Heap<VehiclePath> Routes { get; private set; }
-    public Vector3 Enterance { get; private set; }
-    public Vector2 Exit { get; private set; }
+    public uint DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
+    public bool IsNight
+    {
+        get => _isNight; set
+        {
+            if (_isNight && !value) DaysPassed++;
+            if (value != _isNight) _isNight = value;
+        }
+    }
+    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
