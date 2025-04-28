@@ -138,12 +138,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        _money = 1500;
-        _minCarnivoreCount = 2;
-        _minHerbivoreCount = 2;
-        _minMoney = 1000;
-        _minTouristCount = 10;
-
         _rhinos = new List<Rhino>();
         _zebras = new List<Zebra>();
         _giraffes = new List<Giraffe>();
@@ -208,7 +202,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < _minTouristCount; i++)
+        for (int i = 0; i < _minTuristCount; i++)
         {
             Instantiate(turist, _enterance, Quaternion.identity);
         }

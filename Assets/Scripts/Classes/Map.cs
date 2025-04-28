@@ -186,8 +186,6 @@ public class Map : MonoBehaviour
 
     public bool IsInBounds(int x, int y) => (0 <= x && x < Size.x) && (0 <= y && y < Size.y);
 
-    public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
-
     public void GenerateMap()
     {
         baseTilemap.ClearAllTiles();
