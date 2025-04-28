@@ -7,6 +7,10 @@ public class Map : MonoBehaviour
     [SerializeField]
     private Vector2Int size = new(100, 100);
 
+    public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
+
+    public Vector3 CellToWorld(Vector3Int pos) => baseTilemap.CellToWorld(pos);
+
     public Vector2Int Size { get { return size; } set { if (value != size) value = size; } }
 
     [SerializeField]
@@ -181,8 +185,6 @@ public class Map : MonoBehaviour
     }
 
     public bool IsInBounds(int x, int y) => (0 <= x && x < Size.x) && (0 <= y && y < Size.y);
-
-    public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
 
     public void GenerateMap()
     {

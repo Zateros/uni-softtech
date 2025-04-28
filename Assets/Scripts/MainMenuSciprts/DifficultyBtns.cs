@@ -7,7 +7,7 @@ public class DifficultyBtns : MonoBehaviour
     [SerializeField] Button MediumBtn;
     [SerializeField] Button HardBtn;
 
-    public static int difficulty;
+    public static int difficulty = 0;
 
     void Awake()
     {

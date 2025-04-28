@@ -1,12 +1,18 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using UnityEditor;
+using Unity.VisualScripting;
+using static UnityEngine.EventSystems.EventTrigger;
+using UnityEngine;
+using System.Xml;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
     private Texture2D cursor;
-
+    [SerializeField] public GameObject bush;
+    [SerializeField] public GameObject tree;
+    [SerializeField] public GameObject turist;
     public static GameManager Instance;
 
     [SerializeField]
@@ -16,7 +22,8 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
-    private Speed _gameSpeed;
+    private int _daysPassed;
+    private bool _isNight;
     private Difficulty _difficulty;
     private bool _hasWon;
 
@@ -31,20 +38,25 @@ public class GameManager : MonoBehaviour
     private int _minTuristSatisfaction;
     public readonly float eps = 0.1f;
 
-    private List<GameObject> _rhinos;
-    private List<GameObject> _zebras;
-    private List<GameObject> _giraffes;
-    private List<GameObject> _lions;
-    private List<GameObject> _hyenas;
-    private List<GameObject> _cheetahs;
+    private Vector2 _enterance;
+    private Vector2 _exit;
 
-    private List<GameObject> _vehicles;
-    private List<GameObject> _turists;
-    private List<GameObject> _poachers;
+    private List<Rhino> _rhinos;
+    private List<Zebra> _zebras;
+    private List<Giraffe> _giraffes;
+    private List<Lion> _lions;
+    private List<Hyena> _hyenas;
+    private List<Cheetah> _cheetahs;
+
+    private List<Vehicle> _vehicles;
+    private List<Turist> _turists;
+    private List<Poacher> _poachers;
 
     private Load _gameLoader;
     private Save _gameSaver;
 
+    public Node[,] WMap { get; private set; }
+    public Plant[,] Plants { get; private set; }
     private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
@@ -52,17 +64,34 @@ public class GameManager : MonoBehaviour
 
     public int MinTuristCount { get => _minTuristCount; }
     public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
-    public List<GameObject> Rhinos { get => _rhinos; }
-    public List<GameObject> Zebras { get => _zebras; }
-    public List<GameObject> Giraffes { get => _giraffes; }
-    public List<GameObject> Lions { get => _lions; }
-    public List<GameObject> Hyenas { get => _hyenas; }
-    public List<GameObject> Cheetahs { get => _cheetahs; }
-    public List<GameObject> Turists { get => _turists; }
-    public List<GameObject> Vehicles { get => _vehicles; }
+    public List<Herbivore> Herbivores { get {
+            List<Herbivore> herbivores = new List<Herbivore>();
+            herbivores.AddRange(_rhinos);
+            herbivores.AddRange(_zebras);
+            herbivores.AddRange(_giraffes);
+            return herbivores;
+        } }
+    public List<Rhino> Rhinos { get => _rhinos; }
+    public List<Zebra> Zebras { get => _zebras; }
+    public List<Giraffe> Giraffes { get => _giraffes; }
+    public List<Lion> Lions { get => _lions; }
+    public List<Hyena> Hyenas { get => _hyenas; }
+    public List<Cheetah> Cheetahs { get => _cheetahs; }
+    public List<Turist> Turists { get => _turists; }
+    public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
-    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
+    public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
+    public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
+    public bool IsNight
+    {
+        get => _isNight; set
+        {
+            if (_isNight && !value) DaysPassed++;
+            if (value != _isNight) _isNight = value;
+        }
+    }
+    public Heap<VehiclePath> Routes { get; private set; }
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
@@ -74,7 +103,7 @@ public class GameManager : MonoBehaviour
             if (value != _purchaseMode)
             {
                 _purchaseMode = value;
-                if(value == false) onPurchaseModeDisable?.Invoke();
+                if (value == false) onPurchaseModeDisable?.Invoke();
             }
         }
     }
@@ -118,25 +147,86 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-        _rhinos = new List<GameObject>();
-        _zebras = new List<GameObject>();
-        _giraffes = new List<GameObject>();
-        _lions = new List<GameObject>();
-        _hyenas = new List<GameObject>();
-        _cheetahs = new List<GameObject>();
+        _rhinos = new List<Rhino>();
+        _zebras = new List<Zebra>();
+        _giraffes = new List<Giraffe>();
+        _lions = new List<Lion>();
+        _hyenas = new List<Hyena>();
+        _cheetahs = new List<Cheetah>();
 
-        _vehicles = new List<GameObject>();
-        _turists = new List<GameObject>();
-        _poachers = new List<GameObject>();
+        _vehicles = new List<Vehicle>();
+        _turists = new List<Turist>();
+        _poachers = new List<Poacher>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
+        Date = DateTime.Today;
+
+        Date = DateTime.Today;
+
+        Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
+
+        WMap = new Node[gameTable.Size.x, gameTable.Size.y];
+
+        for (int i = 0; i < gameTable.Size.x; i++)
+        {
+            for (int j = 0; j < gameTable.Size.y; j++)
+            {
+                switch (gameTable.gameMap[i, j])
+                {
+                    case Terrain.HILL:
+                        WMap[i, j] = new Node(i,j,2);
+                        break;
+                    case Terrain.RIVER:
+                        WMap[i, j] = new Node(i, j, 2);
+                        break;
+                    case Terrain.POND:
+                        WMap[i, j] = new Node(i, j, -1);
+                        break;
+                    default:
+                        WMap[i, j] = new Node(i, j, 1);
+                        break;
+                }
+            }
+        }
+        Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
+        for (int i = 0; i < gameTable.Size.x; i++)
+        {
+            for (int j = 0; j < gameTable.Size.y; j++)
+            {
+                if (gameTable.gameMap[i, j] == Terrain.BUSH)
+                {
+                    /*var obj = Instantiate(bush, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
+                    Plants[i, j] = obj.GetComponent<Bush>();*/
+                }
+                else if (gameTable.gameMap[i, j] == Terrain.TREE)
+                {
+                    /*var obj = Instantiate(tree, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
+                    Plants[i, j] = obj.GetComponent<Tree>();*/
+                }
+                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.ENTRANCE)
+                {
+                    _enterance = gameTable.CellToWorld(new Vector3Int(i, j, 0));
+                }
+                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.EXIT)
+                {
+                    _exit = gameTable.CellToWorld(new Vector3Int(i, j, 0));
+                }
+            }
+        }
+
+        for (int i = 0; i < _minTuristCount; i++)
+        {
+            Instantiate(turist, _enterance, Quaternion.identity);
+        }
         DontDestroyOnLoad(this);
     }
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && PurchaseMode) {
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
+        if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
+        {
             PurchaseMode = false;
         }
     }
@@ -145,7 +235,7 @@ public class GameManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
-        
+
     public void GameLoop()
     {
         throw new NotImplementedException();
@@ -170,8 +260,8 @@ public class GameManager : MonoBehaviour
     {
         return 50;
     }
-
-    public void Buy(GameObject gameObject)
+#nullable enable
+    public void Buy(GameObject? gameObject)
     {
         int price;
         if (gameObject == null)
@@ -181,36 +271,49 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            gameObject.GetComponent<IPurchasable>().Placed = true;
+            Vector3Int pos;
             switch (gameObject.name)
             {
                 case "Rhino":
-                    _rhinos.Add(gameObject);
+                    _rhinos.Add(gameObject.GetComponent<Rhino>());
                     break;
                 case "Zebra":
-                    _zebras.Add(gameObject);
+                    _zebras.Add(gameObject.GetComponent<Zebra>());
                     break;
                 case "Giraffe":
-                    _giraffes.Add(gameObject);
+                    _giraffes.Add(gameObject.GetComponent<Giraffe>());
                     break;
                 case "Lion":
-                    _lions.Add(gameObject);
+                    _lions.Add(gameObject.GetComponent<Lion>());
                     break;
                 case "Hyena":
-                    _hyenas.Add(gameObject);
+                    _hyenas.Add(gameObject.GetComponent<Hyena>());
                     break;
                 case "Cheetah":
-                    _cheetahs.Add(gameObject);
+                    _cheetahs.Add(gameObject.GetComponent<Cheetah>());
                     break;
                 case "Jeep":
-                    _vehicles.Add(gameObject);
+                    _vehicles.Add(gameObject.GetComponent<Vehicle>());
+                    break;
+                case "Bush":
+                    pos = GameTable.WorldToCell(gameObject.transform.position);
+                    Plants[pos.x, pos.y] = gameObject.GetComponent<Bush>();
+                    break;
+                case "Tree":
+                    pos = GameTable.WorldToCell(gameObject.transform.position);
+                    Plants[pos.x, pos.y] = gameObject.GetComponent<Tree>();
+                    break;
+                case "Grass":
+                    pos = GameTable.WorldToCell(gameObject.transform.position);
+                    Plants[pos.x, pos.y] = gameObject.GetComponent<Grass>();
                     break;
                 default:
                     break;
             }
-        
+
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
-
 
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
@@ -226,30 +329,29 @@ public class GameManager : MonoBehaviour
         switch (gameObject.name)
         {
             case "Rhino":
-                _rhinos.Remove(gameObject);
+                _rhinos.Remove(gameObject.GetComponent<Rhino>());
                 break;
             case "Zebra":
-                _zebras.Remove(gameObject);
+                _zebras.Remove(gameObject.GetComponent<Zebra>());
                 break;
             case "Giraffe":
-                _giraffes.Remove(gameObject);
+                _giraffes.Remove(gameObject.GetComponent<Giraffe>());
                 break;
             case "Lion":
-                _lions.Remove(gameObject);
+                _lions.Remove(gameObject.GetComponent<Lion>());
                 break;
             case "Hyena":
-                _hyenas.Remove(gameObject);
+                _hyenas.Remove(gameObject.GetComponent<Hyena>());
                 break;
             case "Cheetah":
-                _cheetahs.Remove(gameObject);
+                _cheetahs.Remove(gameObject.GetComponent<Cheetah>());
                 break;
             case "Jeep":
-                _vehicles.Remove(gameObject);
+                _vehicles.Remove(gameObject.GetComponent<Vehicle>());
                 break;
             default:
                 break;
         }
-
 
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
@@ -261,14 +363,15 @@ public class GameManager : MonoBehaviour
         if (_carnivoreCount < _minCarnivoreCount + 1)
             Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
 
-
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         if (gameObject.tag == "Animal" && gameObject.GetComponent<Animal>().HasChip)
             salePrice += 100;
-        
+
         _money += salePrice;
 
         Destroy(gameObject);
     }
 
+    public void SpeedUp() { Time.timeScale += .25f; }
+    public void SlowDown() { Time.timeScale -= .25f; }
 }
