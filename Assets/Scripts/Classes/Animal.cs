@@ -20,6 +20,8 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected int _sleepTime;
     private int framecnt = 1200;
     public Sprite _blipIcon;
+    public delegate void OnAnimalDestroy();
+    public event OnAnimalDestroy onAnimalDestroy;
 
     public bool IsVisible { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public Sprite BlipIcon { get => _blipIcon; set { _blipIcon = value; } }
@@ -42,6 +44,11 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public void Update()
     {
         Move();
+    }
+
+    void OnDestroy()
+    {
+        onAnimalDestroy?.Invoke();
     }
 
     public void Move()
