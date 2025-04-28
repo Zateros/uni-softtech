@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
-    private Speed _gameSpeed;
+    private int _daysPassed;
+    private bool _isNight;
     private Difficulty _difficulty;
     private bool _hasWon;
 
@@ -80,9 +81,17 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
-    public Heap<VehiclePath> Routes { get; private set; }
-    public Vector3 Enterance { get; private set; }
-    public Vector2 Exit { get; private set; }
+    public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
+    public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
+    public bool IsNight
+    {
+        get => _isNight; set
+        {
+            if (_isNight && !value) DaysPassed++;
+            if (value != _isNight) _isNight = value;
+        }
+    }
+    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
@@ -94,7 +103,7 @@ public class GameManager : MonoBehaviour
             if (value != _purchaseMode)
             {
                 _purchaseMode = value;
-                if(value == false) onPurchaseModeDisable?.Invoke();
+                if (value == false) onPurchaseModeDisable?.Invoke();
             }
         }
     }
@@ -150,6 +159,10 @@ public class GameManager : MonoBehaviour
         _poachers = new List<Poacher>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
+
+        Date = DateTime.Today;
+
+        Date = DateTime.Today;
 
         Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
 
@@ -211,7 +224,9 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Escape) && PurchaseMode) {
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
+        if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
+        {
             PurchaseMode = false;
         }
     }
@@ -220,7 +235,7 @@ public class GameManager : MonoBehaviour
     {
         throw new NotImplementedException();
     }
-        
+
     public void GameLoop()
     {
         throw new NotImplementedException();
@@ -296,9 +311,9 @@ public class GameManager : MonoBehaviour
                 default:
                     break;
             }
+
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
-
 
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
@@ -338,7 +353,6 @@ public class GameManager : MonoBehaviour
                 break;
         }
 
-
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
@@ -352,10 +366,12 @@ public class GameManager : MonoBehaviour
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         if (gameObject.tag == "Animal" && gameObject.GetComponent<Animal>().HasChip)
             salePrice += 100;
-        
+
         _money += salePrice;
 
         Destroy(gameObject);
     }
 
+    public void SpeedUp() { Time.timeScale += .25f; }
+    public void SlowDown() { Time.timeScale -= .25f; }
 }
