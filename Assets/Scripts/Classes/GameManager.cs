@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
             if (value != _isNight) _isNight = value;
         }
     }
-    public List<List<Vector2>> Routes { get; private set; } = new List<List<Vector2>>();
+    public Heap<VehiclePath> Routes { get; private set; }
     public bool IsGameRunnning { get; private set; }
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
