@@ -44,6 +44,7 @@ fi
 
 if grep $CODE_COVERAGE_PACKAGE $PACKAGE_MANIFEST_PATH; then
   cat $UNITY_DIR/$TEST_PLATFORM-coverage/Report/Summary.xml | grep Linecoverage
+  ls -lR $UNITY_DIR/$TEST_PLATFORM-coverage/$CI_PROJECT_NAME-opencov
   mv $UNITY_DIR/$TEST_PLATFORM-coverage/$CI_PROJECT_NAME-opencov/*Mode/TestCoverageResults_*.xml $UNITY_DIR/$TEST_PLATFORM-coverage/coverage.xml
   rm -r $UNITY_DIR/$TEST_PLATFORM-coverage/$CI_PROJECT_NAME-opencov/
 else
