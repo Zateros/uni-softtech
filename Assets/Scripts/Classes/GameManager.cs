@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
-    private uint _daysPassed;
+    private int _daysPassed;
     private bool _isNight;
     private Difficulty _difficulty;
     private bool _hasWon;
@@ -81,7 +81,8 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
-    public uint DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
+    public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
+    public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
     public bool IsNight
     {
         get => _isNight; set
@@ -158,6 +159,10 @@ public class GameManager : MonoBehaviour
         _poachers = new List<Poacher>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
+
+        Date = DateTime.Today;
+
+        Date = DateTime.Today;
 
         Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
 
