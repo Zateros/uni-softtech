@@ -7072,6 +7072,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cursor: {fileID: 2800000, guid: 46740b76b5b231614a2d0cb9e01977e4, type: 3}
+  bush: {fileID: 5305333063401010219, guid: 080d1b506c714cf4f8ef45f00a40e767, type: 3}
+  tree: {fileID: 1805458081363682743, guid: 27a0ee300845e4445a249f50162effe0, type: 3}
+  turist: {fileID: 6283642253247966636, guid: ce79856c4abd1c84bb5f1e32debcca33, type: 3}
   gameTable: {fileID: 206398167}
   minimap: {fileID: 843939582}
 --- !u!4 &1585813862

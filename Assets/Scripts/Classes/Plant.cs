@@ -1,7 +1,5 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
-using static UnityEngine.GraphicsBuffer;
 
 public class Plant : MonoBehaviour, IEntity, IPurchasable
 {
