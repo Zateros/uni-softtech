@@ -2380,7 +2380,7 @@ GameObject:
   - component: {fileID: 287988248}
   - component: {fileID: 287988247}
   - component: {fileID: 287988246}
-  - component: {fileID: 287988244}
+  - component: {fileID: 287988249}
   m_Layer: 5
   m_Name: ElseBtn
   m_TagString: Untagged
@@ -2408,21 +2408,6 @@ RectTransform:
   m_AnchoredPosition: {x: -605.7136, y: 74.208}
   m_SizeDelta: {x: 217.884, y: 72.628}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &287988244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 287988242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2dc1d6665361c94d8b018158a629af0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelAnimal: {fileID: 1107528529}
-  PanelPlant: {fileID: 1353359344}
-  PanelVehicle: {fileID: 1254185277}
 --- !u!114 &287988246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2467,9 +2452,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 287988244}
-        m_TargetAssemblyTypeName: VehicleBtnClick, Assembly-CSharp
-        m_MethodName: OpenPanel
+      - m_Target: {fileID: 287988249}
+        m_TargetAssemblyTypeName: PurchasableBtnClick, Assembly-CSharp
+        m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2517,6 +2502,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287988242}
   m_CullTransparentMesh: 1
+--- !u!114 &287988249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287988242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01323c38e8ebb547adb6c6da64f01b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelAnimal: {fileID: 1107528529}
+  PanelPlant: {fileID: 1353359344}
+  PanelVehicle: {fileID: 1254185277}
+  Rhino: {fileID: 0}
+  Zebra: {fileID: 0}
+  Giraffe: {fileID: 0}
+  Lion: {fileID: 0}
+  Hyena: {fileID: 0}
+  Cheetah: {fileID: 0}
+  Grass: {fileID: 0}
+  Bush: {fileID: 0}
+  Tree: {fileID: 0}
+  Jeep: {fileID: 0}
+  Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!1 &333293813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5075,7 +5087,7 @@ GameObject:
   - component: {fileID: 1106381431}
   - component: {fileID: 1106381430}
   - component: {fileID: 1106381429}
-  - component: {fileID: 1106381428}
+  - component: {fileID: 1106381432}
   m_Layer: 5
   m_Name: AnimalBtn
   m_TagString: Untagged
@@ -5103,21 +5115,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1128.6359, y: 74.208046}
   m_SizeDelta: {x: 217.884, y: 72.628}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1106381428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106381426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928a6f814936e8c45881140d5e00e7c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelAnimal: {fileID: 1107528529}
-  PanelPlant: {fileID: 1353359344}
-  PanelVehicle: {fileID: 1254185277}
 --- !u!114 &1106381429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5162,9 +5159,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1106381428}
-        m_TargetAssemblyTypeName: OnBtnClickAnimal, Assembly-CSharp
-        m_MethodName: OpenPanel
+      - m_Target: {fileID: 1106381432}
+        m_TargetAssemblyTypeName: PurchasableBtnClick, Assembly-CSharp
+        m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5212,6 +5209,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106381426}
   m_CullTransparentMesh: 1
+--- !u!114 &1106381432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106381426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01323c38e8ebb547adb6c6da64f01b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelAnimal: {fileID: 1107528529}
+  PanelPlant: {fileID: 1353359344}
+  PanelVehicle: {fileID: 1254185277}
+  Rhino: {fileID: 0}
+  Zebra: {fileID: 0}
+  Giraffe: {fileID: 0}
+  Lion: {fileID: 0}
+  Hyena: {fileID: 0}
+  Cheetah: {fileID: 0}
+  Grass: {fileID: 0}
+  Bush: {fileID: 0}
+  Tree: {fileID: 0}
+  Jeep: {fileID: 0}
+  Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!1 &1107528529
 GameObject:
   m_ObjectHideFlags: 0
@@ -6395,7 +6419,7 @@ GameObject:
   - component: {fileID: 1330955784}
   - component: {fileID: 1330955783}
   - component: {fileID: 1330955782}
-  - component: {fileID: 1330955781}
+  - component: {fileID: 1330955785}
   m_Layer: 5
   m_Name: PlantBtn
   m_TagString: Untagged
@@ -6423,21 +6447,6 @@ RectTransform:
   m_AnchoredPosition: {x: -867.17456, y: 74.208046}
   m_SizeDelta: {x: 217.884, y: 72.628}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1330955781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330955779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6902cd40c040f84dad3f8113013e08c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelAnimal: {fileID: 1107528529}
-  PanelPlant: {fileID: 1353359344}
-  PanelVehicle: {fileID: 1254185277}
 --- !u!114 &1330955782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6482,9 +6491,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1330955781}
-        m_TargetAssemblyTypeName: PlantBtnClick, Assembly-CSharp
-        m_MethodName: OpenPanel
+      - m_Target: {fileID: 1330955785}
+        m_TargetAssemblyTypeName: PurchasableBtnClick, Assembly-CSharp
+        m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6532,6 +6541,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330955779}
   m_CullTransparentMesh: 1
+--- !u!114 &1330955785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330955779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01323c38e8ebb547adb6c6da64f01b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelAnimal: {fileID: 1107528529}
+  PanelPlant: {fileID: 1353359344}
+  PanelVehicle: {fileID: 1254185277}
+  Rhino: {fileID: 0}
+  Zebra: {fileID: 0}
+  Giraffe: {fileID: 0}
+  Lion: {fileID: 0}
+  Hyena: {fileID: 0}
+  Cheetah: {fileID: 0}
+  Grass: {fileID: 0}
+  Bush: {fileID: 0}
+  Tree: {fileID: 0}
+  Jeep: {fileID: 0}
+  Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!1 &1345397116
 GameObject:
   m_ObjectHideFlags: 0
