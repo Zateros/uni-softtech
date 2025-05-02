@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PurchasableBtnClick : MonoBehaviour
 {
     public GameObject PanelAnimal;
     public GameObject PanelPlant;
     public GameObject PanelVehicle;
+
+    public Slider SellToggle;
 
     [SerializeField] public GameObject Rhino;
     [SerializeField] public GameObject Zebra;
@@ -35,6 +38,12 @@ public class PurchasableBtnClick : MonoBehaviour
 
     public void OnBtnClick()
     {
+        if (SellToggle.GetComponent<ToggleSwitch>().IsToggled)
+        {
+            Notifier.Instance.Notify("Can't buy items while in Sell Mode!");
+            return;
+        }
+
         string clickedBtnName = EventSystem.current.currentSelectedGameObject.name;
         GameObject CurrentPanel = null;
         GameObject OtherPanel1 = null;
