@@ -17,15 +17,29 @@ public class FollowMouse : MonoBehaviour
 
     void Update()
     {
-        if(Mouse.current.leftButton.wasPressedThisFrame)
+        mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            enabled = false;
-            if(GetComponent<Animal>() != null) GameManager.Instance.Minimap.AddBlip(gameObject);
-            GameManager.Instance.Buy(gameObject);
+            Vector3Int pos = GameManager.Instance.GameTable.WorldToCell(mousePos);
+            
+            int x = pos.x;
+            int y = pos.y;
+
+            if (GameManager.Instance.GameTable.IsInBounds(x,y) && GameManager.Instance.GameTable.gameMap[x, y] != Terrain.POND && GameManager.Instance.GameTable.gameMap[x, y] != Terrain.RIVER)
+            {
+                enabled = false;
+
+                if (GetComponent<Animal>() != null) GameManager.Instance.Minimap.AddBlip(gameObject);
+                GameManager.Instance.Buy(gameObject);
+            }
+            else
+            {
+                Notifier.Instance.Notify("You can't place items there!");
+            }
         }
         else
         {
-            mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             transform.position = new Vector3(mousePos.x, mousePos.y, 0);
         }
 
