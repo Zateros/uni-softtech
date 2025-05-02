@@ -11,6 +11,7 @@ public class Blip : MonoBehaviour
     {
         image = GetComponent<Image>();
         rect = GetComponent<RectTransform>();
+        if(mimic != null) mimic.GetComponent<Animal>().onAnimalDestroy += OnMimicDestroyed;
     }
 
     void Update()
@@ -18,9 +19,22 @@ public class Blip : MonoBehaviour
         rect.anchoredPosition = minimap.WorldToMinimap(mimic.transform.position);
     }
 
+
+    void OnDisable()
+    {
+        if(mimic != null) mimic.GetComponent<Animal>().onAnimalDestroy -= OnMimicDestroyed;
+    }
+
     public void SetMimic(ref GameObject gameObject)
     {
+        if(mimic != null) mimic.GetComponent<Animal>().onAnimalDestroy -= OnMimicDestroyed;
         mimic = gameObject;
-        image.sprite = mimic.GetComponent<Animal>().BlipIcon;
+        Animal animal = mimic.GetComponent<Animal>();
+        image.sprite = animal.BlipIcon;
+        animal.onAnimalDestroy += OnMimicDestroyed;
+    }
+
+    void OnMimicDestroyed() {
+        Destroy(gameObject);
     }
 }

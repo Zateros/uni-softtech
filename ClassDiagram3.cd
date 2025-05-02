@@ -1,0 +1,269 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Animal">
+    <Position X="6" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgwAAAAAGYgCEAAAAVEBAAAEAGAABAgABAAAgAIAAMA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Animal.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Bush">
+    <Position X="7.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Bush.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Carnivore">
+    <Position X="2.5" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Carnivore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Cheetah">
+    <Position X="4.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Cheetah.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameManager">
+    <Position X="19" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABIyQAgAQICggQAgQUgAAAggFAIDIAAAQIIAAAQCAEQ=</HashCode>
+      <FileName>Assets\Scripts\Classes\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Giraffe">
+    <Position X="7" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Giraffe.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Grass">
+    <Position X="9.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Grass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Herbivore">
+    <Position X="8.75" Y="9.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Herbivore.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hyena">
+    <Position X="0.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Hyena.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Lion">
+    <Position X="2.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Lion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Load">
+    <Position X="16.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Classes\Load.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map">
+    <Position X="21.25" Y="7.5" Width="1.5" />
+    <NestedTypes>
+      <Delegate Name="Map.OnMapGenerated" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Assets\Scripts\Classes\Map.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>ABxCHAwBwBAAkBAAEIAAIAACIgBAAgAQwAACESQBAGA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Plant">
+    <Position X="9.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AhAAAAAACYAAEAAAABAAAAAAACAAAAAAAAAAgAIgAIA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Plant.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Poacher" BaseTypeListCollapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAMEAEAAAABAAAAAAAAAAAAAAAAAAgAIAAIA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Poacher.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Rhino">
+    <Position X="10.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Rhino.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Road" BaseTypeListCollapsed="true">
+    <Position X="16.75" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAACQAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Road.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Save">
+    <Position X="16.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Save.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Tourist" BaseTypeListCollapsed="true">
+    <Position X="2.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAAAAIAAEAAAABACAAAAQAAAAAQABAAAgAaAAMA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Tourist.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.264" Collapsed="true" />
+  </Class>
+  <Class Name="Tree">
+    <Position X="11.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Tree.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Vehicle" BaseTypeListCollapsed="true">
+    <Position X="12" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAAAAAC8AAEAAgABAAAAAAACAkAAAIBAAAgAIACMA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Vehicle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Zebra">
+    <Position X="8.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Zebra.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimalBtnClick">
+    <Position X="0.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAQAAAwAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UIScripts\AnimalBtnClick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="VehicleBtnClick">
+    <Position X="8.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAQAAAwAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UIScripts\ElseBtnClick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoneyLabelUpdater">
+    <Position X="6.25" Y="17" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UIScripts\MoneyLabelUpdater.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlantBtnClick">
+    <Position X="12.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAAAAAAAAAAAAQAAAwAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UIScripts\PlantBtnClick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PurchasableBtnClick">
+    <Position X="4.25" Y="14.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABKAAAABACCCAgAJIQIAIAIAAAAAEAQAAEgAAAgAAAA=</HashCode>
+      <FileName>Assets\Scripts\UIScripts\PurchasableBtnClick.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FollowMouse">
+    <Position X="6.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAACAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UIScripts\PutDownEntity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GenerationTools">
+    <Position X="23" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AkAAAAAAAAAAQAAAQAEAAAAgAAAEAIBAAQgAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GenerationTools.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Minimap">
+    <Position X="23" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAACBAAAAAAAAAAAAAEAAAAgCAAAAAEAQAAAA=</HashCode>
+      <FileName>Assets\Scripts\Minimap.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MoveCamera">
+    <Position X="10.25" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAgEAAAACAAAAACAABAIAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\MoveCamera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScrollZoom">
+    <Position X="2.5" Y="14.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEIAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ScrollZoom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="IEntity">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\Classes\IEntity.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="IPurchasable">
+    <Position X="8.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Classes\IPurchasable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="Difficulty">
+    <Position X="16.75" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAgAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Difficulty.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Speed">
+    <Position X="19" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAgAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Classes\Speed.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Terrain">
+    <Position X="25.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAgAAIIAAAAAEAAACAAAAAAAAAAAAAAAACAAAAE=</HashCode>
+      <FileName>Assets\Scripts\Classes\Terrain.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
