@@ -33,6 +33,52 @@ public class PurchasableBtnClick : MonoBehaviour
         }
     }
 
+    public void OnBtnClick()
+    {
+        string clickedBtnName = EventSystem.current.currentSelectedGameObject.name;
+        GameObject CurrentPanel = null;
+        GameObject OtherPanel1 = null;
+        GameObject OtherPanel2 = null;
+
+        switch (clickedBtnName)
+        {
+            case "AnimalBtn":
+                CurrentPanel = PanelAnimal;
+                OtherPanel1 = PanelPlant;
+                OtherPanel2 = PanelVehicle;
+                break;
+
+            case "PlantBtn":
+                CurrentPanel = PanelPlant;
+                OtherPanel1 = PanelAnimal;
+                OtherPanel2 = PanelVehicle;
+                break;
+
+            case "ElseBtn":
+                CurrentPanel = PanelVehicle;
+                OtherPanel1 = PanelAnimal;
+                OtherPanel2 = PanelPlant;
+                
+                break;
+            default:
+                break;
+        }
+
+        if (CurrentPanel == null || OtherPanel1 == null || OtherPanel2 == null)
+            return;
+
+        if (CurrentPanel.activeInHierarchy)
+        {
+            CurrentPanel.SetActive(false);
+        }
+        else
+        {
+            CurrentPanel.SetActive(true);
+            if (OtherPanel1.activeInHierarchy) { OtherPanel1.SetActive(false); }
+            if (OtherPanel2.activeInHierarchy) { OtherPanel2.SetActive(false); }
+        }
+    }
+
     public void SpawnEntity()
     {
         string clickedBtnName = EventSystem.current.currentSelectedGameObject.name;
