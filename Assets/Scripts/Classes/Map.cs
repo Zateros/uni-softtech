@@ -68,6 +68,19 @@ public class Map : MonoBehaviour
     [SerializeField]
     private int maxIterationForEntranceGeneration = 10;
 
+    [SerializeField]
+    private GameObject bushPrefab;
+    [SerializeField, Range(0f, 1f)]
+    private float bushChance = 0.32f;
+    [SerializeField]
+    private GameObject grassPrefab;
+    [SerializeField, Range(0f, 1f)]
+    private float grassChance = 0.79f;
+    [SerializeField]
+    private GameObject treePrefab;
+
+
+
     public static Vector3[] Bounds { get; private set; }
     public delegate void OnMapGenerated();
     public delegate void OnMapChanged();
@@ -79,7 +92,6 @@ public class Map : MonoBehaviour
 
     private Tilemap baseTilemap;
     private Tilemap waterTilemap;
-    private Tilemap foliageTilemap;
     private Tilemap obstaclesTilemap;
     private GenerationTools genTools;
     private Color[] map;
@@ -89,7 +101,6 @@ public class Map : MonoBehaviour
     {
         baseTilemap = GameObject.FindWithTag("Base").GetComponent<Tilemap>();
         waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
-        foliageTilemap = GameObject.FindWithTag("Foliage").GetComponent<Tilemap>();
         obstaclesTilemap = GameObject.FindWithTag("Obstacles").GetComponent<Tilemap>();
         genTools = new();
         gameMap = new Terrain[size.x, size.y];
@@ -178,7 +189,7 @@ public class Map : MonoBehaviour
     {
         if (gameMap[x, y] == Terrain.BUSH || gameMap[x, y] == Terrain.GRASS)
         {
-            foliageTilemap.SetTile(new Vector3Int(x, y, -2), null);
+            //foliageTilemap.SetTile(new Vector3Int(x, y, -2), null);
         }
         gameMap[x, y] = terrain;
         onMapChanged?.Invoke();
@@ -190,7 +201,6 @@ public class Map : MonoBehaviour
     {
         baseTilemap.ClearAllTiles();
         waterTilemap.ClearAllTiles();
-        foliageTilemap.ClearAllTiles();
         obstaclesTilemap.ClearAllTiles();
         if (spawnedEntrance != null) Destroy(spawnedEntrance);
         if (spawnedExit != null) Destroy(spawnedExit);
@@ -261,10 +271,30 @@ public class Map : MonoBehaviour
                 {
                     if (Random.Range(0f, 1f) > foliageChance)
                     {
-                        tilePos.z = -2;
-                        int foliageType = Random.Range(3, 5);
-                        foliageTilemap.SetTile(tilePos, tiles[foliageType]);
-                        gameMap[x, y] = foliageType == 3 ? Terrain.GRASS : Terrain.BUSH;
+                        float foliageChance = Random.Range(0f, 1f);
+                        GameObject foliagePrefab = bushPrefab;
+                        GameObject foliage;
+                        if (foliageChance <= bushChance)
+                        {
+                            foliagePrefab = bushPrefab;
+                            gameMap[x, y] = Terrain.BUSH;
+                            foliageChance = 0f;
+                        }
+                        else if (foliageChance > bushChance && foliageChance <= grassChance)
+                        {
+                            foliagePrefab = grassPrefab;
+                            gameMap[x, y] = Terrain.GRASS;
+                            foliageChance = 1f;
+                        }
+                        else
+                        {
+                            foliagePrefab = treePrefab;
+                            gameMap[x, y] = Terrain.TREE;
+                            foliageChance = 2f;
+                        }
+                        foliage = Instantiate(foliagePrefab, CellToWorld(new Vector3Int(x, y)), Quaternion.identity);
+                        foliage.GetComponent<FollowMouse>().enabled = false;
+                        GameManager.Instance.Plants[x, y] = foliageChance == 0f ? foliage.GetComponent<Bush>() : foliageChance == 1f ? foliage.GetComponent<Grass>() : foliage.GetComponent<Tree>();
                     }
                 }
 
