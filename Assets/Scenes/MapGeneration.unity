@@ -174,6 +174,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -504,8 +505,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Animals
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -712,9 +713,6 @@ MonoBehaviour:
   AnimalPanel: {fileID: 1107528529}
   PlantPanel: {fileID: 1353359344}
   ElsePanel: {fileID: 1254185277}
-  AnimalButton: {fileID: 1106381429}
-  PlantButton: {fileID: 1330955782}
-  ElseButton: {fileID: 287988246}
 --- !u!1 &47540114
 GameObject:
   m_ObjectHideFlags: 0
@@ -774,8 +772,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Tree
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -951,8 +949,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Sell Mode
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -976,7 +974,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.6
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1087,8 +1085,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Chip
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1223,8 +1221,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Giraffe
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1359,8 +1357,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Bush
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1495,8 +1493,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Prices
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1627,6 +1625,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -1792,8 +1791,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Rhino
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1928,8 +1927,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Else
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2168,8 +2167,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Turist Satisfaction
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2193,7 +2192,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.6
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2380,7 +2379,7 @@ GameObject:
   - component: {fileID: 287988248}
   - component: {fileID: 287988247}
   - component: {fileID: 287988246}
-  - component: {fileID: 287988244}
+  - component: {fileID: 287988249}
   m_Layer: 5
   m_Name: ElseBtn
   m_TagString: Untagged
@@ -2408,21 +2407,6 @@ RectTransform:
   m_AnchoredPosition: {x: -605.7136, y: 74.208}
   m_SizeDelta: {x: 217.884, y: 72.628}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &287988244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 287988242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2dc1d6665361c94d8b018158a629af0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelAnimal: {fileID: 1107528529}
-  PanelPlant: {fileID: 1353359344}
-  PanelVehicle: {fileID: 1254185277}
 --- !u!114 &287988246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2467,9 +2451,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 287988244}
-        m_TargetAssemblyTypeName: VehicleBtnClick, Assembly-CSharp
-        m_MethodName: OpenPanel
+      - m_Target: {fileID: 287988249}
+        m_TargetAssemblyTypeName: PurchasableBtnClick, Assembly-CSharp
+        m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2517,6 +2501,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 287988242}
   m_CullTransparentMesh: 1
+--- !u!114 &287988249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287988242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01323c38e8ebb547adb6c6da64f01b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelAnimal: {fileID: 1107528529}
+  PanelPlant: {fileID: 1353359344}
+  PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 46498443}
+  Rhino: {fileID: 0}
+  Zebra: {fileID: 0}
+  Giraffe: {fileID: 0}
+  Lion: {fileID: 0}
+  Hyena: {fileID: 0}
+  Cheetah: {fileID: 0}
+  Grass: {fileID: 0}
+  Bush: {fileID: 0}
+  Tree: {fileID: 0}
+  Jeep: {fileID: 0}
+  Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!1 &333293813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2572,6 +2584,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -2821,8 +2834,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Plants
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3081,8 +3094,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cheetah
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3217,8 +3230,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 50 %
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 38dacd5c0190dc46c98a43057f64eca3, type: 2}
-  m_sharedMaterial: {fileID: 5071520628369149618, guid: 38dacd5c0190dc46c98a43057f64eca3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3476,8 +3489,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Lion
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -3608,6 +3621,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 3592064773134546254, guid: 6ef540409d1ee484bb4412b419d91104, type: 3}
@@ -3844,6 +3858,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 5299156492115885379, guid: 01acde4ce96db0342ac99c09e45525b8, type: 3}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -4241,6 +4256,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -4402,6 +4418,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -4664,8 +4681,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Sale Prices
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4957,6 +4974,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -5075,7 +5093,7 @@ GameObject:
   - component: {fileID: 1106381431}
   - component: {fileID: 1106381430}
   - component: {fileID: 1106381429}
-  - component: {fileID: 1106381428}
+  - component: {fileID: 1106381432}
   m_Layer: 5
   m_Name: AnimalBtn
   m_TagString: Untagged
@@ -5103,21 +5121,6 @@ RectTransform:
   m_AnchoredPosition: {x: -1128.6359, y: 74.208046}
   m_SizeDelta: {x: 217.884, y: 72.628}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1106381428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1106381426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 928a6f814936e8c45881140d5e00e7c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelAnimal: {fileID: 1107528529}
-  PanelPlant: {fileID: 1353359344}
-  PanelVehicle: {fileID: 1254185277}
 --- !u!114 &1106381429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5162,9 +5165,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1106381428}
-        m_TargetAssemblyTypeName: OnBtnClickAnimal, Assembly-CSharp
-        m_MethodName: OpenPanel
+      - m_Target: {fileID: 1106381432}
+        m_TargetAssemblyTypeName: PurchasableBtnClick, Assembly-CSharp
+        m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5212,6 +5215,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1106381426}
   m_CullTransparentMesh: 1
+--- !u!114 &1106381432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106381426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01323c38e8ebb547adb6c6da64f01b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelAnimal: {fileID: 1107528529}
+  PanelPlant: {fileID: 1353359344}
+  PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 46498443}
+  Rhino: {fileID: 0}
+  Zebra: {fileID: 0}
+  Giraffe: {fileID: 0}
+  Lion: {fileID: 0}
+  Hyena: {fileID: 0}
+  Cheetah: {fileID: 0}
+  Grass: {fileID: 0}
+  Bush: {fileID: 0}
+  Tree: {fileID: 0}
+  Jeep: {fileID: 0}
+  Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!1 &1107528529
 GameObject:
   m_ObjectHideFlags: 0
@@ -5425,6 +5456,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -5604,8 +5636,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: $ 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5629,7 +5661,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 51.75
+  m_fontSize: 55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5918,6 +5950,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -6239,11 +6272,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
       propertyPath: m_fontSize
-      value: 26
+      value: 42.7
       objectReference: {fileID: 0}
+    - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
     - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
       propertyPath: m_fontSizeMin
       value: 23.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+    - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4575343349093972363, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -6383,7 +6428,7 @@ GameObject:
   - component: {fileID: 1330955784}
   - component: {fileID: 1330955783}
   - component: {fileID: 1330955782}
-  - component: {fileID: 1330955781}
+  - component: {fileID: 1330955785}
   m_Layer: 5
   m_Name: PlantBtn
   m_TagString: Untagged
@@ -6411,21 +6456,6 @@ RectTransform:
   m_AnchoredPosition: {x: -867.17456, y: 74.208046}
   m_SizeDelta: {x: 217.884, y: 72.628}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1330955781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1330955779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6902cd40c040f84dad3f8113013e08c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PanelAnimal: {fileID: 1107528529}
-  PanelPlant: {fileID: 1353359344}
-  PanelVehicle: {fileID: 1254185277}
 --- !u!114 &1330955782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6470,9 +6500,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1330955781}
-        m_TargetAssemblyTypeName: PlantBtnClick, Assembly-CSharp
-        m_MethodName: OpenPanel
+      - m_Target: {fileID: 1330955785}
+        m_TargetAssemblyTypeName: PurchasableBtnClick, Assembly-CSharp
+        m_MethodName: OnBtnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6520,6 +6550,34 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330955779}
   m_CullTransparentMesh: 1
+--- !u!114 &1330955785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330955779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01323c38e8ebb547adb6c6da64f01b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PanelAnimal: {fileID: 1107528529}
+  PanelPlant: {fileID: 1353359344}
+  PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 46498443}
+  Rhino: {fileID: 0}
+  Zebra: {fileID: 0}
+  Giraffe: {fileID: 0}
+  Lion: {fileID: 0}
+  Hyena: {fileID: 0}
+  Cheetah: {fileID: 0}
+  Grass: {fileID: 0}
+  Bush: {fileID: 0}
+  Tree: {fileID: 0}
+  Jeep: {fileID: 0}
+  Chip: {fileID: 0}
+  roadPlacer: {fileID: 0}
 --- !u!1 &1345397116
 GameObject:
   m_ObjectHideFlags: 0
@@ -6695,8 +6753,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Zebra
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6997,8 +7055,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Herbivores
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 38dacd5c0190dc46c98a43057f64eca3, type: 2}
-  m_sharedMaterial: {fileID: 5071520628369149618, guid: 38dacd5c0190dc46c98a43057f64eca3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7022,13 +7080,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.4
+  m_fontSize: 55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 10
   m_fontSizeMax: 55
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -7222,8 +7280,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7247,7 +7305,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 46
+  m_fontSize: 67.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7354,6 +7412,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 5995320203020720961, guid: 75ca047a411d4654eb1b66e6134399bd, type: 3}
   Giraffe: {fileID: 0}
@@ -7667,8 +7726,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Jeep
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7782,10 +7841,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Prices
+  m_text: Items
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7894,11 +7953,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
       propertyPath: m_fontSize
-      value: 40.3
+      value: 42.7
       objectReference: {fileID: 0}
+    - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
     - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
       propertyPath: m_fontSizeMin
       value: 40.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+    - target: {fileID: 621798422955590459, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4575343349093972363, guid: aa9db783bf329ea34b99ad50a08ea277, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -8085,8 +8156,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Grass
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8463,8 +8534,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Prices
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8829,6 +8900,7 @@ MonoBehaviour:
   PanelAnimal: {fileID: 1107528529}
   PanelPlant: {fileID: 1353359344}
   PanelVehicle: {fileID: 1254185277}
+  SellToggle: {fileID: 0}
   Rhino: {fileID: 0}
   Zebra: {fileID: 0}
   Giraffe: {fileID: 0}
@@ -9008,8 +9080,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9033,7 +9105,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 29.6
+  m_fontSize: 36.9
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9306,8 +9378,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Road
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9442,8 +9514,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Hyena
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
-  m_sharedMaterial: {fileID: 1884623043468805918, guid: a20100b675bae5d48bd93580ab644cc1, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9578,8 +9650,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Carnivores
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 38dacd5c0190dc46c98a43057f64eca3, type: 2}
-  m_sharedMaterial: {fileID: 5071520628369149618, guid: 38dacd5c0190dc46c98a43057f64eca3, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
+  m_sharedMaterial: {fileID: 4101080858694440459, guid: bc8aeb755c79e874d82ba1a896fecf31, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -9603,13 +9675,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36.4
+  m_fontSize: 55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 10
   m_fontSizeMax: 55
-  m_fontStyle: 2
+  m_fontStyle: 0
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535

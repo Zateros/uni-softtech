@@ -19,9 +19,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     public GameObject AnimalPanel;
     public GameObject PlantPanel;
     public GameObject ElsePanel;
-    public Button AnimalButton;
-    public Button PlantButton;
-    public Button ElseButton;
 
 
     private Slider _slider;
@@ -94,15 +91,6 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
             AnimalPanel.SetActive(false);
             PlantPanel.SetActive(false);
             ElsePanel.SetActive(false);
-            AnimalButton.enabled = false;
-            PlantButton.enabled = false;
-            ElseButton.enabled = false;
-        }
-        else
-        {
-            AnimalButton.enabled = true;
-            PlantButton.enabled = true;
-            ElseButton.enabled = true;
         }
 
         if (_animateSliderCoroutine != null)
