@@ -64,13 +64,17 @@ public class GameManager : MonoBehaviour
 
     public int MinTuristCount { get => _minTuristCount; }
     public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
-    public List<Herbivore> Herbivores { get {
+    public List<Herbivore> Herbivores
+    {
+        get
+        {
             List<Herbivore> herbivores = new List<Herbivore>();
             herbivores.AddRange(_rhinos);
             herbivores.AddRange(_zebras);
             herbivores.AddRange(_giraffes);
             return herbivores;
-        } }
+        }
+    }
     public List<Rhino> Rhinos { get => _rhinos; }
     public List<Zebra> Zebras { get => _zebras; }
     public List<Giraffe> Giraffes { get => _giraffes; }
@@ -161,64 +165,13 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         Date = DateTime.Today;
-
-        Date = DateTime.Today;
-
+        
         Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
-
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
-
-        for (int i = 0; i < gameTable.Size.x; i++)
-        {
-            for (int j = 0; j < gameTable.Size.y; j++)
-            {
-                switch (gameTable.gameMap[i, j])
-                {
-                    case Terrain.HILL:
-                        WMap[i, j] = new Node(i,j,2);
-                        break;
-                    case Terrain.RIVER:
-                        WMap[i, j] = new Node(i, j, 2);
-                        break;
-                    case Terrain.POND:
-                        WMap[i, j] = new Node(i, j, -1);
-                        break;
-                    default:
-                        WMap[i, j] = new Node(i, j, 1);
-                        break;
-                }
-            }
-        }
         Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
-        for (int i = 0; i < gameTable.Size.x; i++)
-        {
-            for (int j = 0; j < gameTable.Size.y; j++)
-            {
-                if (gameTable.gameMap[i, j] == Terrain.BUSH)
-                {
-                    /*var obj = Instantiate(bush, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
-                    Plants[i, j] = obj.GetComponent<Bush>();*/
-                }
-                else if (gameTable.gameMap[i, j] == Terrain.TREE)
-                {
-                    /*var obj = Instantiate(tree, gameTable.CellToWorld(new Vector3Int(i, j)), Quaternion.identity);
-                    Plants[i, j] = obj.GetComponent<Tree>();*/
-                }
-                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.ENTRANCE)
-                {
-                    _enterance = gameTable.CellToWorld(new Vector3Int(i, j, 0));
-                }
-                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.EXIT)
-                {
-                    _exit = gameTable.CellToWorld(new Vector3Int(i, j, 0));
-                }
-            }
-        }
 
-        for (int i = 0; i < _minTuristCount; i++)
-        {
-            Instantiate(turist, _enterance, Quaternion.identity);
-        }
+        Map.onMapGenerated += OnMapGenerated;
+
         DontDestroyOnLoad(this);
     }
 
@@ -374,4 +327,50 @@ public class GameManager : MonoBehaviour
 
     public void SpeedUp() { Time.timeScale += .25f; }
     public void SlowDown() { Time.timeScale -= .25f; }
+
+    private void OnMapGenerated()
+    {
+
+        for (int i = 0; i < gameTable.Size.x; i++)
+        {
+            for (int j = 0; j < gameTable.Size.y; j++)
+            {
+                switch (gameTable.gameMap[i, j])
+                {
+                    case Terrain.HILL:
+                        WMap[i, j] = new Node(i, j, 2);
+                        break;
+                    case Terrain.RIVER:
+                        WMap[i, j] = new Node(i, j, 2);
+                        break;
+                    case Terrain.POND:
+                        WMap[i, j] = new Node(i, j, -1);
+                        break;
+                    default:
+                        WMap[i, j] = new Node(i, j, 1);
+                        break;
+                }
+            }
+        }
+        
+        for (int i = 0; i < gameTable.Size.x; i++)
+        {
+            for (int j = 0; j < gameTable.Size.y; j++)
+            {
+                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.ENTRANCE)
+                {
+                    _enterance = gameTable.CellToWorld(new Vector3Int(i, j, 0));
+                }
+                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.EXIT)
+                {
+                    _exit = gameTable.CellToWorld(new Vector3Int(i, j, 0));
+                }
+            }
+        }
+
+        for (int i = 0; i < _minTuristCount; i++)
+        {
+            Instantiate(turist, _enterance, Quaternion.identity);
+        }
+    }
 }
