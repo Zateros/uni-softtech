@@ -2060,7 +2060,9 @@ MonoBehaviour:
   foliageChance: 0.877
   maxIterationForEntranceGeneration: 10
   bushPrefab: {fileID: 5305333063401010219, guid: 080d1b506c714cf4f8ef45f00a40e767, type: 3}
+  bushChance: 0.397
   grassPrefab: {fileID: 8611914066046990143, guid: 2ee5be45b579da242998b12b0153801c, type: 3}
+  grassChance: 0.968
   treePrefab: {fileID: 1805458081363682743, guid: 27a0ee300845e4445a249f50162effe0, type: 3}
 --- !u!156049354 &206398168
 Grid:

@@ -62,12 +62,14 @@ public class Map : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float obstacleThreshold = .7f;
 
+    [SerializeField]
+    private int maxIterationForEntranceGeneration = 10;
+
     [SerializeField, Range(0f, 1f)]
     private float foliageChance = .7f;
 
     [SerializeField]
-    private int maxIterationForEntranceGeneration = 10;
-
+    private int foliageInset = 1;
     [SerializeField]
     private GameObject bushPrefab;
     [SerializeField, Range(0f, 1f)]
@@ -195,7 +197,8 @@ public class Map : MonoBehaviour
         onMapChanged?.Invoke();
     }
 
-    public bool IsInBounds(int x, int y) => (0 <= x && x < Size.x) && (0 <= y && y < Size.y);
+    public bool IsInBounds(int x, int y) => IsInBounds(x, y, 0);
+    public bool IsInBounds(int x, int y, int inset) => (0 + inset <= x && x < Size.x - inset) && (0 + inset <= y && y < Size.y - inset);
 
     public void GenerateMap()
     {
@@ -267,7 +270,7 @@ public class Map : MonoBehaviour
                 }
 
                 // Foliage
-                if (!inSandyRange && !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
+                if (!inSandyRange && IsInBounds(x, y, 1) && !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
                 {
                     if (Random.Range(0f, 1f) > foliageChance)
                     {
