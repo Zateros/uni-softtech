@@ -322,9 +322,9 @@ public class Map : MonoBehaviour
                             foliagePrefab = treePrefab;
                             gameMap[x, y] = Terrain.TREE;
                         }
-                        Vector3 insideRandomCircle = Random.insideUnitCircle / 2.5f;
+                        Vector3 insideRandomCircle = Random.insideUnitCircle / 4f;
                         insideRandomCircle.z = 0f;
-                        Vector3 foliagePosition = CellToWorld(new Vector3Int(x, y)) + baseTilemap.cellSize / 2f + insideRandomCircle;
+                        Vector3 foliagePosition = GetCellCenterWorld(new Vector3Int(x, y)) + insideRandomCircle;
                         foliage = Instantiate(foliagePrefab, foliagePosition, Quaternion.identity);
                         foliage.GetComponent<FollowMouse>().enabled = false;
                         GameManager.Instance.Plants[x, y] = foliage.GetComponent<Plant>();
