@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6046328201170610118}
+  - component: {fileID: 106374641903661834}
   - component: {fileID: 8057112047378667515}
   m_Layer: 0
-  m_Name: BackGround
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,6 +33,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 9202093490049901666}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &106374641903661834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1019642039029286114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a68407501ac7087ad76ef00dbf1a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &8057112047378667515
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -77,7 +90,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.11698109, g: 0.10307579, b: 0.10307579, a: 1}
+  m_Color: {r: 0.7798742, g: 0.1937422, b: 0.1937422, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -96,12 +109,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9202093490049901666}
-  - component: {fileID: -8405469749481461590}
-  - component: {fileID: 5224020401858270342}
   - component: {fileID: 6259713757588843235}
+  - component: {fileID: -717889626494213600}
   m_Layer: 0
-  m_Name: JeepPrefab
-  m_TagString: Vehicle
+  m_Name: Turist
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,30 +134,6 @@ Transform:
   - {fileID: 6046328201170610118}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-8405469749481461590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6283642253247966636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af0f197c3168c8f409ded1fce766be21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5224020401858270342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6283642253247966636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 827d8b2a0fab7944c922cc4e22381824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!61 &6259713757588843235
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -192,3 +180,15 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-717889626494213600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6283642253247966636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95a7ec607032c9047808de3059b44a03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

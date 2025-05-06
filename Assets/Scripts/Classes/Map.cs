@@ -4,14 +4,13 @@ using UnityEngine.Tilemaps;
 
 public class Map : MonoBehaviour
 {
-    [SerializeField]
-    private Vector2Int size = new(100, 100);
+    private Vector2Int size;
 
     public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
 
     public Vector3 CellToWorld(Vector3Int pos) => baseTilemap.CellToWorld(pos);
 
-    public Vector2Int Size { get { return size; } set { if (value != size) value = size; } }
+    public Vector2Int Size { get { return size; } set { if (value != size) size = value; } }
 
     [SerializeField]
     private TileBase[] tiles;
@@ -62,11 +61,25 @@ public class Map : MonoBehaviour
     [SerializeField, Range(0f, 1f)]
     private float obstacleThreshold = .7f;
 
+    [SerializeField]
+    private int maxIterationForEntranceGeneration = 10;
+
     [SerializeField, Range(0f, 1f)]
     private float foliageChance = .7f;
 
     [SerializeField]
-    private int maxIterationForEntranceGeneration = 10;
+    private int foliageInset = 1;
+    [SerializeField]
+    private GameObject bushPrefab;
+    [SerializeField, Range(0f, 1f)]
+    private float bushChance = 0.32f;
+    [SerializeField]
+    private GameObject grassPrefab;
+    [SerializeField, Range(0f, 1f)]
+    private float grassChance = 0.79f;
+    [SerializeField]
+    private GameObject treePrefab;
+
 
     public static Vector3[] Bounds { get; private set; }
     public delegate void OnMapGenerated();
@@ -77,25 +90,52 @@ public class Map : MonoBehaviour
     // Can be serialized and be used for the minimap
     public Terrain[,] gameMap { get; private set; }
 
+
     private Tilemap baseTilemap;
     private Tilemap waterTilemap;
-    private Tilemap foliageTilemap;
     private Tilemap obstaclesTilemap;
     private GenerationTools genTools;
     private Color[] map;
-    private Vector2Int pastSize;
+
+    private float sandyDifficultyModif;
+    private float waterDifficultyModif;
+    private float obstacleDifficultyModif;
+    private float foliageDifficultyModif;
 
     void Awake()
     {
         baseTilemap = GameObject.FindWithTag("Base").GetComponent<Tilemap>();
         waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
-        foliageTilemap = GameObject.FindWithTag("Foliage").GetComponent<Tilemap>();
         obstaclesTilemap = GameObject.FindWithTag("Obstacles").GetComponent<Tilemap>();
+
         genTools = new();
+        GenerateMap();
+    }
+
+    private void Init()
+    {
+        sandyDifficultyModif = 0.075f * (float)GameManager.Instance.Difficulty;
+        waterDifficultyModif = 0.08f * (float)GameManager.Instance.Difficulty;
+        obstacleDifficultyModif = 0.15f * (float)GameManager.Instance.Difficulty;
+        foliageDifficultyModif = 0.1f * (float)GameManager.Instance.Difficulty;
+
+        Debug.Log($"sandyDifficultyModif: {sandyDifficultyModif}");
+        Debug.Log($"waterDifficultyModif: {waterDifficultyModif}");
+        Debug.Log($"obstacleDifficultyModif: {obstacleDifficultyModif}");
+        Debug.Log($"foliageDifficultyModif: {foliageDifficultyModif}");
+        Debug.Log("--------------");
+        Debug.Log($"sandyThreshold: {sandyThreshold}");
+        Debug.Log($"waterThreshold: {waterThreshold}");
+        Debug.Log($"obstacleThreshold: {obstacleThreshold}");
+        Debug.Log($"foliageChance: {foliageChance}");
+        Debug.Log("--------------");
+        Debug.Log($"sandyThreshold - sandyDifficultyModif: {sandyThreshold - sandyDifficultyModif}");
+        Debug.Log($"waterThreshold + waterDifficultyModif: {waterThreshold + waterDifficultyModif}");
+        Debug.Log($"obstacleThreshold - obstacleDifficultyModif: {obstacleThreshold - obstacleDifficultyModif}");
+        Debug.Log($"foliageChance + foliageDifficultyModif: {foliageChance + foliageDifficultyModif}");
+
         gameMap = new Terrain[size.x, size.y];
         map = new Color[size.x * size.y];
-        pastSize = size;
-        GenerateMap();
     }
 
     private Color GetMapColor(int x, int y) => map[x * size.x + y];
@@ -176,32 +216,30 @@ public class Map : MonoBehaviour
 
     public void SetCell(Terrain terrain, int x, int y)
     {
-        if (gameMap[x, y] == Terrain.BUSH || gameMap[x, y] == Terrain.GRASS)
+        if (gameMap[x, y] == Terrain.BUSH || gameMap[x, y] == Terrain.GRASS || gameMap[x, y] == Terrain.TREE)
         {
-            foliageTilemap.SetTile(new Vector3Int(x, y, -2), null);
+            Destroy(GameManager.Instance.Plants[x, y].gameObject);
+            GameManager.Instance.Plants[x, y] = null;
         }
         gameMap[x, y] = terrain;
         onMapChanged?.Invoke();
     }
 
-    public bool IsInBounds(int x, int y) => (0 <= x && x < Size.x) && (0 <= y && y < Size.y);
+    public bool IsInBounds(int x, int y) => IsInBounds(x, y, 0);
+    public bool IsInBounds(int x, int y, int inset) => (0 + inset <= x && x < Size.x - inset) && (0 + inset <= y && y < Size.y - inset);
 
     public void GenerateMap()
     {
         baseTilemap.ClearAllTiles();
         waterTilemap.ClearAllTiles();
-        foliageTilemap.ClearAllTiles();
         obstaclesTilemap.ClearAllTiles();
         if (spawnedEntrance != null) Destroy(spawnedEntrance);
         if (spawnedExit != null) Destroy(spawnedExit);
         spawnedEntrance = null;
         spawnedExit = null;
 
-        if (pastSize != size)
-        {
-            map = new Color[size.x * size.y];
-            pastSize = size;
-        }
+        Init();
+        genTools.Reseed();
 
         // Generate Perlin Noise for map construction
         for (float y = 0f; y < size.y; y++)
@@ -235,12 +273,12 @@ public class Map : MonoBehaviour
                 Color current = GetMapColor(x, y);
 
                 // Base
-                bool inSandyRange = current.r > sandyThreshold;
+                bool inSandyRange = current.r > (sandyThreshold - sandyDifficultyModif);
                 baseTilemap.SetTile(tilePos, inSandyRange ? tiles[1] : tiles[0]);
                 gameMap[x, y] = inSandyRange ? Terrain.SANDY : Terrain.GRASSY;
 
                 // Obstacles
-                if (current.g > obstacleThreshold)
+                if (current.g > (obstacleThreshold - obstacleDifficultyModif))
                 {
                     tilePos.z = -4;
                     obstaclesTilemap.SetTile(tilePos, tiles[5]);
@@ -249,7 +287,7 @@ public class Map : MonoBehaviour
 
                 // Water
                 //TODO: Rivers
-                if (current.b > waterThreshold && !(gameMap[x, y] == Terrain.HILL))
+                if (current.b > (waterThreshold + waterDifficultyModif) && !(gameMap[x, y] == Terrain.HILL))
                 {
                     tilePos.z = -1;
                     waterTilemap.SetTile(tilePos, tiles[2]);
@@ -257,14 +295,37 @@ public class Map : MonoBehaviour
                 }
 
                 // Foliage
-                if (!inSandyRange && !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL))
+                if (!inSandyRange && IsInBounds(x, y, foliageInset) &&
+                !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL)
+                )
                 {
-                    if (Random.Range(0f, 1f) > foliageChance)
+                    if (Random.Range(0f, 1f) > (foliageChance + foliageDifficultyModif))
                     {
-                        tilePos.z = -2;
-                        int foliageType = Random.Range(3, 5);
-                        foliageTilemap.SetTile(tilePos, tiles[foliageType]);
-                        gameMap[x, y] = foliageType == 3 ? Terrain.GRASS : Terrain.BUSH;
+                        float foliageChance = Random.Range(0f, 1f);
+                        GameObject foliage;
+                        GameObject foliagePrefab;
+
+                        if (foliageChance <= bushChance)
+                        {
+                            foliagePrefab = bushPrefab;
+                            gameMap[x, y] = Terrain.BUSH;
+                        }
+                        else if (foliageChance > bushChance && foliageChance <= grassChance)
+                        {
+                            foliagePrefab = grassPrefab;
+                            gameMap[x, y] = Terrain.GRASS;
+                        }
+                        else
+                        {
+                            foliagePrefab = treePrefab;
+                            gameMap[x, y] = Terrain.TREE;
+                        }
+                        Vector3 insideRandomCircle = Random.insideUnitCircle / 2.5f;
+                        insideRandomCircle.z = 0f;
+                        Vector3 foliagePosition = CellToWorld(new Vector3Int(x, y)) + baseTilemap.cellSize / 2f + insideRandomCircle;
+                        foliage = Instantiate(foliagePrefab, foliagePosition, Quaternion.identity);
+                        foliage.GetComponent<FollowMouse>().enabled = false;
+                        GameManager.Instance.Plants[x, y] = foliage.GetComponent<Plant>();
                     }
                 }
 

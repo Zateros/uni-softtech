@@ -3,8 +3,6 @@ using UnityEngine.UI;
 
 public class Minimap : MonoBehaviour
 {
-    [SerializeField]
-    private Map map;
 
     [SerializeField]
     private Color[] mapColors = new Color[]{
@@ -32,24 +30,26 @@ public class Minimap : MonoBehaviour
     {
         image = GetComponent<RawImage>();
         rect = GetComponent<RectTransform>();
-        texture = new(map.Size.x, map.Size.y)
-        {
-            filterMode = FilterMode.Point
-        };
-        image.texture = texture;
-        textureColors = new Color[map.Size.x * map.Size.y];
 
         Refresh();
+        Map.onMapGenerated += Refresh;
         Map.onMapChanged += Refresh;
     }
 
     void Refresh()
     {
-        for (int y = 0; y < map.Size.y; y++)
+        texture = new(GameManager.Instance.GameTable.Size.x, GameManager.Instance.GameTable.Size.y)
         {
-            for (int x = 0; x < map.Size.x; x++)
+            filterMode = FilterMode.Point
+        };
+        image.texture = texture;
+        textureColors = new Color[GameManager.Instance.GameTable.Size.x * GameManager.Instance.GameTable.Size.y];
+
+        for (int y = 0; y < GameManager.Instance.GameTable.Size.y; y++)
+        {
+            for (int x = 0; x < GameManager.Instance.GameTable.Size.x; x++)
             {
-                textureColors[x + y * texture.height] = mapColors[GetColorOfCell(map.gameMap[x, y])];
+                textureColors[x + y * texture.height] = mapColors[GetColorOfCell(GameManager.Instance.GameTable.gameMap[x, y])];
             }
         }
         texture.SetPixels(textureColors);
@@ -75,9 +75,9 @@ public class Minimap : MonoBehaviour
 
     public Vector2 WorldToMinimap(Vector3 pos)
     {
-        Vector3Int worldmapAdjusted = map.WorldToCell(pos);
-        float normalizedX = Mathf.InverseLerp(0f, map.Size.x, worldmapAdjusted.x);
-        float normalizedY = Mathf.InverseLerp(0f, map.Size.y, worldmapAdjusted.y);
+        Vector3Int worldmapAdjusted = GameManager.Instance.GameTable.WorldToCell(pos);
+        float normalizedX = Mathf.InverseLerp(0f, GameManager.Instance.GameTable.Size.x, worldmapAdjusted.x);
+        float normalizedY = Mathf.InverseLerp(0f, GameManager.Instance.GameTable.Size.y, worldmapAdjusted.y);
         float minimapWidth = rect.rect.width;
         float minimapHeight = rect.rect.height;
 
