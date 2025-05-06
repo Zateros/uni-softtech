@@ -11,7 +11,7 @@ public class DepthSorting : MonoBehaviour
         UpdateSorting();
     }
 
-    void Update()
+    void LateUpdate()
     {
         if(!isStatic) UpdateSorting();
     }
