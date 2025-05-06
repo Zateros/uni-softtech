@@ -9,8 +9,11 @@ public class Map : MonoBehaviour
     public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
 
     public Vector3 CellToWorld(Vector3Int pos) => baseTilemap.CellToWorld(pos);
+    public Vector3 GetCellCenterWorld(Vector3Int pos) => baseTilemap.GetCellCenterWorld(pos);
 
     public Vector2Int Size { get { return size; } set { if (value != size) size = value; } }
+    public static Bounds LocalBounds { get; private set; }
+    public Vector3Int Origin { get { return baseTilemap.origin; } }
 
     [SerializeField]
     private TileBase[] tiles;
@@ -81,7 +84,6 @@ public class Map : MonoBehaviour
     private GameObject treePrefab;
 
 
-    public static Vector3[] Bounds { get; private set; }
     public delegate void OnMapGenerated();
     public delegate void OnMapChanged();
     public static OnMapGenerated onMapGenerated;
@@ -334,13 +336,7 @@ public class Map : MonoBehaviour
 
         GenerateEntranceExitPair();
 
-        // Generate world coordinate bounds of the map
-        Bounds = new Vector3[] {
-            baseTilemap.CellToWorld(new Vector3Int(0, 0)),
-            baseTilemap.CellToWorld(new Vector3Int(Size.x, 0)),
-            baseTilemap.CellToWorld(new Vector3Int(0, Size.y)),
-            baseTilemap.CellToWorld(new Vector3Int(Size.x, Size.y))
-        };
+        LocalBounds = baseTilemap.localBounds;
 
         onMapGenerated?.Invoke();
     }

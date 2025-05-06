@@ -7,24 +7,6 @@ public class MoveCamera : MonoBehaviour
     private Vector3 origin;
 
     private bool drag = false;
-    private float lowerX, upperX, lowerY, upperY = 0f;
-
-    void Start()
-    {
-        RecalculateBounds();
-        Map.onMapGenerated += RecalculateBounds;
-    }
-
-    void RecalculateBounds()
-    {
-        foreach (Vector3 vec in Map.Bounds)
-        {
-            lowerX = Mathf.Min(lowerX, vec.x);
-            upperX = Mathf.Max(upperX, vec.x);
-            lowerY = Mathf.Min(lowerY, vec.y);
-            upperY = Mathf.Max(upperY, vec.y);
-        }
-    }
 
     void LateUpdate()
     {
@@ -48,7 +30,7 @@ public class MoveCamera : MonoBehaviour
             float x, y;
             x = Camera.main.transform.position.x;
             y = Camera.main.transform.position.y;
-            Camera.main.transform.position = new Vector3(Mathf.Clamp(x, lowerX, upperX), Mathf.Clamp(y, lowerY, upperY), -10f);
+            Camera.main.transform.position = new Vector3(Mathf.Clamp(x, Map.LocalBounds.min.x, Map.LocalBounds.max.x), Mathf.Clamp(y, Map.LocalBounds.min.y, Map.LocalBounds.max.y), -10f);
         }
     }
 }
