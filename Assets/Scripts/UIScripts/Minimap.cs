@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Minimap : MonoBehaviour
+public class Minimap : MonoBehaviour, IPointerClickHandler
 {
-
     [SerializeField]
     private Color[] mapColors = new Color[]{
             new Color(162f/255f, 169f/255f, 71f/255f),
@@ -21,6 +21,7 @@ public class Minimap : MonoBehaviour
     [SerializeField]
     private GameObject blipsMask;
 
+    private Map map;
     private RawImage image;
     private Texture2D texture;
     private Color[] textureColors;
@@ -28,6 +29,7 @@ public class Minimap : MonoBehaviour
 
     void Start()
     {
+        map = GameManager.Instance.GameTable;
         image = GetComponent<RawImage>();
         rect = GetComponent<RectTransform>();
 
@@ -38,18 +40,17 @@ public class Minimap : MonoBehaviour
 
     void Refresh()
     {
-        texture = new(GameManager.Instance.GameTable.Size.x, GameManager.Instance.GameTable.Size.y)
+        texture = new(map.Size.x, map.Size.y)
         {
             filterMode = FilterMode.Point
         };
         image.texture = texture;
-        textureColors = new Color[GameManager.Instance.GameTable.Size.x * GameManager.Instance.GameTable.Size.y];
-
-        for (int y = 0; y < GameManager.Instance.GameTable.Size.y; y++)
+        textureColors = new Color[map.Size.x * map.Size.y];
+        for (int y = 0; y < map.Size.y; y++)
         {
-            for (int x = 0; x < GameManager.Instance.GameTable.Size.x; x++)
+            for (int x = 0; x < map.Size.x; x++)
             {
-                textureColors[x + y * texture.height] = mapColors[GetColorOfCell(GameManager.Instance.GameTable.gameMap[x, y])];
+                textureColors[x + y * texture.height] = mapColors[GetColorOfCell(map.gameMap[x, y])];
             }
         }
         texture.SetPixels(textureColors);
@@ -73,11 +74,23 @@ public class Minimap : MonoBehaviour
         };
     }
 
+    public void OnPointerClick(PointerEventData pointer)
+    {
+        Debug.Log($"Clicked @ ({pointer.position.x},{pointer.position.y})");
+        Vector2 sTM = ScreenToMinimap(pointer.position);
+        Debug.Log($"(sTM) Moved to ({sTM.x},{sTM.y})");
+        Vector3 pos = MinimapToWorld(sTM);
+        Debug.Log($"(pos) Moved to ({pos.x},{pos.y})");
+
+        pos.z = -10;
+        Camera.main.transform.position = pos;
+    }
+
     public Vector2 WorldToMinimap(Vector3 pos)
     {
-        Vector3Int worldmapAdjusted = GameManager.Instance.GameTable.WorldToCell(pos);
-        float normalizedX = Mathf.InverseLerp(0f, GameManager.Instance.GameTable.Size.x, worldmapAdjusted.x);
-        float normalizedY = Mathf.InverseLerp(0f, GameManager.Instance.GameTable.Size.y, worldmapAdjusted.y);
+        Vector3Int worldmapAdjusted = map.WorldToCell(pos);
+        float normalizedX = Mathf.InverseLerp(0f, map.Size.x, worldmapAdjusted.x);
+        float normalizedY = Mathf.InverseLerp(0f, map.Size.y, worldmapAdjusted.y);
         float minimapWidth = rect.rect.width;
         float minimapHeight = rect.rect.height;
 
@@ -85,6 +98,34 @@ public class Minimap : MonoBehaviour
         float iconY = (normalizedY * minimapHeight) - (minimapHeight / 2f);
 
         return new Vector2(iconX, iconY);
+    }
+
+    public Vector2 ScreenToMinimap(Vector2 pos)
+    {
+        Vector2 inRectPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(rect, pos, null, out inRectPos);
+        inRectPos += rect.sizeDelta / 2;
+
+        float x = map.Size.x * (inRectPos.x / rect.rect.width);
+        float y = map.Size.y * (inRectPos.y / rect.rect.height);
+
+        return new Vector2(x, y);
+    }
+
+    public Vector3 MinimapToWorld(Vector3 pos) => WorldToMinimap(new Vector2(pos.x, pos.y));
+
+    public Vector3 MinimapToWorld(Vector2 pos)
+    {
+        float minimapWidth = rect.rect.width;
+        float minimapHeight = rect.rect.height;
+
+        float x = (pos.x + (minimapWidth / 2f)) / minimapWidth;
+        float y = (pos.y + (minimapHeight / 2f)) / minimapHeight;
+
+        int normalizedX = Mathf.FloorToInt(Mathf.Lerp(0f, map.Size.x, x));
+        int normalizedY = Mathf.FloorToInt(Mathf.Lerp(0f, map.Size.y, y));
+
+        return map.CellToWorld(new Vector3Int(normalizedX, normalizedY));
     }
 
     public void AddBlip(GameObject gameObject)
