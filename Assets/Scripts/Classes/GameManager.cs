@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     private Save _gameSaver;
 
     public Node[,] WMap { get; private set; }
-    public Plant[,] Plants { get; private set; }
+    public Plant[,] Plants { get; set; }
     private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
                 _minCarnivoreCount = 10;
                 _minTuristCount = 10;
                 _minTuristSatisfaction = 20;
+                GameTable.Size = new Vector2Int(50, 50);
                 break;
             case Difficulty.MEDIUM:
                 _money = 750000;
@@ -137,6 +138,7 @@ public class GameManager : MonoBehaviour
                 _minCarnivoreCount = 15;
                 _minTuristCount = 15;
                 _minTuristSatisfaction = 25;
+                GameTable.Size = new Vector2Int(100, 100);
                 break;
             case Difficulty.HARD:
                 _money = 500000;
@@ -146,6 +148,7 @@ public class GameManager : MonoBehaviour
                 _minCarnivoreCount = 20;
                 _minTuristCount = 20;
                 _minTuristSatisfaction = 30;
+                GameTable.Size = new Vector2Int(150, 150);
                 break;
             default:
                 break;
@@ -165,7 +168,7 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         Date = DateTime.Today;
-        
+
         Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
         Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
@@ -352,7 +355,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        
+
         for (int i = 0; i < gameTable.Size.x; i++)
         {
             for (int j = 0; j < gameTable.Size.y; j++)

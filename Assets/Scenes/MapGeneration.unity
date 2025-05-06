@@ -2035,7 +2035,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90c3adb83171000479cff62b520a42ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 100, y: 100}
   tiles:
   - {fileID: 11400000, guid: 515d768737f97a14dbf062d73537c13e, type: 2}
   - {fileID: 11400000, guid: c91c50b080eb800298cabde1027cbb64, type: 2}
@@ -2057,8 +2056,9 @@ MonoBehaviour:
   sandyThreshold: 0.492
   waterThreshold: 0.769
   obstacleThreshold: 0.754
-  foliageChance: 0.877
   maxIterationForEntranceGeneration: 10
+  foliageChance: 0.688
+  foliageInset: 1
   bushPrefab: {fileID: 5305333063401010219, guid: 080d1b506c714cf4f8ef45f00a40e767, type: 3}
   bushChance: 0.397
   grassPrefab: {fileID: 8611914066046990143, guid: 2ee5be45b579da242998b12b0153801c, type: 3}
@@ -2107,7 +2107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be24a6de713b4d7039bbebfbb60bceaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 206398167}
   roadTile: {fileID: 11400000, guid: adf81ef08d1befae394b91c12629e4de, type: 2}
   userBoughtTag: UserBought
   validColor: {r: 0.6078, g: 0.9411, b: 0.9098, a: 0.8}
@@ -2324,7 +2323,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1000
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -3387,7 +3386,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1000
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -4579,7 +4578,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f95023465d2f3a96bf78229f79f982a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 206398167}
   mapColors:
   - {r: 0.63529414, g: 0.6627451, b: 0.2784314, a: 1}
   - {r: 0.9843137, g: 0.7254902, b: 0.32941177, a: 1}
@@ -4876,7 +4874,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1000
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -6184,7 +6182,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1000
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16
@@ -9103,8 +9101,8 @@ RectTransform:
   m_Children:
   - {fileID: 951045198}
   - {fileID: 48297402}
-  - {fileID: 490792492}
   - {fileID: 1684200489}
+  - {fileID: 490792492}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
