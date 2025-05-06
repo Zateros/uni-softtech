@@ -4,8 +4,6 @@ using UnityEngine.Tilemaps;
 
 public class RoadPlacer : MonoBehaviour
 {
-    [SerializeField]
-    private Map map;
 
     [SerializeField]
     private TileBase roadTile;
@@ -24,6 +22,7 @@ public class RoadPlacer : MonoBehaviour
     public static event OnRoadPlaced onRoadPlaced;
     public static event OnInvalidRoadPlacement onInvalidRoadPlacement;
 
+    private Map map;
     private Tilemap roadTilemap;
     private Camera cam;
     private Vector3 mouseWorldPos;
@@ -38,17 +37,20 @@ public class RoadPlacer : MonoBehaviour
 
     void OnEnable()
     {
+        map = GameManager.Instance.GameTable;
         roadTilemap = GameObject.FindWithTag(userBoughtTag).GetComponent<Tilemap>();
         cam = Camera.main;
         roadTilemap.transform.position = new Vector3(roadTilemap.transform.position.x, roadTilemap.transform.position.y, -3);
+        roadTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = 0;
     }
 
 
     void OnDisable()
     {
-        if (map.gameMap[currentCellPos.x, currentCellPos.y] != Terrain.ROAD && map.IsInBounds(currentCellPos.x, currentCellPos.y)) roadTilemap.SetTile(currentCellPos, null);
-        if (map.gameMap[prevCellPos.x, prevCellPos.y] != Terrain.ROAD && map.IsInBounds(prevCellPos.x, prevCellPos.y)) roadTilemap.SetTile(prevCellPos, null);
+        if (map.IsInBounds(currentCellPos.x, currentCellPos.y) && map.gameMap[currentCellPos.x, currentCellPos.y] != Terrain.ROAD) roadTilemap.SetTile(currentCellPos, null);
+        if (map.IsInBounds(prevCellPos.x, prevCellPos.y) && map.gameMap[prevCellPos.x, prevCellPos.y] != Terrain.ROAD) roadTilemap.SetTile(prevCellPos, null);
         roadTilemap.transform.position = new Vector3(roadTilemap.transform.position.x, roadTilemap.transform.position.y, 0);
+        roadTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = -1000;
     }
 
     void Update()

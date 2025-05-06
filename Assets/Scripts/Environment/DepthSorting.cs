@@ -1,0 +1,22 @@
+using UnityEngine;
+
+public class DepthSorting : MonoBehaviour
+{
+    [SerializeField]
+    private bool isStatic = false;
+    private SpriteRenderer spriteRenderer;
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateSorting();
+    }
+
+    void Update()
+    {
+        if(!isStatic) UpdateSorting();
+    }
+
+    public void UpdateSorting() {
+        spriteRenderer.sortingOrder = -(int)(transform.position.y * 10) + 1;
+    }
+}

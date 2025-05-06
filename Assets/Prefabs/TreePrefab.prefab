@@ -114,9 +114,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8038147329539239062}
+  - component: {fileID: 4542423566334868700}
   - component: {fileID: 3777326472588103635}
   m_Layer: 0
-  m_Name: BackGround
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -137,6 +138,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 267995949318498834}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4542423566334868700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8126811798565769375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9a68407501ac7087ad76ef00dbf1a96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isStatic: 1
 --- !u!212 &3777326472588103635
 SpriteRenderer:
   m_ObjectHideFlags: 0
