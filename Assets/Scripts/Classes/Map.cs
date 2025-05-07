@@ -9,8 +9,11 @@ public class Map : MonoBehaviour
     public Vector3Int WorldToCell(Vector3 pos) => baseTilemap.WorldToCell(pos);
 
     public Vector3 CellToWorld(Vector3Int pos) => baseTilemap.CellToWorld(pos);
+    public Vector3 GetCellCenterWorld(Vector3Int pos) => baseTilemap.GetCellCenterWorld(pos);
 
     public Vector2Int Size { get { return size; } set { if (value != size) size = value; } }
+    public static Bounds LocalBounds { get; private set; }
+    public Vector3Int Origin { get { return baseTilemap.origin; } }
 
     [SerializeField]
     private TileBase[] tiles;
@@ -81,7 +84,6 @@ public class Map : MonoBehaviour
     private GameObject treePrefab;
 
 
-    public static Vector3[] Bounds { get; private set; }
     public delegate void OnMapGenerated();
     public delegate void OnMapChanged();
     public static OnMapGenerated onMapGenerated;
@@ -97,10 +99,13 @@ public class Map : MonoBehaviour
     private GenerationTools genTools;
     private Color[] map;
 
-    private float sandyDifficultyModif;
-    private float waterDifficultyModif;
-    private float obstacleDifficultyModif;
-    private float foliageDifficultyModif;
+    private float sandyDifficultyThresholdModif;
+    private float waterDifficultyThresholdModif;
+    private float obstacleDifficultyThresholdModif;
+    private float foliageDifficultyThresholdModif;
+
+    private float waterDifficultyScaleModif;
+
 
     void Awake()
     {
@@ -114,25 +119,12 @@ public class Map : MonoBehaviour
 
     private void Init()
     {
-        sandyDifficultyModif = 0.075f * (float)GameManager.Instance.Difficulty;
-        waterDifficultyModif = 0.08f * (float)GameManager.Instance.Difficulty;
-        obstacleDifficultyModif = 0.15f * (float)GameManager.Instance.Difficulty;
-        foliageDifficultyModif = 0.1f * (float)GameManager.Instance.Difficulty;
+        sandyDifficultyThresholdModif = 0.075f * (float)GameManager.Instance.Difficulty;
+        waterDifficultyThresholdModif = 0.08f * (float)GameManager.Instance.Difficulty;
+        obstacleDifficultyThresholdModif = 0.15f * (float)GameManager.Instance.Difficulty;
+        foliageDifficultyThresholdModif = 0.1f * (float)GameManager.Instance.Difficulty;
 
-        Debug.Log($"sandyDifficultyModif: {sandyDifficultyModif}");
-        Debug.Log($"waterDifficultyModif: {waterDifficultyModif}");
-        Debug.Log($"obstacleDifficultyModif: {obstacleDifficultyModif}");
-        Debug.Log($"foliageDifficultyModif: {foliageDifficultyModif}");
-        Debug.Log("--------------");
-        Debug.Log($"sandyThreshold: {sandyThreshold}");
-        Debug.Log($"waterThreshold: {waterThreshold}");
-        Debug.Log($"obstacleThreshold: {obstacleThreshold}");
-        Debug.Log($"foliageChance: {foliageChance}");
-        Debug.Log("--------------");
-        Debug.Log($"sandyThreshold - sandyDifficultyModif: {sandyThreshold - sandyDifficultyModif}");
-        Debug.Log($"waterThreshold + waterDifficultyModif: {waterThreshold + waterDifficultyModif}");
-        Debug.Log($"obstacleThreshold - obstacleDifficultyModif: {obstacleThreshold - obstacleDifficultyModif}");
-        Debug.Log($"foliageChance + foliageDifficultyModif: {foliageChance + foliageDifficultyModif}");
+        waterDifficultyScaleModif = 1.15f * (1f - (float)GameManager.Instance.Difficulty);
 
         gameMap = new Terrain[size.x, size.y];
         map = new Color[size.x * size.y];
@@ -254,7 +246,7 @@ public class Map : MonoBehaviour
                 Color temp = new(
                     genTools.Fbm(X * scale, Y * scale, octave) * amp, //Red - Base map
                     genTools.Fbm(2343f + X * obstacleScale, 233f + Y * obstacleScale, octave) * obstacleAmp, //Green - Obstacles
-                    -genTools.Fbm(545f + X * waterScale, 33f + Y * waterScale, octave) * waterAmp //Blue - Waters //TODO: Rivers
+                    -genTools.Fbm(545f + X * (waterScale - waterDifficultyScaleModif), 33f + Y * (waterScale - waterDifficultyScaleModif), octave) * waterAmp //Blue - Waters //TODO: Rivers
                 );
                 SetMapColor(temp, xx, yy);
             }
@@ -273,12 +265,12 @@ public class Map : MonoBehaviour
                 Color current = GetMapColor(x, y);
 
                 // Base
-                bool inSandyRange = current.r > (sandyThreshold - sandyDifficultyModif);
+                bool inSandyRange = current.r > (sandyThreshold - sandyDifficultyThresholdModif);
                 baseTilemap.SetTile(tilePos, inSandyRange ? tiles[1] : tiles[0]);
                 gameMap[x, y] = inSandyRange ? Terrain.SANDY : Terrain.GRASSY;
 
                 // Obstacles
-                if (current.g > (obstacleThreshold - obstacleDifficultyModif))
+                if (current.g > (obstacleThreshold - obstacleDifficultyThresholdModif))
                 {
                     tilePos.z = -4;
                     obstaclesTilemap.SetTile(tilePos, tiles[5]);
@@ -287,7 +279,7 @@ public class Map : MonoBehaviour
 
                 // Water
                 //TODO: Rivers
-                if (current.b > (waterThreshold + waterDifficultyModif) && !(gameMap[x, y] == Terrain.HILL))
+                if (current.b > (waterThreshold + waterDifficultyThresholdModif) && !(gameMap[x, y] == Terrain.HILL))
                 {
                     tilePos.z = -1;
                     waterTilemap.SetTile(tilePos, tiles[2]);
@@ -299,7 +291,7 @@ public class Map : MonoBehaviour
                 !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL)
                 )
                 {
-                    if (Random.Range(0f, 1f) > (foliageChance + foliageDifficultyModif))
+                    if (Random.Range(0f, 1f) > (foliageChance + foliageDifficultyThresholdModif))
                     {
                         float foliageChance = Random.Range(0f, 1f);
                         GameObject foliage;
@@ -320,9 +312,9 @@ public class Map : MonoBehaviour
                             foliagePrefab = treePrefab;
                             gameMap[x, y] = Terrain.TREE;
                         }
-                        Vector3 insideRandomCircle = Random.insideUnitCircle / 2.5f;
+                        Vector3 insideRandomCircle = Random.insideUnitCircle / 4f;
                         insideRandomCircle.z = 0f;
-                        Vector3 foliagePosition = CellToWorld(new Vector3Int(x, y)) + baseTilemap.cellSize / 2f + insideRandomCircle;
+                        Vector3 foliagePosition = GetCellCenterWorld(new Vector3Int(x, y)) + insideRandomCircle;
                         foliage = Instantiate(foliagePrefab, foliagePosition, Quaternion.identity);
                         foliage.GetComponent<FollowMouse>().enabled = false;
                         GameManager.Instance.Plants[x, y] = foliage.GetComponent<Plant>();
@@ -334,13 +326,7 @@ public class Map : MonoBehaviour
 
         GenerateEntranceExitPair();
 
-        // Generate world coordinate bounds of the map
-        Bounds = new Vector3[] {
-            baseTilemap.CellToWorld(new Vector3Int(0, 0)),
-            baseTilemap.CellToWorld(new Vector3Int(Size.x, 0)),
-            baseTilemap.CellToWorld(new Vector3Int(0, Size.y)),
-            baseTilemap.CellToWorld(new Vector3Int(Size.x, Size.y))
-        };
+        LocalBounds = baseTilemap.localBounds;
 
         onMapGenerated?.Invoke();
     }
