@@ -2091,8 +2091,11 @@ MonoBehaviour:
   obstacleScale: 2.16
   amp: 5.97
   waterAmp: 2.67
-  obstacleAmp: 2.88
+  obstacleAmp: 2.98
   octave: 6
+  riverSwingMagnitude: 1.07
+  minRiverWidth: 1
+  maxRiverWidth: 3
   sandyThreshold: 0.492
   waterThreshold: 0.769
   obstacleThreshold: 0.754

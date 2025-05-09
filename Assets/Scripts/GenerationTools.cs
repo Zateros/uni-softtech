@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GenerationTools 
+public class GenerationTools
 {
 
     private int[] perms;
@@ -9,9 +9,10 @@ public class GenerationTools
     public GenerationTools() { Reseed(); }
     public GenerationTools(int seed) { Reseed(seed); }
 
-    public void Reseed() => Reseed(Random.Range(int.MinValue, int.MaxValue)); 
+    public void Reseed() => Reseed(Random.Range(int.MinValue, int.MaxValue));
 
-    public void Reseed(int seed) {
+    public void Reseed(int seed)
+    {
         this.seed = seed;
         InitNoise();
     }
@@ -113,22 +114,24 @@ public class GenerationTools
 
     // Gaussian blur
 
-    public static Texture2D GaussianBlur(Color[] pixels, int width, int height, int kernelSize, float sigma) {
+    public static Texture2D GaussianBlur(Color[] pixels, int width, int height, int kernelSize, float sigma)
+    {
         Texture2D tex = new Texture2D(width, height);
         tex.SetPixels(pixels);
-        return GaussianBlur(tex,kernelSize, sigma);
+        return GaussianBlur(tex, kernelSize, sigma);
     }
 
-    public static Texture2D GaussianBlur(Texture2D texture, int kernelSize, float sigma) {
+    public static Texture2D GaussianBlur(Texture2D texture, int kernelSize, float sigma)
+    {
         float[,] kernel = GenerateKernel(kernelSize, sigma);
-        
+
         Texture2D blurred = new(texture.width, texture.height);
 
         for (int y = 0; y < texture.height; y++)
         {
             for (int x = 0; x < texture.width; x++)
             {
-                Color blurredPixel = ApplyKernel(texture, x,y,kernel);
+                Color blurredPixel = ApplyKernel(texture, x, y, kernel);
                 blurred.SetPixel(x, y, blurredPixel);
             }
         }
@@ -140,19 +143,19 @@ public class GenerationTools
     private static Color ApplyKernel(Texture2D texture, int x, int y, float[,] kernel)
     {
         int kernelSize = kernel.GetLength(0);
-        int offset = kernelSize/2;
+        int offset = kernelSize / 2;
         Color result = Color.black;
 
         for (int ky = -offset; ky <= offset; ky++)
         {
             for (int kx = -offset; kx <= offset; kx++)
             {
-                int px = Mathf.Clamp(x + kx, 0, texture.width-1);
-                int py = Mathf.Clamp(y + ky, 0, texture.height-1);
+                int px = Mathf.Clamp(x + kx, 0, texture.width - 1);
+                int py = Mathf.Clamp(y + ky, 0, texture.height - 1);
 
-                Color pixel = texture.GetPixel(px,py);
+                Color pixel = texture.GetPixel(px, py);
 
-                result += pixel * kernel[ky+offset,kx+offset];
+                result += pixel * kernel[ky + offset, kx + offset];
 
                 // Bypass blur on alpha channel (would always be 1f, regardless)
                 result.a = pixel.a;
@@ -162,24 +165,25 @@ public class GenerationTools
         return result;
     }
 
-    private static float[,] GenerateKernel(int size, float sigma) {
-        float[,] kernel = new float[size,size];
+    private static float[,] GenerateKernel(int size, float sigma)
+    {
+        float[,] kernel = new float[size, size];
         float sum = 0f;
-        int offset = size / 2 ;
+        int offset = size / 2;
 
         for (int y = -offset; y <= offset; y++)
         {
             for (int x = -offset; x <= offset; x++)
             {
-                sum += kernel[y+offset, x + offset] = 
+                sum += kernel[y + offset, x + offset] =
                     //https://en.wikipedia.org/wiki/Gaussian_blur#Mathematics
                     Mathf.Exp(
-                        -(x*x + y*y) 
-                              / 
-                        (2f*sigma*sigma)
+                        -(x * x + y * y)
+                              /
+                        (2f * sigma * sigma)
                     )
                            /
-                    (2f*Mathf.PI*sigma*sigma);
+                    (2f * Mathf.PI * sigma * sigma);
             }
         }
 
@@ -188,7 +192,7 @@ public class GenerationTools
         {
             for (int x = 0; x < size; x++)
             {
-                kernel[y,x] /= sum;
+                kernel[y, x] /= sum;
             }
         }
 
@@ -196,5 +200,30 @@ public class GenerationTools
     }
 
     // ---------------------------------------
+
+    // Random points along a square's opposite sides
+    public static (Vector2, Vector2) PointsAlongOppositeSquareSides(float size) => PointsAlongOppositeSquareSides(size, 0f);
+
+    public static (Vector2, Vector2) PointsAlongOppositeSquareSides(float size, float padding)
+    {
+        if (padding >= size || padding < 0f)
+        {
+            throw new System.ArgumentException("");
+        }
+
+        Vector2 p1, p2;
+        int axis = Random.Range(0, 40); // even - along x axis; odd - along y axis
+        if (axis % 2 == 0)
+        {
+            p1 = new Vector2(0f, Random.Range(0f + padding, size - 1f - padding));
+            p2 = new Vector2(size - 1, Random.Range(0f + padding, size - 1f - padding));
+        }
+        else
+        {
+            p1 = new Vector2(Random.Range(0f + padding, size - 1f - padding), 0f);
+            p2 = new Vector2(Random.Range(0f + padding, size - 1f - padding), size - 1);
+        }
+        return (p1, p2);
+    }
 
 }
