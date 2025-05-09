@@ -281,7 +281,7 @@ public class Map : MonoBehaviour
             float noiseValue = genTools.PerlinNoise(swingSlice, step * 0.1f) - 0.5f;
             Vector2 direction = (p2 - pos).normalized;
             Vector2 perpendicular = new Vector2(-direction.y, direction.x);
-            Vector2 swing = perpendicular * noiseValue * (riverSwingMagnitude + riverDifficultySwingMagnitudeModif) ;
+            Vector2 swing = perpendicular * noiseValue * (riverSwingMagnitude + riverDifficultySwingMagnitudeModif);
 
             // Forward check for hills
             Vector2 nextStep = direction + swing;
@@ -428,7 +428,7 @@ public class Map : MonoBehaviour
                 Color temp = new(
                     genTools.Fbm(X * scale, Y * scale, octave) * amp, //Red - Base map
                     genTools.Fbm(2343f + X * obstacleScale, 233f + Y * obstacleScale, octave) * obstacleAmp, //Green - Obstacles
-                    -genTools.Fbm(545f + X * (waterScale - waterDifficultyScaleModif), 33f + Y * (waterScale - waterDifficultyScaleModif), octave) * waterAmp //Blue - Waters //TODO: Rivers
+                    -genTools.Fbm(545f + X * (waterScale - waterDifficultyScaleModif), 33f + Y * (waterScale - waterDifficultyScaleModif), octave) * waterAmp //Blue - Waters
                 );
                 SetMapColor(temp, xx, yy);
             }
@@ -473,7 +473,7 @@ public class Map : MonoBehaviour
                 {
                     int x = colorIndex / Size.x;
                     int y = colorIndex % Size.x;
-                    gameMap[x, y] = Terrain.RIVER;
+                    if (!isHill(x, y)) gameMap[x, y] = Terrain.RIVER;
                     colorIndex++;
                     return new Color(first.r, first.g, second.b);
                 }
@@ -527,7 +527,7 @@ public class Map : MonoBehaviour
                             foliagePrefab = treePrefab;
                             gameMap[x, y] = Terrain.TREE;
                         }
-                        Vector3 insideRandomCircle = Random.insideUnitCircle / 4f;
+                        Vector3 insideRandomCircle = Random.insideUnitCircle / 10f;
                         insideRandomCircle.z = 0f;
                         Vector3 foliagePosition = GetCellCenterWorld(new Vector3Int(x, y)) + insideRandomCircle;
                         foliage = Instantiate(foliagePrefab, foliagePosition, Quaternion.identity);

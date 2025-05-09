@@ -2730,7 +2730,7 @@ MonoBehaviour:
   sigma: 3
   scale: 3.79
   waterScale: 5.11
-  obstacleScale: 2.16
+  obstacleScale: 2.36
   amp: 5.97
   waterAmp: 2.67
   obstacleAmp: 2.98
@@ -2740,7 +2740,7 @@ MonoBehaviour:
   maxRiverWidth: 3
   sandyThreshold: 0.492
   waterThreshold: 0.769
-  obstacleThreshold: 0.754
+  obstacleThreshold: 0.723
   maxIterationForEntranceGeneration: 10
   foliageChance: 0.688
   foliageInset: 1
