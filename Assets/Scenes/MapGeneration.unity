@@ -2076,11 +2076,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles:
-  - {fileID: 11400000, guid: 515d768737f97a14dbf062d73537c13e, type: 2}
   - {fileID: 11400000, guid: c91c50b080eb800298cabde1027cbb64, type: 2}
+  - {fileID: 11400000, guid: 515d768737f97a14dbf062d73537c13e, type: 2}
   - {fileID: 11400000, guid: cfa14c8e9c1023a12bcaf840478e3ad7, type: 2}
-  - {fileID: 11400000, guid: 4a1f3473895ab865391eddf440d05f49, type: 2}
-  - {fileID: 11400000, guid: 93df57423d979e2f3bf0c181bb1499a5, type: 2}
   - {fileID: 11400000, guid: 2a26f99def83c8a23b9527f28e372099, type: 2}
   entrance: {fileID: 9107300023667832229, guid: 2067f05c84348774f83e88ff0da168b1, type: 3}
   exit: {fileID: 9107300023667832229, guid: a60071c3aacc0b24485c0a398775ca96, type: 3}
@@ -2091,8 +2089,11 @@ MonoBehaviour:
   obstacleScale: 2.16
   amp: 5.97
   waterAmp: 2.67
-  obstacleAmp: 2.88
+  obstacleAmp: 2.98
   octave: 6
+  riverSwingMagnitude: 1.07
+  minRiverWidth: 1
+  maxRiverWidth: 3
   sandyThreshold: 0.492
   waterThreshold: 0.769
   obstacleThreshold: 0.754

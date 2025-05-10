@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -55,6 +56,14 @@ public class Map : MonoBehaviour
     [SerializeField]
     private int octave = 6;
 
+    [SerializeField]
+    private float riverSwingMagnitude = 2.0f;
+    [SerializeField]
+    private int minRiverWidth = 1;
+    [SerializeField]
+    private int maxRiverWidth = 3;
+
+
     [SerializeField, Range(0f, 1f)]
     private float sandyThreshold = .4f;
 
@@ -98,6 +107,7 @@ public class Map : MonoBehaviour
     private Tilemap obstaclesTilemap;
     private GenerationTools genTools;
     private Color[] map;
+    private HashSet<Vector2> riverVisitedPositions = new HashSet<Vector2>();
 
     private float sandyDifficultyThresholdModif;
     private float waterDifficultyThresholdModif;
@@ -106,6 +116,7 @@ public class Map : MonoBehaviour
 
     private float waterDifficultyScaleModif;
 
+    private float riverDifficultySwingMagnitudeModif;
 
     void Awake()
     {
@@ -119,12 +130,16 @@ public class Map : MonoBehaviour
 
     private void Init()
     {
-        sandyDifficultyThresholdModif = 0.075f * (float)GameManager.Instance.Difficulty;
-        waterDifficultyThresholdModif = 0.08f * (float)GameManager.Instance.Difficulty;
-        obstacleDifficultyThresholdModif = 0.15f * (float)GameManager.Instance.Difficulty;
-        foliageDifficultyThresholdModif = 0.1f * (float)GameManager.Instance.Difficulty;
+        float difficulty = (float)GameManager.Instance.Difficulty;
 
-        waterDifficultyScaleModif = 1.15f * (1f - (float)GameManager.Instance.Difficulty);
+        sandyDifficultyThresholdModif = 0.075f * difficulty;
+        waterDifficultyThresholdModif = 0.08f * difficulty;
+        obstacleDifficultyThresholdModif = 0.15f * difficulty;
+        foliageDifficultyThresholdModif = 0.1f * difficulty;
+
+        waterDifficultyScaleModif = 1.15f * (1f - difficulty);
+
+        riverDifficultySwingMagnitudeModif = 0.25f * difficulty;
 
         gameMap = new Terrain[size.x, size.y];
         map = new Color[size.x * size.y];
@@ -136,74 +151,241 @@ public class Map : MonoBehaviour
     private void GenerateEntranceExitPair()
     {
         if (entrance == null || exit == null) return;
-        int rotated = Random.Range(1, 3); // 1 - no = entry on the bottom, exit on the top, 2 - vice versa
+
+        int rotatedChance = Random.Range(0, 50); // even - entrance on the bottom, exit on the top; odd - vice versa
         int iteration = 0;
 
-        // This is ugly, need to find a better way to generate them
-        // without spawning in front of an obstacle, basically softlocking the session
-
-        // Guarantee spawned entrance-exit pair
         while ((spawnedEntrance == null || spawnedExit == null) && iteration < maxIterationForEntranceGeneration)
         {
-            int axis = Random.Range(1, 3); // 1 - along x axis, 2 - along y axis
-            int minMove = Random.Range(2, (axis == 1 ? Size.x : Size.y) - 4);
-            for (int i = 0; i < (axis == 1 ? Size.x : Size.y); i++)
+            var (point1, point2) = GenerationTools.PointsAlongOppositeSquareSides(Mathf.Min(Size.x, Size.y), 2f);
+
+            Vector3Int entrancePos = new Vector3Int(Mathf.RoundToInt(point1.x), Mathf.RoundToInt(point1.y), 0);
+            Vector3Int exitPos = new Vector3Int(Mathf.RoundToInt(point2.x), Mathf.RoundToInt(point2.y), 0);
+
+            if (IsValidTerrain(entrancePos) && IsValidTerrain(exitPos))
             {
-                Vector3Int pos = Vector3Int.zero;
-                if (axis == 1) pos.x = i;
-                else pos.y = i;
-                List<Terrain> cell = new();
+                bool rotated = rotatedChance % 2 == 0;
 
-                // Collecting radius 1 neighbouring cells
-                for (int y = pos.y + 1; y < pos.y - 1; --y)
+                GameObject gate1 = Instantiate(rotated ? entrance : exit, baseTilemap.CellToWorld(entrancePos), Quaternion.identity);
+                GameObject gate2 = Instantiate(rotated ? exit : entrance, baseTilemap.CellToWorld(exitPos), Quaternion.identity);
+
+                if (rotated)
                 {
-                    for (int x = pos.x + 1; x < pos.x - 1; --x)
-                    {
-                        try
-                        {
-                            cell.Add(gameMap[x, y]);
-                        }
-                        catch { }
-                    }
+                    spawnedEntrance = gate1;
+                    spawnedExit = gate2;
+                    gameMap[entrancePos.x, entrancePos.y] = Terrain.ENTRANCE;
+                    gameMap[exitPos.x, exitPos.y] = Terrain.EXIT;
                 }
-
-                if (!(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL)) && i >= minMove)
+                else
                 {
-                    GameObject gate = Instantiate(rotated == 1 ? entrance : exit, baseTilemap.CellToWorld(pos), Quaternion.identity);
-                    if (rotated == 1) spawnedEntrance = gate;
-                    else spawnedExit = gate;
-                    gameMap[pos.x, pos.y] = rotated == 1 ? Terrain.ENTRANCE : Terrain.EXIT;
-                    break;
+                    spawnedEntrance = gate2;
+                    spawnedExit = gate1;
+                    gameMap[entrancePos.x, entrancePos.y] = Terrain.EXIT;
+                    gameMap[exitPos.x, exitPos.y] = Terrain.ENTRANCE;
                 }
             }
-            for (int i = 0; i < (axis == 1 ? Size.x : Size.y); i++)
-            {
-                Vector3Int pos = new(axis == 1 ? 0 : Size.x - 1, axis == 2 ? 0 : Size.y - 1);
-                if (axis == 1) pos.x = i;
-                else pos.y = i;
-                List<Terrain> cell = new();
-                for (int y = pos.y + 1; y < pos.y - 1; --y)
-                {
-                    for (int x = pos.x + 1; x < pos.x - 1; --x)
-                    {
-                        try
-                        {
-                            cell.Add(gameMap[x, y]);
-                        }
-                        catch { }
-                    }
-                }
-                if (!(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL)) && i >= minMove)
-                {
-                    GameObject gate = Instantiate(rotated == 1 ? exit : entrance, baseTilemap.CellToWorld(pos), Quaternion.identity);
-                    if (rotated == 2) spawnedEntrance = gate;
-                    else spawnedExit = gate;
-                    gameMap[pos.x, pos.y] = rotated == 1 ? Terrain.EXIT : Terrain.ENTRANCE;
-                    break;
-                }
-            }
+
             iteration++;
         }
+    }
+
+    private bool IsValidTerrain(Vector3Int pos)
+    {
+        if (!IsInBounds(pos.x, pos.y)) return false;
+
+        List<Terrain> cell = new();
+        for (int y = pos.y - 1; y <= pos.y + 1; y++)
+        {
+            for (int x = pos.x - 1; x <= pos.x + 1; x++)
+            {
+                if (IsInBounds(x, y))
+                {
+                    cell.Add(gameMap[x, y]);
+                }
+            }
+        }
+        return !(cell.Contains(Terrain.POND) || cell.Contains(Terrain.RIVER) || cell.Contains(Terrain.HILL));
+    }
+
+    private Color[] GenerateRivers()
+    {
+        Color[] riverMap = Enumerable.Repeat(Color.black, size.x * size.y).ToArray();
+
+        int pointAttempts = 0;
+        Vector2 p1 = Vector2.zero;
+        Vector2 p2 = Vector2.zero;
+
+        while (pointAttempts < 500)
+        {
+            (p1, p2) = GenerationTools.PointsAlongOppositeSquareSides(size.x, 10f);
+
+            if (!isHill(Mathf.RoundToInt(p1.x), Mathf.RoundToInt(p1.y)) &&
+                !isHill(Mathf.RoundToInt(p2.x), Mathf.RoundToInt(p2.y)))
+            {
+                break;
+            }
+
+            pointAttempts++;
+        }
+
+        if (pointAttempts == 500)
+        {
+            return riverMap;
+        }
+
+        Vector2 pos = p1;
+        Vector2 prevPos = Vector2.zero;
+
+        float swingSlice = Random.Range(0f, 10000f);
+        float widthSlice = Random.Range(0f, 10000f);
+
+        genTools.Reseed();
+
+        int step = 0;
+
+        while (true)
+        {
+            if (step > 1000)
+            {
+                break;
+            }
+
+            int x = Mathf.RoundToInt(pos.x);
+            int y = Mathf.RoundToInt(pos.y);
+
+            if (!IsInBounds(x, y))
+                break;
+
+            float widthNoise = genTools.PerlinNoise(widthSlice, step * 0.05f);
+            int riverWidth = Mathf.Clamp(Mathf.RoundToInt(widthNoise * maxRiverWidth), minRiverWidth, maxRiverWidth);
+
+            List<Vector2> brushStrokes = VariableWidthStroke(pos, riverWidth);
+
+            foreach (var strokePos in brushStrokes)
+            {
+                int sx = Mathf.RoundToInt(strokePos.x);
+                int sy = Mathf.RoundToInt(strokePos.y);
+
+                if (sx >= 0 && sx < size.x && sy >= 0 && sy < size.y)
+                {
+                    riverMap[sx * size.x + sy] = Color.white;
+                }
+            }
+
+            riverVisitedPositions.Add(pos);
+
+            if (x == Mathf.RoundToInt(p2.x) && y == Mathf.RoundToInt(p2.y))
+                break;
+
+            // Random swinging
+            float noiseValue = genTools.PerlinNoise(swingSlice, step * 0.1f) - 0.5f;
+            Vector2 direction = (p2 - pos).normalized;
+            Vector2 perpendicular = new Vector2(-direction.y, direction.x);
+            Vector2 swing = perpendicular * noiseValue * (riverSwingMagnitude + riverDifficultySwingMagnitudeModif) ;
+
+            // Forward check for hills
+            Vector2 nextStep = direction + swing;
+            Vector2 proposedPosition = pos + nextStep.normalized;
+
+            if (isHill(Mathf.RoundToInt(proposedPosition.x), Mathf.RoundToInt(proposedPosition.y)) || riverVisitedPositions.Contains(proposedPosition))
+            {
+                proposedPosition = FloodFillEscape(pos, prevPos);
+
+                if (proposedPosition == pos)
+                {
+                    break;
+                }
+            }
+
+            prevPos = pos;
+            pos = proposedPosition;
+            step++;
+        }
+
+        riverVisitedPositions.Clear();
+        return riverMap;
+    }
+
+    private bool isHill(int x, int y)
+    {
+        if (x < 0 || x >= size.x || y < 0 || y >= size.y)
+            return true;
+
+        return gameMap[x, y] == Terrain.HILL;
+    }
+
+    private Vector2 FloodFillEscape(Vector2 startPosition, Vector2 previousPosition)
+    {
+        Queue<Vector2> queue = new Queue<Vector2>();
+        HashSet<Vector2> visited = new HashSet<Vector2>();
+
+        queue.Enqueue(startPosition);
+        visited.Add(startPosition);
+
+        Vector2[] directions = {
+            new Vector2(1, 0), new Vector2(-1, 0),
+            new Vector2(0, 1), new Vector2(0, -1)
+        };
+
+        int floodFillSteps = 0;
+
+        while (queue.Count > 0)
+        {
+            if (floodFillSteps > 100000)
+            {
+                break;
+            }
+
+            Vector2 current = queue.Dequeue();
+            floodFillSteps++;
+
+            Vector2 prevStepDir = (startPosition - previousPosition).normalized;
+
+            foreach (var dir in directions)
+            {
+                if (dir == -prevStepDir)
+                {
+                    continue;
+                }
+
+                Vector2 neighbor = current + dir;
+                int nx = Mathf.RoundToInt(neighbor.x);
+                int ny = Mathf.RoundToInt(neighbor.y);
+
+                if (!isHill(nx, ny) && !visited.Contains(neighbor) && !riverVisitedPositions.Contains(neighbor))
+                {
+                    return neighbor;
+                }
+
+                if (!visited.Contains(neighbor))
+                {
+                    queue.Enqueue(neighbor);
+                    visited.Add(neighbor);
+                }
+            }
+        }
+
+        return startPosition;
+    }
+
+    private List<Vector2> VariableWidthStroke(Vector2 center, int radius)
+    {
+        List<Vector2> points = new List<Vector2>();
+
+        for (int x = -radius; x <= radius; x++)
+        {
+            for (int y = -radius; y <= radius; y++)
+            {
+                if (isHill(x, y)) continue;
+
+                if (x * x + y * y <= radius * radius)
+                {
+                    points.Add(new Vector2(center.x + x, center.y + y));
+                }
+            }
+        }
+
+        return points;
     }
 
     public void SetCell(Terrain terrain, int x, int y)
@@ -218,7 +400,7 @@ public class Map : MonoBehaviour
     }
 
     public bool IsInBounds(int x, int y) => IsInBounds(x, y, 0);
-    public bool IsInBounds(int x, int y, int inset) => (0 + inset <= x && x < Size.x - inset) && (0 + inset <= y && y < Size.y - inset);
+    public bool IsInBounds(int x, int y, int inset) => 0 + inset <= x && x < Size.x - inset && 0 + inset <= y && y < Size.y - inset;
 
     public void GenerateMap()
     {
@@ -255,7 +437,9 @@ public class Map : MonoBehaviour
         // Gaussian blur to remove "artifacts"
         map = GenerationTools.GaussianBlur(map, size.x, size.y, blurKernel, sigma).GetPixels();
 
-        // Construct the map into tilemaps from the final generated texture
+        bool[,] sandyRanges = new bool[size.x, size.y];
+
+        // Construct the map and the obstacles into tilemaps from the final generated texture
         for (int y = 0; y < size.y; y++)
         {
             for (int x = 0; x < size.x; x++)
@@ -265,29 +449,60 @@ public class Map : MonoBehaviour
                 Color current = GetMapColor(x, y);
 
                 // Base
-                bool inSandyRange = current.r > (sandyThreshold - sandyDifficultyThresholdModif);
-                baseTilemap.SetTile(tilePos, inSandyRange ? tiles[1] : tiles[0]);
-                gameMap[x, y] = inSandyRange ? Terrain.SANDY : Terrain.GRASSY;
+                sandyRanges[x, y] = current.r > (sandyThreshold - sandyDifficultyThresholdModif);
+                baseTilemap.SetTile(tilePos, sandyRanges[x, y] ? tiles[1] : tiles[0]);
+                gameMap[x, y] = sandyRanges[x, y] ? Terrain.SANDY : Terrain.GRASSY;
 
                 // Obstacles
                 if (current.g > (obstacleThreshold - obstacleDifficultyThresholdModif))
                 {
                     tilePos.z = -4;
-                    obstaclesTilemap.SetTile(tilePos, tiles[5]);
+                    obstaclesTilemap.SetTile(tilePos, tiles[3]);
                     gameMap[x, y] = Terrain.HILL;
                 }
+            }
+        }
+        // Generate the rivers
+        for (int i = 0; i < Random.Range(1, 4); i++)
+        {
+            int colorIndex = 0;
+            Color[] river = GenerateRivers();
+            map = map.Zip(river, (first, second) =>
+            {
+                if (second.b == 1f)
+                {
+                    int x = colorIndex / Size.x;
+                    int y = colorIndex % Size.x;
+                    gameMap[x, y] = Terrain.RIVER;
+                    colorIndex++;
+                    return new Color(first.r, first.g, second.b);
+                }
+                else
+                {
+                    colorIndex++;
+                    return first;
+                }
+            }).ToArray();
+        }
+
+        // Generate the rest of the map
+        for (int y = 0; y < size.y; y++)
+        {
+            for (int x = 0; x < size.x; x++)
+            {
+                Vector3Int tilePos = new Vector3Int(x, y, 0);
+                Color current = GetMapColor(x, y);
 
                 // Water
-                //TODO: Rivers
                 if (current.b > (waterThreshold + waterDifficultyThresholdModif) && !(gameMap[x, y] == Terrain.HILL))
                 {
                     tilePos.z = -1;
                     waterTilemap.SetTile(tilePos, tiles[2]);
-                    gameMap[x, y] = Terrain.POND;
+                    if (gameMap[x, y] != Terrain.RIVER) gameMap[x, y] = Terrain.POND;
                 }
 
                 // Foliage
-                if (!inSandyRange && IsInBounds(x, y, foliageInset) &&
+                if (!sandyRanges[x, y] && IsInBounds(x, y, foliageInset) &&
                 !(gameMap[x, y] == Terrain.SANDY || gameMap[x, y] == Terrain.POND || gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.HILL)
                 )
                 {
