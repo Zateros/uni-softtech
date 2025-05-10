@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Bush : Plant
 {
-    public void Start()
+    public void Awake()
     {
         switch (GameManager.Instance.Difficulty)
         {
