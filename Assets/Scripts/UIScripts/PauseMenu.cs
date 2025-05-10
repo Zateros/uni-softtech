@@ -10,16 +10,21 @@ public class PauseMenu : MonoBehaviour
     {
         PauseBgPanel.SetActive(true);
         PausePanel.SetActive(true);
+        GameManager.Instance.IsGameRunnning = false;
+        Time.timeScale = 0f;
     }
 
     public void OnReturnBtnClick()
     {
+        Time.timeScale = GameManager.Instance.PrevSpeed;
         PauseBgPanel.SetActive(false);
         PausePanel.SetActive(false);
+        GameManager.Instance.IsGameRunnning = true;
     }
 
     public void OnQuitBtnClick()
     {
-        //SceneManager.LoadScene(0);
+        Time.timeScale = 1f;
+        SceneManager.LoadSceneAsync(0);
     }
 }

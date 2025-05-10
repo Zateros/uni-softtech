@@ -94,4 +94,10 @@ public class Minimap : MonoBehaviour
         blip.minimap = this;
         blip.SetMimic(ref gameObject);
     }
+
+    private void OnDisable()
+    {
+        Map.onMapGenerated -= Refresh;
+        Map.onMapChanged -= Refresh;
+    }
 }

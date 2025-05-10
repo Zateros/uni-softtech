@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
+    private float _prevSpeed;
     private int _daysPassed;
     private bool _isNight;
     private Difficulty _difficulty;
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
     public Minimap Minimap { get => minimap; }
     public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
     public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
+    public float PrevSpeed { get => _prevSpeed; }
     public bool IsNight
     {
         get => _isNight; set
@@ -96,7 +98,7 @@ public class GameManager : MonoBehaviour
         }
     }
     public Heap<VehiclePath> Routes { get; private set; }
-    public bool IsGameRunnning { get; private set; }
+    public bool IsGameRunnning { get; set; }
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
     public bool PurchaseMode
@@ -175,15 +177,20 @@ public class GameManager : MonoBehaviour
 
         Map.onMapGenerated += OnMapGenerated;
 
-        DontDestroyOnLoad(this);
+        IsGameRunnning = true;
     }
 
     void Update()
     {
-        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
-        if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
+        if (IsGameRunnning)
         {
-            PurchaseMode = false;
+            Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
+            _prevSpeed = Time.timeScale;
+
+            if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
+            {
+                PurchaseMode = false;
+            }
         }
     }
 
@@ -375,5 +382,10 @@ public class GameManager : MonoBehaviour
         {
             Instantiate(turist, _enterance, Quaternion.identity);
         }
+    }
+
+    private void OnDisable()
+    {
+        Map.onMapGenerated -= OnMapGenerated;
     }
 }
