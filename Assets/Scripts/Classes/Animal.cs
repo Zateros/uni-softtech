@@ -14,7 +14,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _speed;
     protected float minPathUpdateTime = .01f;
     protected Vector2 dir;
-    protected Vector2 _facing;
+    protected Vector2 _facing = Vector2.zero;
     protected Vector2 _position;
     private Vector2[] _path;
     protected Vector2 target;
