@@ -55,7 +55,6 @@ public class Turist : MonoBehaviour, IEntity
     IEnumerator FollowPath()
     {
         Vector2 currentWaypoint = _path[0];
-        dir = currentWaypoint.normalized;
         while (true)
         {
             if(vehicle.IsFull)
@@ -79,7 +78,6 @@ public class Turist : MonoBehaviour, IEntity
                     yield break;
                 }
                 currentWaypoint = _path[targetIndex];
-                dir = currentWaypoint.normalized;
             }
 
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed * Time.deltaTime);
@@ -105,14 +103,12 @@ public class Turist : MonoBehaviour, IEntity
         float distance = -1;
         foreach (Vehicle vehicle in GameManager.Instance.Vehicles)
         {
-            /*Debug.Log(distance);
-            Debug.Log(Vector2.Distance(_position, vehicle.Position));*/
             if(distance == -1 && Vector2.Distance(_position, vehicle.Position) <= _visionRange && !vehicle.IsFull)
             {
                 closest = vehicle;
                 distance = Vector2.Distance(_position, vehicle.Position);
             }
-            else if (Vector2.Distance(_position, vehicle.Position) < distance && !vehicle.IsFull && Vector2.Distance(_position, vehicle.Position) <= _visionRange)
+            else if (Vector2.Distance(_position, vehicle.Position) < distance && !vehicle.IsFull)
             {
                 closest = vehicle;
                 distance = Vector2.Distance(_position, vehicle.Position);
