@@ -29,7 +29,7 @@ public class SpawnEntities : MonoBehaviour
         int x;
         int y;
 
-        for (int i = 0; i < GameManager.Instance.MinHerbivoreCount; i++)
+        for (int i = 0; i < GameManager.Instance.MinHerbivoreCount + 5; i++)
         {
             x = rnd.Next(gameTable.Size.x);
             y = rnd.Next(gameTable.Size.y);
@@ -75,7 +75,7 @@ public class SpawnEntities : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < GameManager.Instance.MinCarnivoreCount; i++)
+        for (int i = 0; i < GameManager.Instance.MinCarnivoreCount + 5; i++)
         {
             x = rnd.Next(gameTable.Size.x);
             y = rnd.Next(gameTable.Size.y);

@@ -330,7 +330,7 @@ public class GameManager : MonoBehaviour
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
 
-        if (!_hasWon && _money < _minMoney + 500)
+        if (!_hasWon && _money <= _minMoney + 10000)
             Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
 
         _money -= price;
@@ -368,11 +368,11 @@ public class GameManager : MonoBehaviour
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
-        if (!_hasWon && _herbivoreCount < _minHerbivoreCount + 1)
+        if (!_hasWon && _herbivoreCount <= _minHerbivoreCount + 2)
             Notifier.Instance.Notify($"Herbivore count is low ({_herbivoreCount})!\nMin herbivore count: {_minHerbivoreCount}");
 
 
-        if (!_hasWon && _carnivoreCount < _minCarnivoreCount + 1)
+        if (!_hasWon && _carnivoreCount <= _minCarnivoreCount + 2)
             Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
 
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
