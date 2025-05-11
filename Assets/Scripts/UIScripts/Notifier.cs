@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Notifier : MonoBehaviour
 {
@@ -8,31 +9,17 @@ public class Notifier : MonoBehaviour
     public static Notifier Instance;
     public GameObject NotificationText;
 
-    private int turistCount;
-    public bool NotifiedTuristCount;
+    public bool NotifiedMonthsReset;
 
     private void Awake()
     {
         Instance = this;
-
-        NotifiedTuristCount = false;
     }
 
     void Update()
     {
         if(NotifHolder.transform.childCount == 0)
             ScrollView.SetActive(false);
-
-        if (turistCount < GameManager.Instance.MinTuristCount + 1)
-        {
-            if (!NotifiedTuristCount)
-            {
-                Notify($"Turist count is low ({turistCount})!\nMin turist count: {GameManager.Instance.MinTuristCount}");
-                NotifiedTuristCount = true;
-            }
-        }
-        else
-            NotifiedTuristCount = false;
     }
 
     public void Notify(string message)

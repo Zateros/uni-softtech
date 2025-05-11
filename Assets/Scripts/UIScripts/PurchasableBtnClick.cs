@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static Map;
 
 public class PurchasableBtnClick : MonoBehaviour
 {
