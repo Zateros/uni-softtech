@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CoverageReport scope="Summary">
+  <Summary>
+    <Generatedon>5/12/2025 - 10:46:08 AM</Generatedon>
+    <Parser>MultiReportParser (2x OpenCoverParser)</Parser>
+    <Assemblies>3</Assemblies>
+    <Classes>67</Classes>
+    <Files>65</Files>
+    <Coveredlines>576</Coveredlines>
+    <Uncoveredlines>2695</Uncoveredlines>
+    <Coverablelines>3271</Coverablelines>
+    <Totallines>5521</Totallines>
+    <Linecoverage>17.6</Linecoverage>
+    <Coveredbranches>0</Coveredbranches>
+    <Totalbranches>0</Totalbranches>
+    <Coveredmethods>61</Coveredmethods>
+    <Totalmethods>386</Totalmethods>
+    <Methodcoverage>15.8</Methodcoverage>
+  </Summary>
+  <Coverage>
+    <Assembly name="EditModeTests" classes="2" coverage="0" coveredlines="0" coverablelines="12" totallines="49" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0">
+      <Class name="EditModeExampleTests" coverage="0" coveredlines="0" coverablelines="7" totallines="25" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="NewTestScript" coverage="0" coveredlines="0" coverablelines="5" totallines="24" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+    </Assembly>
+    <Assembly name="Game" classes="63" coverage="15.8" coveredlines="505" coverablelines="3188" totallines="5495" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="56" totalmethods="377" methodcoverage="14.8">
+      <Class name="Animal" coverage="0" coveredlines="0" coverablelines="462" totallines="550" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="31" methodcoverage="0" />
+      <Class name="AnimalAnimator" coverage="0" coveredlines="0" coverablelines="35" totallines="56" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="AStar" coverage="0" coveredlines="0" coverablelines="97" totallines="133" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="BackBtn" coverage="0" coveredlines="0" coverablelines="5" totallines="14" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="Blip" coverage="0" coveredlines="0" coverablelines="21" totallines="40" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="BuildCommand" coverage="0" coveredlines="0" coverablelines="179" totallines="288" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="15" methodcoverage="0" />
+      <Class name="Bush" coverage="0" coveredlines="0" coverablelines="13" totallines="25" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="Carnivore" coverage="0" coveredlines="0" coverablelines="12" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="Cheetah" coverage="0" coveredlines="0" coverablelines="34" totallines="52" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Chip" coverage="0" coveredlines="0" coverablelines="45" totallines="75" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="7" methodcoverage="0" />
+      <Class name="DateLabelDisplay" coverage="0" coveredlines="0" coverablelines="3" totallines="12" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="DayNightCycle" coverage="0" coveredlines="0" coverablelines="24" totallines="46" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="DepthSorting" coverage="0" coveredlines="0" coverablelines="11" totallines="23" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0" />
+      <Class name="DestroyOverTime" coverage="0" coveredlines="0" coverablelines="12" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="DifficultyBtns" coverage="0" coveredlines="0" coverablelines="30" totallines="55" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0" />
+      <Class name="FollowMouse" coverage="0" coveredlines="0" coverablelines="33" totallines="59" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="GameManager" coverage="37.7" coveredlines="102" coverablelines="270" totallines="461" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="17" totalmethods="50" methodcoverage="34" />
+      <Class name="GameOverMenu" coverage="0" coveredlines="0" coverablelines="22" totallines="43" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
+      <Class name="GameWonMenu" coverage="0" coveredlines="0" coverablelines="24" totallines="44" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
+      <Class name="GenerationTools" coverage="96.5" coveredlines="113" coverablelines="117" totallines="229" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="15" totalmethods="17" methodcoverage="88.2" />
+      <Class name="Giraffe" coverage="0" coveredlines="0" coverablelines="34" totallines="51" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Grass" coverage="0" coveredlines="0" coverablelines="13" totallines="26" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="Heap[T]" coverage="5.3" coveredlines="4" coverablelines="75" totallines="129" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="9" methodcoverage="11.1" />
+      <Class name="Herbivore" coverage="0" coveredlines="0" coverablelines="12" totallines="24" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="Hill" coverage="0" coveredlines="0" coverablelines="4" totallines="10" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="Hyena" coverage="0" coveredlines="0" coverablelines="34" totallines="51" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="IPurchasable" coverage="0" coveredlines="0" coverablelines="1" totallines="9" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="Lion" coverage="0" coveredlines="0" coverablelines="34" totallines="52" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Load" coverage="0" coveredlines="0" coverablelines="5" totallines="17" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Map" coverage="77.6" coveredlines="278" coverablelines="358" totallines="578" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="22" totalmethods="26" methodcoverage="84.6" />
+      <Class name="MenuManager" coverage="0" coveredlines="0" coverablelines="9" totallines="22" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Minimap" coverage="0" coveredlines="0" coverablelines="88" totallines="158" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="12" methodcoverage="0" />
+      <Class name="MoneyLabelUpdater" coverage="0" coveredlines="0" coverablelines="3" totallines="13" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="MoveCamera" coverage="0" coveredlines="0" coverablelines="23" totallines="36" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="Node" coverage="32" coveredlines="8" coverablelines="25" totallines="55" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="1" totalmethods="5" methodcoverage="20" />
+      <Class name="Notifier" coverage="0" coveredlines="0" coverablelines="17" totallines="38" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="PathManager" coverage="0" coveredlines="0" coverablelines="31" totallines="85" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="PathRequest" coverage="0" coveredlines="0" coverablelines="5" totallines="85" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="PathResult" coverage="0" coveredlines="0" coverablelines="5" totallines="85" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="PauseMenu" coverage="0" coveredlines="0" coverablelines="16" totallines="30" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Placer" coverage="0" coveredlines="0" coverablelines="197" totallines="309" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="14" methodcoverage="0" />
+      <Class name="Plant" coverage="0" coveredlines="0" coverablelines="12" totallines="34" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="10" methodcoverage="0" />
+      <Class name="Poacher" coverage="0" coveredlines="0" coverablelines="11" totallines="35" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="9" methodcoverage="0" />
+      <Class name="PricesPanelScript" coverage="0" coveredlines="0" coverablelines="36" totallines="113" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="ProgressBar" coverage="0" coveredlines="0" coverablelines="32" totallines="58" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="4" methodcoverage="0" />
+      <Class name="PurchasableBtnClick" coverage="0" coveredlines="0" coverablelines="100" totallines="173" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="Rhino" coverage="0" coveredlines="0" coverablelines="34" totallines="53" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Road" coverage="0" coveredlines="0" coverablelines="18" totallines="35" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
+      <Class name="Save" coverage="0" coveredlines="0" coverablelines="3" totallines="12" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="ScrollZoom" coverage="0" coveredlines="0" coverablelines="5" totallines="11" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="SettingsScripts" coverage="0" coveredlines="0" coverablelines="20" totallines="36" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="SpawnEntities" coverage="0" coveredlines="0" coverablelines="82" totallines="127" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="2" methodcoverage="0" />
+      <Class name="SpriteRandomizer" coverage="0" coveredlines="0" coverablelines="5" totallines="17" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="SwitchSprite" coverage="0" coveredlines="0" coverablelines="24" totallines="50" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="TimeScaleDisplay" coverage="0" coveredlines="0" coverablelines="3" totallines="12" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="ToggleSwitch" coverage="0" coveredlines="0" coverablelines="69" totallines="126" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="9" methodcoverage="0" />
+      <Class name="Tree" coverage="0" coveredlines="0" coverablelines="13" totallines="26" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="1" methodcoverage="0" />
+      <Class name="Turist" coverage="0" coveredlines="0" coverablelines="88" totallines="123" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="9" methodcoverage="0" />
+      <Class name="TutorialScripts" coverage="0" coveredlines="0" coverablelines="37" totallines="88" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+      <Class name="Vehicle" coverage="0" coveredlines="0" coverablelines="72" totallines="110" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="14" methodcoverage="0" />
+      <Class name="VehiclePath" coverage="0" coveredlines="0" coverablelines="34" totallines="57" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="5" methodcoverage="0" />
+      <Class name="Water" coverage="0" coveredlines="0" coverablelines="18" totallines="35" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="6" methodcoverage="0" />
+      <Class name="Zebra" coverage="0" coveredlines="0" coverablelines="34" totallines="52" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="0" totalmethods="3" methodcoverage="0" />
+    </Assembly>
+    <Assembly name="Tests" classes="2" coverage="100" coveredlines="71" coverablelines="71" totallines="147" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="5" totalmethods="5" methodcoverage="100">
+      <Class name="MapGenerationTests" coverage="100" coveredlines="63" coverablelines="63" totallines="123" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="3" totalmethods="3" methodcoverage="100" />
+      <Class name="PlayModeTests" coverage="100" coveredlines="8" coverablelines="8" totallines="24" branchcoverage="" coveredbranches="0" totalbranches="0" coveredmethods="2" totalmethods="2" methodcoverage="100" />
+    </Assembly>
+  </Coverage>
+</CoverageReport>

@@ -42,7 +42,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;
 
-    public Vector2 Facing { get => _dir; }
+    public Vector2 Facing { get => _facing; }
     /// <summary>
     /// Sets the position and start everything after the animal is placed
     /// </summary>
@@ -584,6 +584,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 _dir = currentWaypoint.normalized;
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
                 _position = transform.position;
+                _facing = (currentWaypoint - _position).normalized;
             }
             yield return null;
         }
