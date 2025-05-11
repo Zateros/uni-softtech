@@ -24,9 +24,12 @@ public class GameManager : MonoBehaviour
     private DateTime _time;
     private float _prevSpeed;
     private int _daysPassed;
+    private int _monthsToWin;
+    private DateTime _winningDate;
     private bool _isNight;
     private Difficulty _difficulty;
     private bool _hasWon;
+    private bool _notifiedMonthsReset;
 
     private int _money;
     private int _minMoney;
@@ -128,6 +131,7 @@ public class GameManager : MonoBehaviour
         switch (_difficulty)
         {
             case Difficulty.EASY:
+                _monthsToWin = 3;
                 _money = 1000000;
                 _minMoney = 10000;
                 _entranceFee = 5;
@@ -138,6 +142,7 @@ public class GameManager : MonoBehaviour
                 GameTable.Size = new Vector2Int(50, 50);
                 break;
             case Difficulty.MEDIUM:
+                _monthsToWin = 6;
                 _money = 750000;
                 _minMoney = 15000;
                 _entranceFee = 10;
@@ -148,6 +153,7 @@ public class GameManager : MonoBehaviour
                 GameTable.Size = new Vector2Int(100, 100);
                 break;
             case Difficulty.HARD:
+                _monthsToWin = 12;
                 _money = 500000;
                 _minMoney = 20000;
                 _entranceFee = 15;
@@ -175,6 +181,9 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         Date = DateTime.Today;
+        _winningDate = Date.AddMonths(_monthsToWin);
+        _notifiedMonthsReset = false;
+        Time.timeScale = 1f;
 
         Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
@@ -183,7 +192,6 @@ public class GameManager : MonoBehaviour
         Map.onMapGenerated += OnMapGenerated;
 
         IsGameRunnning = true;
-        Time.timeScale = 1f;
     }
 
 
@@ -202,14 +210,30 @@ public class GameManager : MonoBehaviour
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
         if ((_herbivoreCount == 0 && _carnivoreCount == 0) || _money == 0)
-        {
             onGameOver?.Invoke();
-        }
 
         if (IsGameRunnning)
-        {
             _prevSpeed = Time.timeScale;
+
+
+        if (_herbivoreCount < _minHerbivoreCount || _carnivoreCount < _minCarnivoreCount || _money < _minMoney || CalculateSatisfaction() < _minTuristSatisfaction)
+        {
+            _winningDate = Date.AddDays(_daysPassed).AddMonths(_monthsToWin);
+            if (!_notifiedMonthsReset)
+            {
+                string notifMsg = $"Winning requierements not met!\nMonths to win has been reset to {_winningDate.ToShortDateString()}!";
+                Notifier.Instance.Notify(notifMsg);
+                _notifiedMonthsReset = true;
+            }
         }
+        else
+        {
+            _notifiedMonthsReset = false;
+        }
+
+
+        
+
     }
 
     public void StartGame()

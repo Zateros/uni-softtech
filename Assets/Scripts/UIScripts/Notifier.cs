@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System;
 
 public class Notifier : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class Notifier : MonoBehaviour
     public GameObject NotificationText;
 
     private int turistCount;
-    public bool NotifiedTuristCount;
+    private bool NotifiedTuristCount;
+    public bool NotifiedMonthsReset;
 
     private void Awake()
     {
@@ -33,6 +35,7 @@ public class Notifier : MonoBehaviour
         }
         else
             NotifiedTuristCount = false;
+
     }
 
     public void Notify(string message)
