@@ -7,15 +7,79 @@ public class AStar : MonoBehaviour
 
     public void FindPath(PathRequest request, Action<PathResult> callback)
     {
-
         Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
         Vector3Int start = GameManager.Instance.GameTable.WorldToCell(request.pathStart);
         Vector3Int end = GameManager.Instance.GameTable.WorldToCell(request.pathEnd);
+        if(!GameManager.Instance.GameTable.IsInBounds(end.x, end.y))
+        {
+            callback(new PathResult(new Vector2[0], false, request.callback));
+            return;
+        }
         Node startNode = GameManager.Instance.WMap[start.x, start.y];
         Node targetNode = GameManager.Instance.WMap[end.x, end.y];
         startNode.parent = startNode;
 
+        if(!targetNode.passible)
+        {
+            var WMap = GameManager.Instance.WMap;
+            if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y - 1))
+            {
+                if (WMap[end.x - 1, end.y - 1].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y - 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y))
+            {
+                if (WMap[end.x - 1, end.y].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y + 1))
+            {
+                if (WMap[end.x - 1, end.y + 1].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y + 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x, end.y - 1))
+            {
+                if (WMap[end.x, end.y - 1].passible)
+                {
+                    targetNode = WMap[end.x, end.y - 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x, end.y + 1))
+            {
+                if (WMap[end.x, end.y + 1].passible)
+                {
+                    targetNode = WMap[end.x, end.y + 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x + 1, end.y - 1))
+            {
+                if (WMap[end.x + 1, end.y - 1].passible)
+                {
+                    targetNode = WMap[end.x + 1, end.y - 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x + 1, end.y))
+            {
+                if (WMap[end.x - 1, end.y].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x + 1, end.y + 1))
+            {
+                if (WMap[end.x + 1, end.y + 1].passible)
+                {
+                    targetNode = WMap[end.x + 1, end.y + 1];
+                }
+            }
+        }
         if (startNode.passible && targetNode.passible)
         {
             Heap<Node> openSet = new Heap<Node>(GameManager.Instance.GameTable.Size.x * GameManager.Instance.GameTable.Size.y);

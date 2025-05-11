@@ -8,14 +8,16 @@ public abstract class Carnivore : Animal
         base.Awake();
     }
 
-    public override IEnumerable Eat(IEntity e)
+    public override IEnumerator Eat(IEntity e)
     {
         if (e is Herbivore)
         {
             Herbivore herbivore = (Herbivore)e;
             herbivore.Die();
-            _hunger = _hungerMax;
+            _asleep = true;
+            hunger = _hungerMax;
             yield return new WaitForSeconds(_sleepDuration);
+            _asleep = false;
         }
         yield break;
     }

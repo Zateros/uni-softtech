@@ -1,6 +1,4 @@
 using UnityEngine;
-using System;
-using System.Collections.Generic;
 using System.Collections;
 
 public abstract class Herbivore : Animal
@@ -10,14 +8,15 @@ public abstract class Herbivore : Animal
         base.Awake();
     }
 
-    public override IEnumerable Eat(IEntity e)
+    public override IEnumerator Eat(IEntity e)
     {
-        if(e is Plant)
+        Debug.Log("Eat");
+        if (e is Plant)
         {
-            Plant plant = (Plant)e;
-            plant.Eat();
-            _hunger = _hungerMax;
+            _asleep = true;
+            hunger = _hungerMax;
             yield return new WaitForSeconds(_sleepDuration);
+            _asleep = false;
         }
         yield break;
     }
