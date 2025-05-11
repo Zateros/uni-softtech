@@ -20,6 +20,7 @@ public class PricesPanelScript : MonoBehaviour
     [SerializeField] public GameObject Jeep;
     [SerializeField] public GameObject Chip;
     public Road Road;
+    public Water Water;
 
     public void OnPricesBtnClick()
     {
@@ -32,6 +33,7 @@ public class PricesPanelScript : MonoBehaviour
             PricesPanel.SetActive(true);
 
             Road = new();
+            Water = new();
             var myRhino = Instantiate(Rhino);
             var myZebra = Instantiate(Zebra);
             var myGiraffe = Instantiate(Giraffe);
@@ -58,6 +60,7 @@ Bush
 Tree
 Jeep
 Road
+Water
 Chip";
             
             PricesText.text =
@@ -74,6 +77,7 @@ $@"Prices
 {myTree.GetComponent<Tree>().Price} $
 {myJeep.GetComponent<Vehicle>().Price} $
 {Road.Price} $
+{Water.Price} $
 {myChip.GetComponent<Chip>().Price} $";
 
             SalePricesText.text =
@@ -89,7 +93,8 @@ $@"Sale Prices
 {myBush.GetComponent<Bush>().SalePrice} $
 {myTree.GetComponent<Tree>().SalePrice} $
 {myJeep.GetComponent<Vehicle>().SalePrice} $
-{Road.SalePrice}$
+{Road.SalePrice} $
+{Water.SalePrice} $
 -";
 
             Destroy(myRhino);
