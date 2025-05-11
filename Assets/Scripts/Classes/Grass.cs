@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Grass : Plant
 {
-    public void Start()
+    public void Awake()
     {
 
         switch (GameManager.Instance.Difficulty)

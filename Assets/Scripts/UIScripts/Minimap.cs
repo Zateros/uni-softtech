@@ -149,4 +149,10 @@ public class Minimap : MonoBehaviour, IPointerDownHandler, IDragHandler
         blip.minimap = this;
         blip.SetMimic(ref gameObject);
     }
+
+    private void OnDisable()
+    {
+        Map.onMapGenerated -= Refresh;
+        Map.onMapChanged -= Refresh;
+    }
 }
