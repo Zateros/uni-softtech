@@ -9723,6 +9723,7 @@ GameObject:
   - component: {fileID: 1585813862}
   - component: {fileID: 1585813861}
   - component: {fileID: 1585813863}
+  - component: {fileID: 1585813864}
   m_Layer: 0
   m_Name: GameMaster
   m_TagString: Untagged
@@ -9782,6 +9783,25 @@ MonoBehaviour:
   light2d: {fileID: 442703769}
   dayColor: {r: 0.56, g: 0.83, b: 1, a: 1}
   nightColor: {r: 0.28, g: 0.29, b: 0.47, a: 1}
+--- !u!114 &1585813864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585813860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 084ecc002ee111043bbd5921853d757b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Rhino: {fileID: 5299156492115885379, guid: 01acde4ce96db0342ac99c09e45525b8, type: 3}
+  Zebra: {fileID: 5995320203020720961, guid: 75ca047a411d4654eb1b66e6134399bd, type: 3}
+  Giraffe: {fileID: 3592064773134546254, guid: 6ef540409d1ee484bb4412b419d91104, type: 3}
+  Lion: {fileID: 9021307653072584911, guid: 1b78c877014b65b4da7d6e09d7521344, type: 3}
+  Hyena: {fileID: 7562999939974041744, guid: a717a2bcdd3a926458e044e24c3be2af, type: 3}
+  Cheetah: {fileID: 3566539005264405374, guid: f66ee8f582987734a932c399249fb7a1, type: 3}
+  Jeep: {fileID: 6283642253247966636, guid: bdef79afd9cda604f95ab5ef8243aedf, type: 3}
 --- !u!1 &1606735318
 GameObject:
   m_ObjectHideFlags: 0

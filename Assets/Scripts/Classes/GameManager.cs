@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     public int MinTuristCount { get => _minTuristCount; }
     public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
+    public int MinHerbivoreCount { get => _minHerbivoreCount; }
+    public int MinCarnivoreCount { get => _minCarnivoreCount; }
     public List<Herbivore> Herbivores
     {
         get
@@ -180,11 +182,12 @@ public class GameManager : MonoBehaviour
         IsGameRunnning = true;
     }
 
+
     void Update()
     {
+        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
         if (IsGameRunnning)
         {
-            Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
             _prevSpeed = Time.timeScale;
 
             if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)

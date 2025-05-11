@@ -7,7 +7,7 @@ public class DepthSorting : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>();
         UpdateSorting();
     }
 

@@ -17,6 +17,7 @@ public class FollowMouse : MonoBehaviour
 
     void Update()
     {
+
         mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         if (Mouse.current.leftButton.wasPressedThisFrame)
@@ -26,7 +27,7 @@ public class FollowMouse : MonoBehaviour
             int x = pos.x;
             int y = pos.y;
 
-            if (GameManager.Instance.GameTable.IsInBounds(x,y) && GameManager.Instance.GameTable.gameMap[x, y] != Terrain.POND && GameManager.Instance.GameTable.gameMap[x, y] != Terrain.RIVER)
+            if (GameManager.Instance.GameTable.IsInBounds(x,y) && GameManager.Instance.GameTable.gameMap[x, y] != Terrain.POND)
             {
                 enabled = false;
 
