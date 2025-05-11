@@ -15,6 +15,7 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
 
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
+    public int DestroyExtraCost { get => 0; }
     private bool placed;
     public bool Placed
     {
@@ -24,6 +25,8 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
             placed = true;
         }
     }
+
+
     public void Eat()
     {
 

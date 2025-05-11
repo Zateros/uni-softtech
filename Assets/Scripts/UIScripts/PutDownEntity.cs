@@ -32,7 +32,7 @@ public class FollowMouse : MonoBehaviour
                 enabled = false;
 
                 if (GetComponent<Animal>() != null) GameManager.Instance.Minimap.AddBlip(gameObject);
-                GameManager.Instance.Buy(gameObject);
+                GameManager.Instance.Buy(gameObject, null);
                 if (GetComponent<DepthSorting>() != null || GetComponentInChildren<DepthSorting>() != null) {
                     DepthSorting sorting = GetComponent<DepthSorting>() ?? GetComponentInChildren<DepthSorting>();
                     sorting.UpdateSorting();

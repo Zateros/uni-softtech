@@ -276,13 +276,12 @@ public class GameManager : MonoBehaviour
         return 50;
     }
 #nullable enable
-    public void Buy(GameObject? gameObject)
+    public void Buy(GameObject? gameObject, int? objectPrice)
     {
         int price;
         if (gameObject == null)
         {
-            Road road = new();
-            price = road.Price;
+            price = objectPrice ?? 0;
         }
         else
         {

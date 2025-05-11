@@ -22,8 +22,7 @@ public class PurchasableBtnClick : MonoBehaviour
     [SerializeField] public GameObject Tree;
     [SerializeField] public GameObject Jeep;
     [SerializeField] public GameObject Chip;
-    [SerializeField] private RoadPlacer roadPlacer;
-    // [SerializeField] private WaterPlacer waterPlacer;
+    [SerializeField] private Placer placer;
 
     private Camera mainCamera;
     private Vector3 mousePosition;
@@ -31,9 +30,9 @@ public class PurchasableBtnClick : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
-        if (roadPlacer != null)
+        if (placer != null)
         {
-            RoadPlacer.onRoadPlaced += BuyRoad;
+            Placer.onPlaced += Buy;
             GameManager.Instance.onPurchaseModeDisable += DisablePurchaseMode;
         }
     }
@@ -141,11 +140,17 @@ public class PurchasableBtnClick : MonoBehaviour
                 break;
             case "RoadBtn":
                 GameManager.Instance.PurchaseMode = true;
-                roadPlacer.enabled = true;
+                placer.SetMode(PlacerMode.LINE, PlacerType.ROAD);
+                placer.enabled = true;
                 break;
             case "ChipBtn":
                 var myChip = Instantiate(Chip, mousePosition, Quaternion.identity);
                 myChip.name = "Chip";
+                break;
+            case "WaterBtn":
+                GameManager.Instance.PurchaseMode = true;
+                placer.SetMode(PlacerMode.SQUARE, PlacerType.WATER);
+                placer.enabled = true;
                 break;
             default:
                 break;
@@ -156,17 +161,13 @@ public class PurchasableBtnClick : MonoBehaviour
         if (PanelVehicle != null && PanelVehicle.activeInHierarchy) { PanelVehicle.SetActive(false); }
     }
 
-    private void BuyRoad(int count)
+    private void Buy(int price)
     {
-        while (count != 0)
-        {
-            GameManager.Instance.Buy(null);
-            count--;
-        }
+        GameManager.Instance.Buy(null, price);
     }
 
     private void DisablePurchaseMode()
     {
-        roadPlacer.enabled = false;
+        placer.enabled = false;
     }
 }

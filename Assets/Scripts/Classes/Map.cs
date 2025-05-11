@@ -395,6 +395,19 @@ public class Map : MonoBehaviour
             Destroy(GameManager.Instance.Plants[x, y].gameObject);
             GameManager.Instance.Plants[x, y] = null;
         }
+
+        Vector3Int pos = new Vector3Int(x, y);
+        if (terrain != Terrain.RIVER && terrain != Terrain.POND && (gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.POND))
+        {
+            pos.z = -1;
+            waterTilemap.SetTile(pos, null);
+        }
+        if (gameMap[x, y] == Terrain.HILL)
+        {
+            pos.z = -4;
+            obstaclesTilemap.SetTile(pos, null);
+        }
+
         gameMap[x, y] = terrain;
         onMapChanged?.Invoke();
     }

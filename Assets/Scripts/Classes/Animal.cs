@@ -40,7 +40,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;
 
-    public Vector2 Facing { get { return _facing; } }
+    public Vector2 Facing { get => _facing; }
     public bool Placed
     {
         get => placed; set
@@ -64,6 +64,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public bool HasChip { get => _hasChip; set => _hasChip = value; }
     public int Price { get => _price; }
     public int SalePrice { get => _salePrice; }
+    public static int DestroyExtraCost { get => 0; }
 
     public void Awake()
     {
