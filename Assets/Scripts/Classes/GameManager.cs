@@ -69,6 +69,9 @@ public class GameManager : MonoBehaviour
     public delegate void OnGameOver();
     public event OnGameOver onGameOver;
 
+    public delegate void OnGameWon();
+    public event OnGameOver onGameWon;
+
     public int MinTuristCount { get => _minTuristCount; }
     public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
     public int MinHerbivoreCount { get => _minHerbivoreCount; }
@@ -192,12 +195,15 @@ public class GameManager : MonoBehaviour
         Map.onMapGenerated += OnMapGenerated;
 
         IsGameRunnning = true;
+
+        _hasWon = false;
     }
 
 
     void Update()
     {
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
+
         if(_money < 0)
             _money = 0;
 
@@ -209,31 +215,35 @@ public class GameManager : MonoBehaviour
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
-        if ((_herbivoreCount == 0 && _carnivoreCount == 0) || _money == 0)
-            onGameOver?.Invoke();
+        if (!_hasWon)
+        {
+            if (_herbivoreCount < _minHerbivoreCount || _carnivoreCount < _minCarnivoreCount || _money < _minMoney || CalculateSatisfaction() < _minTuristSatisfaction)
+            {
+                _winningDate = Date.AddDays(_daysPassed).AddMonths(_monthsToWin);
+                if (!_notifiedMonthsReset)
+                {
+                    string notifMsg = $"Winning requierements not met!\nMonths to win has been reset to {_winningDate.ToShortDateString()}!";
+                    Notifier.Instance.Notify(notifMsg);
+                    _notifiedMonthsReset = true;
+                }
+            }
+            else
+            {
+                _notifiedMonthsReset = false;
+            }
+
+            if ((_herbivoreCount == 0 && _carnivoreCount == 0) || _money == 0)
+                onGameOver?.Invoke();
+
+            if (_winningDate == Date.AddDays(_daysPassed))
+            {
+                onGameWon?.Invoke();
+                _hasWon = true;
+            }
+        }
 
         if (IsGameRunnning)
             _prevSpeed = Time.timeScale;
-
-
-        if (_herbivoreCount < _minHerbivoreCount || _carnivoreCount < _minCarnivoreCount || _money < _minMoney || CalculateSatisfaction() < _minTuristSatisfaction)
-        {
-            _winningDate = Date.AddDays(_daysPassed).AddMonths(_monthsToWin);
-            if (!_notifiedMonthsReset)
-            {
-                string notifMsg = $"Winning requierements not met!\nMonths to win has been reset to {_winningDate.ToShortDateString()}!";
-                Notifier.Instance.Notify(notifMsg);
-                _notifiedMonthsReset = true;
-            }
-        }
-        else
-        {
-            _notifiedMonthsReset = false;
-        }
-
-
-        
-
     }
 
     public void StartGame()
@@ -320,7 +330,7 @@ public class GameManager : MonoBehaviour
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
 
-        if (_money < _minMoney + 500)
+        if (!_hasWon && _money < _minMoney + 500)
             Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
 
         _money -= price;
@@ -358,11 +368,11 @@ public class GameManager : MonoBehaviour
         _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
-        if (_herbivoreCount < _minHerbivoreCount + 1)
+        if (!_hasWon && _herbivoreCount < _minHerbivoreCount + 1)
             Notifier.Instance.Notify($"Herbivore count is low ({_herbivoreCount})!\nMin herbivore count: {_minHerbivoreCount}");
 
 
-        if (_carnivoreCount < _minCarnivoreCount + 1)
+        if (!_hasWon && _carnivoreCount < _minCarnivoreCount + 1)
             Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
 
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
