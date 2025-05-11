@@ -34,11 +34,17 @@ public class RoadPlacer : MonoBehaviour
     private Color previewColor;
     private Vector3Int currentCellPos;
     private Vector3Int prevCellPos;
+    private int defaultSortOrder;
+
+    void Awake()
+    {
+        roadTilemap = GameObject.FindWithTag(userBoughtTag).GetComponent<Tilemap>();
+        defaultSortOrder = roadTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder;
+    }
 
     void OnEnable()
     {
         map = GameManager.Instance.GameTable;
-        roadTilemap = GameObject.FindWithTag(userBoughtTag).GetComponent<Tilemap>();
         cam = Camera.main;
         roadTilemap.transform.position = new Vector3(roadTilemap.transform.position.x, roadTilemap.transform.position.y, -3);
         roadTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = 0;
@@ -50,7 +56,7 @@ public class RoadPlacer : MonoBehaviour
         if (map.IsInBounds(currentCellPos.x, currentCellPos.y) && map.gameMap[currentCellPos.x, currentCellPos.y] != Terrain.ROAD) roadTilemap.SetTile(currentCellPos, null);
         if (map.IsInBounds(prevCellPos.x, prevCellPos.y) && map.gameMap[prevCellPos.x, prevCellPos.y] != Terrain.ROAD) roadTilemap.SetTile(prevCellPos, null);
         roadTilemap.transform.position = new Vector3(roadTilemap.transform.position.x, roadTilemap.transform.position.y, 0);
-        roadTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = -1000;
+        roadTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = defaultSortOrder;
     }
 
     void Update()
