@@ -14,6 +14,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _speed;
     protected float minPathUpdateTime = .01f;
     protected Vector2 dir;
+    protected Vector2 _facing;
     protected Vector2 _position;
     private Vector2[] _path;
     protected Vector2 target;
@@ -35,25 +36,30 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _sleepDuration = 5f;
     private int targetIndex = 0;
     private bool placed;
-    public bool Placed { get => placed; set {
-            _position = gameObject.transform.position;
-            Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
-            if (GameManager.Instance.WMap[(int)pos.x, (int)pos.y].passible)
-            {
-                StartCoroutine(UpdatePath());
-                placed = true;
-            }     
-        } }
     public Sprite _blipIcon;
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;
 
+    public Vector2 Facing { get { return _facing; } }
+    public bool Placed
+    {
+        get => placed; set
+        {
+            _position = gameObject.transform.position;
+            Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
+            if (GameManager.Instance.WMap[(int)pos.x, (int)pos.y].possible)
+            {
+                StartCoroutine(UpdatePath());
+                placed = true;
+            }
+        }
+    }
     public bool IsVisible { get => _hasChip; }
     public Sprite BlipIcon { get => _blipIcon; set { _blipIcon = value; } }
     public bool IsAsleep { get => _asleep; }
     public bool IsAdult { get => _age >= 5; }
-    public bool IsThirsty { get => _thirst <= _thirstMax/2; }
-    public bool IsHungry { get => _hunger <= _hungerMax/2; }
+    public bool IsThirsty { get => _thirst <= _thirstMax / 2; }
+    public bool IsHungry { get => _hunger <= _hungerMax / 2; }
     public bool IsCaptured { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool HasChip { get => _hasChip; set => _hasChip = value; }
     public int Price { get => _price; }
@@ -67,14 +73,14 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     Vector2 Seperation()
     {
         Vector2 sepVec = new Vector2();
-        var neighbours = GetNeighbours(_size/2);
+        var neighbours = GetNeighbours(_size / 2);
         if (neighbours.Count == 0) return sepVec;
         foreach (var neighbour in neighbours)
         {
             if (inFOV(neighbour._position))
             {
                 Vector2 movTowards = _position - neighbour._position;
-                if(movTowards.magnitude > 0) 
+                if (movTowards.magnitude > 0)
                 {
                     sepVec += movTowards.normalized / movTowards.magnitude;
                 }
@@ -86,7 +92,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     Vector2 Alligment()
     {
         Vector2 allign = new Vector2();
-        var neighbours = GetNeighbours(_visionRange/2);
+        var neighbours = GetNeighbours(_visionRange / 2);
         if (neighbours.Count == 0) return allign;
         foreach (var neighbour in neighbours)
         {
@@ -103,11 +109,11 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     {
         Vector2 cohesion = new Vector2();
         int cnt = 0;
-        var neighbours = GetNeighbours(_visionRange/2);
-        if(neighbours.Count == 0) return cohesion;
+        var neighbours = GetNeighbours(_visionRange / 2);
+        if (neighbours.Count == 0) return cohesion;
         foreach (var neighbour in neighbours)
         {
-            if(inFOV(neighbour._position))
+            if (inFOV(neighbour._position))
             {
                 cohesion += neighbour._position;
                 cnt++;
@@ -158,7 +164,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             StopCoroutine(UpdatePath());
             dir = GenerateRandomTarget();
             dir = dir.normalized;
-            target = (_position + dir * _position.magnitude)/2;
+            target = (_position + dir * _position.magnitude) / 2;
             Vector3 pos = GameManager.Instance.GameTable.WorldToCell(target);
             if (pos.x < 0 || pos.y < 0 || pos.x >= GameManager.Instance.GameTable.Size.x || pos.y >= GameManager.Instance.GameTable.Size.y)
             {
@@ -193,7 +199,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             }
             else
             {
-                target = (_position + GenerateRandomTarget()*_position.magnitude)/2;
+                target = (_position + GenerateRandomTarget() * _position.magnitude) / 2;
             }
         }
         else if (IsHungry)
@@ -360,16 +366,16 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             var WMap = GameManager.Instance.WMap;
             var Map = GameManager.Instance.GameTable;
             var PMap = GameManager.Instance.Plants;
-            float speed = _speed / WMap[pos.x,pos.y].weigth;
+            float speed = _speed / WMap[pos.x, pos.y].weigth;
             for (int i = 1; i <= (int)_visionRange; i++)
             {
                 if (pos.x - i >= 0 && pos.y - i >= 0)
                 {
-                    if(!WMap[pos.x - i, pos.y - i].passible)
+                    if (!WMap[pos.x - i, pos.y - i].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
-                        if(this is Carnivore)
+                        if (this is Carnivore)
                         {
                             break;
                         }
@@ -382,7 +388,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x - i >= 0)
                 {
-                    if (!WMap[pos.x - i, pos.y].passible)
+                    if (!WMap[pos.x - i, pos.y].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -399,7 +405,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x - i >= 0 && pos.y + i <= GameManager.Instance.GameTable.Size.y)
                 {
-                    if (!WMap[pos.x - i, pos.y + i].passible)
+                    if (!WMap[pos.x - i, pos.y + i].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -416,7 +422,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.y - i >= 0)
                 {
-                    if (!WMap[pos.x , pos.y - i].passible)
+                    if (!WMap[pos.x, pos.y - i].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -438,7 +444,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.y + i <= GameManager.Instance.GameTable.Size.y)
                 {
-                    if (!WMap[pos.x, pos.y + i].passible)
+                    if (!WMap[pos.x, pos.y + i].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -455,7 +461,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x + i <= GameManager.Instance.GameTable.Size.x && pos.y - i >= 0)
                 {
-                    if (!WMap[pos.x + i, pos.y - i].passible)
+                    if (!WMap[pos.x + i, pos.y - i].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -472,7 +478,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x + i <= GameManager.Instance.GameTable.Size.x)
                 {
-                    if (!WMap[pos.x + i, pos.y].passible)
+                    if (!WMap[pos.x + i, pos.y].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -489,7 +495,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x + i <= GameManager.Instance.GameTable.Size.x && pos.y + i <= GameManager.Instance.GameTable.Size.y)
                 {
-                    if (!WMap[pos.x + i, pos.y + i].passible)
+                    if (!WMap[pos.x + i, pos.y + i].possible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -506,16 +512,17 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
             }
             var prevpos = _position;
-            if(speed <= 0)
+            if (speed <= 0)
             {
                 speed *= -1;
                 Debug.Log(speed);
             }
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
             _position = transform.position;
-            if(prevpos == _position)
+            _facing = (currentWaypoint - _position).normalized;
+            if (prevpos == _position)
             {
-                OnPathFound(new Vector2[0],false);
+                OnPathFound(new Vector2[0], false);
                 yield break;
             }
             yield return null;
