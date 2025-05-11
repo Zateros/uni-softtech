@@ -22,6 +22,7 @@ public class PurchasableBtnClick : MonoBehaviour
     [SerializeField] public GameObject Jeep;
     [SerializeField] public GameObject Chip;
     [SerializeField] private RoadPlacer roadPlacer;
+    // [SerializeField] private WaterPlacer waterPlacer;
 
     private Camera mainCamera;
     private Vector3 mousePosition;
