@@ -110,7 +110,7 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         {
             while (time < animationDuration)
             {
-                time += Time.deltaTime;
+                time += 0.003f;
 
                 float lerpFactor = slideEase.Evaluate(time / animationDuration);
                 _slider.value = sliderValue = Mathf.Lerp(startValue, endValue, lerpFactor);

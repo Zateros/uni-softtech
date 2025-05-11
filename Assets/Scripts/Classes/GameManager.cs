@@ -63,6 +63,9 @@ public class GameManager : MonoBehaviour
     public delegate void OnPurchaseModeDisable();
     public event OnPurchaseModeDisable onPurchaseModeDisable;
 
+    public delegate void OnGameOver();
+    public event OnGameOver onGameOver;
+
     public int MinTuristCount { get => _minTuristCount; }
     public int MinTuristSatisfaction { get => _minTuristSatisfaction; }
     public int MinHerbivoreCount { get => _minHerbivoreCount; }
@@ -180,20 +183,32 @@ public class GameManager : MonoBehaviour
         Map.onMapGenerated += OnMapGenerated;
 
         IsGameRunnning = true;
+        Time.timeScale = 1f;
     }
 
 
     void Update()
     {
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
+        if(_money < 0)
+            _money = 0;
+
+        if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
+        {
+            PurchaseMode = false;
+        }
+
+        _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
+        _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
+
+        if ((_herbivoreCount == 0 && _carnivoreCount == 0) || _money == 0)
+        {
+            onGameOver?.Invoke();
+        }
+
         if (IsGameRunnning)
         {
             _prevSpeed = Time.timeScale;
-
-            if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
-            {
-                PurchaseMode = false;
-            }
         }
     }
 
@@ -280,9 +295,6 @@ public class GameManager : MonoBehaviour
 
             price = gameObject.GetComponent<IPurchasable>().Price;
         }
-
-        _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
-        _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
         if (_money < _minMoney + 500)
             Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
