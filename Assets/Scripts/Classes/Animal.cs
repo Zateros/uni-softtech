@@ -47,7 +47,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         {
             _position = gameObject.transform.position;
             Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
-            if (GameManager.Instance.WMap[(int)pos.x, (int)pos.y].possible)
+            if (GameManager.Instance.WMap[(int)pos.x, (int)pos.y].passible)
             {
                 StartCoroutine(UpdatePath());
                 placed = true;
@@ -371,7 +371,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             {
                 if (pos.x - i >= 0 && pos.y - i >= 0)
                 {
-                    if (!WMap[pos.x - i, pos.y - i].possible)
+                    if (!WMap[pos.x - i, pos.y - i].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -388,7 +388,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x - i >= 0)
                 {
-                    if (!WMap[pos.x - i, pos.y].possible)
+                    if (!WMap[pos.x - i, pos.y].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -405,7 +405,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x - i >= 0 && pos.y + i <= GameManager.Instance.GameTable.Size.y)
                 {
-                    if (!WMap[pos.x - i, pos.y + i].possible)
+                    if (!WMap[pos.x - i, pos.y + i].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -422,7 +422,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.y - i >= 0)
                 {
-                    if (!WMap[pos.x, pos.y - i].possible)
+                    if (!WMap[pos.x, pos.y - i].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -444,7 +444,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.y + i <= GameManager.Instance.GameTable.Size.y)
                 {
-                    if (!WMap[pos.x, pos.y + i].possible)
+                    if (!WMap[pos.x, pos.y + i].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -461,7 +461,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x + i <= GameManager.Instance.GameTable.Size.x && pos.y - i >= 0)
                 {
-                    if (!WMap[pos.x + i, pos.y - i].possible)
+                    if (!WMap[pos.x + i, pos.y - i].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -478,7 +478,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x + i <= GameManager.Instance.GameTable.Size.x)
                 {
-                    if (!WMap[pos.x + i, pos.y].possible)
+                    if (!WMap[pos.x + i, pos.y].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
@@ -495,7 +495,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 if (pos.x + i <= GameManager.Instance.GameTable.Size.x && pos.y + i <= GameManager.Instance.GameTable.Size.y)
                 {
-                    if (!WMap[pos.x + i, pos.y + i].possible)
+                    if (!WMap[pos.x + i, pos.y + i].passible)
                     {
                         _lastWaterSource = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(pos.x, pos.y));
                         _foundWater = true;
