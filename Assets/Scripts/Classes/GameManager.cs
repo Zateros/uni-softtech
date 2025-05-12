@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public Node[,] WMap { get; private set; }
     public Plant[,] Plants { get; set; }
+    public Vector2 EntrancePosition { get => _enterance; }
     private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
