@@ -21,6 +21,12 @@ public class NightLight : MonoBehaviour
         DayNightCycle.onDay -= DisableLight;
     }
 
+    void OnDestroy()
+    {
+        DayNightCycle.onNight -= EnableLight;
+        DayNightCycle.onDay -= DisableLight;
+    }
+
     void EnableLight() {
         if (!isRoad && !animal.HasChip) return;
         light.enabled = true;
