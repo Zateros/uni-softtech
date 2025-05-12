@@ -52,10 +52,6 @@ public class GameManager : MonoBehaviour
 
     private List<Vehicle> _vehicles;
     private List<Turist> _turists;
-    private List<Poacher> _poachers;
-
-    private Load _gameLoader;
-    private Save _gameSaver;
 
     public Node[,] WMap { get; private set; }
     public Plant[,] Plants { get; set; }
@@ -195,7 +191,6 @@ public class GameManager : MonoBehaviour
 
         _vehicles = new List<Vehicle>();
         _turists = new List<Turist>();
-        _poachers = new List<Poacher>();
 
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 

@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Pops up menu on GameManager event onGameWon and handles button interactions.
+/// </summary>
 public class GameWonMenu : MonoBehaviour
 {
     public GameObject GameWonPanel;
@@ -11,6 +14,9 @@ public class GameWonMenu : MonoBehaviour
         GameManager.Instance.onGameWon += OnGameWon;
     }
 
+    /// <summary>
+    /// Handles onGameWon event, pops up panels, stops game
+    /// </summary>
     private void OnGameWon()
     {
         GameWonBgPanel.SetActive(true);
@@ -19,6 +25,10 @@ public class GameWonMenu : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+
+    /// <summary>
+    /// Resumes game.
+    /// </summary>
     public void OnReturnBtnClick()
     {
         Time.timeScale = GameManager.Instance.PrevSpeed;
@@ -27,11 +37,18 @@ public class GameWonMenu : MonoBehaviour
         GameWonPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// Quits the game, loads main menu.
+    /// </summary>
     public void OnMainMenuBtnClick()
     {
         SceneManager.LoadSceneAsync(0);
     }
 
+
+    /// <summary>
+    /// Quits the game.
+    /// </summary>
     public void OnQuitBtnClick()
     {
         Application.Quit();

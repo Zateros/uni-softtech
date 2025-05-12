@@ -1,11 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Allows player to choose difficulty.
+/// </summary>
 public class DifficultyBtns : MonoBehaviour
 {
-    [SerializeField] Button EasyBtn;
-    [SerializeField] Button MediumBtn;
-    [SerializeField] Button HardBtn;
+    public Button EasyBtn;
+    public Button MediumBtn;
+    public Button HardBtn;
 
     public static int difficulty = 0;
 
@@ -14,6 +17,9 @@ public class DifficultyBtns : MonoBehaviour
         EasyBtnClick();
     }
 
+    /// <summary>
+    /// Sets difficulty to easy, disables easy button.
+    /// </summary>
     public void EasyBtnClick()
     {
         EasyBtn.enabled = false;
@@ -27,6 +33,10 @@ public class DifficultyBtns : MonoBehaviour
         difficulty = 0;
     }
 
+
+    /// <summary>
+    /// Sets difficulty to medium, disables medium button.
+    /// </summary>
     public void MediumBtnClick()
     {
         EasyBtn.enabled = true;
@@ -40,6 +50,9 @@ public class DifficultyBtns : MonoBehaviour
         difficulty = 1;
     }
 
+    /// <summary>
+    /// Sets difficulty to hard, disables hard button.
+    /// </summary>
     public void HardBtnClick()
     {
         EasyBtn.enabled = true;

@@ -5,6 +5,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls Sell mode toggle.
+/// </summary>
 public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 {
     [Header("Slider setup")]
@@ -13,7 +16,7 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
     [Header("Animation")]
     [SerializeField, Range(0, 1f)] private float animationDuration = 0.25f;
     [SerializeField]
-    private AnimationCurve slideEase =
+    private AnimationCurve _slideEase =
         AnimationCurve.EaseInOut(0, 0, 1, 1);
 
     public GameObject AnimalPanel;
@@ -22,8 +25,8 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
 
     private Slider _slider;
-    private Camera mainCamera;
-    private RaycastHit2D hit2D;
+    private Camera _mainCamera;
+    private RaycastHit2D _hit2D;
     private Coroutine _animateSliderCoroutine;
     protected Action transitionEffect;
 
@@ -37,11 +40,14 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
     void Awake()
     {
-        mainCamera = Camera.main;
+        _mainCamera = Camera.main;
         IsToggled = false;
         SetupToggleComponents();
     }
 
+    /// <summary>
+    /// If toggle is toggled then sells items that the player clicked on.
+    /// </summary>
     void Update()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -49,11 +55,11 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
 
         if (IsToggled && Mouse.current.leftButton.wasPressedThisFrame)
         {
-            hit2D = Physics2D.GetRayIntersection(mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
+            _hit2D = Physics2D.GetRayIntersection(_mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
                 
-            if (hit2D.collider == null) { return; }
+            if (_hit2D.collider == null) { return; }
                 
-            GameObject hitObject = hit2D.collider.gameObject;
+            GameObject hitObject = _hit2D.collider.gameObject;
                 
             if (hitObject.tag == "Animal" || hitObject.tag == "Plant" || hitObject.tag == "Vehicle" || hitObject.tag == "Road")
             {
@@ -63,6 +69,9 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    /// <summary>
+    /// Sets up toggle for use.
+    /// </summary>
     private void SetupToggleComponents()
     {
         if (_slider != null)
@@ -82,6 +91,10 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         _slider.transition = Selectable.Transition.None;
     }
 
+    /// <summary>
+    /// Deactivates shop panels, swithces toggle on and off.
+    /// </summary>
+    /// <param name="eventData"></param>
     public void OnPointerClick(PointerEventData eventData)
     {
         IsToggled = !IsToggled;
@@ -99,7 +112,10 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
         _animateSliderCoroutine = StartCoroutine(AnimateSlider());
     }
 
-
+    /// <summary>
+    /// Animate the toggle.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator AnimateSlider()
     {
         float startValue = _slider.value;
@@ -112,7 +128,7 @@ public class ToggleSwitch : MonoBehaviour, IPointerClickHandler
             {
                 time += 0.003f;
 
-                float lerpFactor = slideEase.Evaluate(time / animationDuration);
+                float lerpFactor = _slideEase.Evaluate(time / animationDuration);
                 _slider.value = sliderValue = Mathf.Lerp(startValue, endValue, lerpFactor);
 
                 transitionEffect?.Invoke();

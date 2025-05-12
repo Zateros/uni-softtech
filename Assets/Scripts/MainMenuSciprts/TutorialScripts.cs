@@ -2,18 +2,24 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using System;
 
+
+/// <summary>
+/// Handles tutorial interactions.
+/// </summary>
 public class TutorialScripts : MonoBehaviour
 {
-    [SerializeField] public GameObject SetProfilePanel;
-    [SerializeField] public GameObject TutorialPanel;
-    [SerializeField] public TMP_InputField InputName;
-    [SerializeField] public Toggle TutorialCheck;
-    [SerializeField] public TextMeshProUGUI TutorialText;
+    public GameObject SetProfilePanel;
+    public GameObject TutorialPanel;
+    public TMP_InputField InputName;
+    public Toggle TutorialCheck;
+    public TextMeshProUGUI TutorialText;
     [SerializeField] private string _playerName;
 
-
+    /// <summary>
+    /// If user check the tutorial box then loads up the tutorial panel.
+    /// Else loads in the game.
+    /// </summary>
     public void OnFirstConfirmBtnClick()
     {
         if(TutorialCheck.isOn)
@@ -28,11 +34,17 @@ public class TutorialScripts : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Loads in game.
+    /// </summary>
     public void OnSecondConfirmBtnClick()
     {
         SceneManager.LoadSceneAsync(1);
     }
 
+    /// <summary>
+    /// Prints the tutorial message on tutorial panel.
+    /// </summary>
     public void SetTutorialMessage()
     {
         if(InputName.text == null)
