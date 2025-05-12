@@ -157,6 +157,7 @@ public class SpawnEntities : MonoBehaviour
                 var myturist = Instantiate(Turist, GameManager.Instance.Entrance, Quaternion.identity);
                 myturist.name = "Turist";
                 GameManager.Instance.Turists.Add(myturist.GetComponent<Turist>());
+                GameManager.Instance.Money += GameManager.Instance.entranceFee;
             }
 
             _waitTime = _rnd.Next(1, 11);

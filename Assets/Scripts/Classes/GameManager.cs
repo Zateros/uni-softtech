@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
     private int _money;
     private int _minMoney;
-    private int _entranceFee;
+    public int entranceFee;
     private int _herbivoreCount;
     private int _minHerbivoreCount;
     private int _carnivoreCount;
@@ -128,7 +128,11 @@ public class GameManager : MonoBehaviour
     public Node[,] Roadmap { get; set; } 
     public bool IsGameRunnning { get; set; }
     public int satisfaction = 50;
-    public int Money { get => _money; }
+    public int Money { get => _money; set
+        {
+            Money = value;
+        }
+    }
     public Difficulty Difficulty { get => _difficulty; }
     public bool PurchaseMode
     {
@@ -155,7 +159,7 @@ public class GameManager : MonoBehaviour
                 _monthsToWin = 3;
                 _money = 1000000;
                 _minMoney = 10000;
-                _entranceFee = 5;
+                entranceFee = 5;
                 _minHerbivoreCount = 10;
                 _minCarnivoreCount = 10;
                 _minTuristCount = 10;
@@ -166,7 +170,7 @@ public class GameManager : MonoBehaviour
                 _monthsToWin = 6;
                 _money = 750000;
                 _minMoney = 15000;
-                _entranceFee = 10;
+                entranceFee = 10;
                 _minHerbivoreCount = 15;
                 _minCarnivoreCount = 15;
                 _minTuristCount = 15;
@@ -177,7 +181,7 @@ public class GameManager : MonoBehaviour
                 _monthsToWin = 12;
                 _money = 500000;
                 _minMoney = 20000;
-                _entranceFee = 15;
+                entranceFee = 15;
                 _minHerbivoreCount = 20;
                 _minCarnivoreCount = 20;
                 _minTuristCount = 20;
