@@ -15,6 +15,7 @@ TagManager:
   - Tourist
   - Poacher
   - Road
+  - Map
   layers:
   - Default
   - TransparentFX
