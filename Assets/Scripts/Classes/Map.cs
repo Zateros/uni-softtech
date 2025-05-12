@@ -17,7 +17,7 @@ public class Map : MonoBehaviour
     public Vector3Int Origin { get { return baseTilemap.origin; } }
 
     [SerializeField]
-    private TileBase[] tiles;
+    public TileBase[] tiles;
 
 #nullable enable
     [SerializeField]
@@ -30,34 +30,34 @@ public class Map : MonoBehaviour
 #nullable disable
 
     [SerializeField]
-    private int blurKernel = 3;
+    private int blurKernel = 7;
 
     [SerializeField]
-    private float sigma = 1.2f;
+    private float sigma = 3f;
 
     [SerializeField]
-    private float scale = 1f / 3f;
+    private float scale = 3.79f;
 
     [SerializeField]
-    private float waterScale = 1f / 2f;
+    private float waterScale = 5.11f;
 
     [SerializeField]
-    private float obstacleScale = 1f / 2f;
+    private float obstacleScale = 2.36f;
 
     [SerializeField]
-    private float amp = 1f / 6f;
+    private float amp = 5.97f;
 
     [SerializeField]
-    private float waterAmp = 1f / 3f;
+    private float waterAmp = 2.67f;
 
     [SerializeField]
-    private float obstacleAmp = 1f / 1.5f;
+    private float obstacleAmp = 2.98f;
 
     [SerializeField]
     private int octave = 6;
 
     [SerializeField]
-    private float riverSwingMagnitude = 2.0f;
+    private float riverSwingMagnitude = 1.07f;
     [SerializeField]
     private int minRiverWidth = 1;
     [SerializeField]
@@ -65,19 +65,19 @@ public class Map : MonoBehaviour
 
 
     [SerializeField, Range(0f, 1f)]
-    private float sandyThreshold = .4f;
+    private float sandyThreshold = .492f;
 
     [SerializeField, Range(0f, 1f)]
-    private float waterThreshold = .7f;
+    private float waterThreshold = .769f;
 
     [SerializeField, Range(0f, 1f)]
-    private float obstacleThreshold = .7f;
+    private float obstacleThreshold = .723f;
 
     [SerializeField]
     private int maxIterationForEntranceGeneration = 10;
 
     [SerializeField, Range(0f, 1f)]
-    private float foliageChance = .7f;
+    private float foliageChance = .688f;
 
     [SerializeField]
     private int foliageInset = 1;
@@ -420,6 +420,7 @@ public class Map : MonoBehaviour
         {
             pos.z = -1;
             waterTilemap.SetTile(pos, null);
+            GameManager.Instance.SetWMap(null, pos);
         }
         if (gameMap[x, y] == Terrain.HILL)
         {
@@ -433,6 +434,7 @@ public class Map : MonoBehaviour
         }
 
         gameMap[x, y] = terrain;
+        GameManager.Instance.SetWMap(terrain, pos);
         onMapChanged?.Invoke();
     }
 
