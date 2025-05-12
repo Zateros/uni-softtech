@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
+    private DateTime _prevDay;
+    private DateTime _prevWeek;
     private float _prevSpeed;
     private int _daysPassed;
     private int _monthsToWin;
@@ -97,6 +99,7 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
+    public Vector2 Entrance { get => _enterance; }
     public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
     public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
     public float PrevSpeed { get => _prevSpeed; }
@@ -184,6 +187,8 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         Date = DateTime.Today;
+        _prevDay = Date;
+        _prevWeek = Date;
         _winningDate = Date.AddMonths(_monthsToWin);
         _notifiedMonthsReset = false;
         Time.timeScale = 1f;
@@ -202,7 +207,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
 
         if(_money < 0)
             _money = 0;
@@ -242,33 +246,94 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if ((Date.AddDays(_daysPassed) - _prevDay).TotalDays == 1)
+        {
+            _prevDay = Date.AddDays(_daysPassed);
+            AnimalsHunger();
+        }
+
+        if((Date.AddDays(_daysPassed) - _prevWeek).TotalDays == 7)
+        {
+            _prevWeek = Date.AddDays(_daysPassed);
+            AnimalsAge();
+        }
+
+
         if (IsGameRunnning)
             _prevSpeed = Time.timeScale;
     }
 
-    public void StartGame()
+    private void AnimalsHunger()
     {
-        throw new NotImplementedException();
+        foreach (Rhino rhino in _rhinos)
+        {
+            rhino.hunger -= 10;
+            rhino.thirst -= 10;
+        }
+
+        foreach (Zebra zebra in _zebras)
+        {
+            zebra.hunger -= 10;
+            zebra.thirst -= 10;
+        }
+
+        foreach (Giraffe giraffe in _giraffes)
+        {
+            giraffe.hunger -= 10;
+            giraffe.thirst -= 10;
+        }
+
+        foreach (Lion lion in _lions)
+        {
+            lion.hunger -= 10;
+            lion.thirst -= 10;
+        }
+
+        foreach (Hyena hyena in _hyenas)
+        {
+            hyena.hunger -= 10;
+            hyena.thirst -= 10;
+        }
+
+        foreach (Cheetah cheetah in _cheetahs)
+        {
+            cheetah.hunger -= 10;
+            cheetah.thirst -= 10;
+        }
     }
 
-    public void GameLoop()
-    {
-        throw new NotImplementedException();
-    }
 
-    public void PauseGame()
+    private void AnimalsAge()
     {
-        throw new NotImplementedException();
-    }
+        foreach (Rhino rhino in _rhinos)
+        {
+            rhino.age++;
+        }
 
-    public void GameLoad()
-    {
-        throw new NotImplementedException();
-    }
+        foreach (Zebra zebra in _zebras)
+        {
+            zebra.age++;
+        }
 
-    public void GameSave()
-    {
-        throw new NotImplementedException();
+        foreach (Giraffe giraffe in _giraffes)
+        {
+            giraffe.age++;
+        }
+
+        foreach (Lion lion in _lions)
+        {
+            lion.age++;
+        }
+
+        foreach (Hyena hyena in _hyenas)
+        {
+            hyena.age++;
+        }
+
+        foreach (Cheetah cheetah in _cheetahs)
+        {
+            cheetah.age++;
+        }
     }
 
     public int CalculateSatisfaction()
@@ -384,8 +449,15 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SpeedUp() { Time.timeScale += .25f; }
-    public void SlowDown() { Time.timeScale -= .25f; }
+    public void SpeedUp()
+    {
+        Time.timeScale = Mathf.Clamp(Time.timeScale + 0.25f, 0f, 2f);
+    }
+    
+    public void SlowDown()
+    {
+        Time.timeScale = Mathf.Clamp(Time.timeScale - .25f, 0f, 2f);
+    }
 
     private void OnMapGenerated()
     {
@@ -425,11 +497,6 @@ public class GameManager : MonoBehaviour
                     _exit = gameTable.CellToWorld(new Vector3Int(i, j, 0));
                 }
             }
-        }
-
-        for (int i = 0; i < _minTuristCount; i++)
-        {
-            Instantiate(turist, _enterance, Quaternion.identity);
         }
     }
 

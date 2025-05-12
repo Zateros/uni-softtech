@@ -16,7 +16,7 @@ public abstract class Herbivore : Animal
         {
             Plant plant = (Plant)e;
             plant.Eat();
-            _hunger = _hungerMax;
+            hunger = _hungerMax;
             yield return new WaitForSeconds(_sleepDuration);
         }
         yield break;

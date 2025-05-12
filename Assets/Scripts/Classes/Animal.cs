@@ -24,11 +24,11 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _size;
     protected int _price;
     protected int _salePrice;
-    protected int _age = 1;
+    public int age = 1;
     protected int _maxage;
-    protected int _hunger = 100;
+    public int hunger = 100;
     protected readonly int _hungerMax = 100;
-    protected int _thirst = 100;
+    public int thirst = 100;
     protected readonly int _thirstMax = 100;
     protected bool _hasChip = false;
     protected bool _asleep = false;
@@ -51,9 +51,9 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public bool IsVisible { get => _hasChip; }
     public Sprite BlipIcon { get => _blipIcon; set { _blipIcon = value; } }
     public bool IsAsleep { get => _asleep; }
-    public bool IsAdult { get => _age >= 5; }
-    public bool IsThirsty { get => _thirst <= _thirstMax/2; }
-    public bool IsHungry { get => _hunger <= _hungerMax/2; }
+    public bool IsAdult { get => age >= 5; }
+    public bool IsThirsty { get => thirst <= _thirstMax/2; }
+    public bool IsHungry { get => hunger <= _hungerMax/2; }
     public bool IsCaptured { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
     public bool HasChip { get => _hasChip; set => _hasChip = value; }
     public int Price { get => _price; }
@@ -173,7 +173,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     IEnumerator UpdatePath()
     {
         Vector3Int pos;
-        if (_age == _maxage)
+        if (age == _maxage)
         {
             Die();
             yield break;
@@ -239,7 +239,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         PathManager.RequestPath(new PathRequest(_position, target, OnPathFound));
         while (true)
         {
-            if (_age == _maxage || _thirst == 0 || _hunger == 0)
+            if (age == _maxage || thirst == 0 || hunger == 0)
             {
                 Die();
                 yield break;
@@ -529,7 +529,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     IEnumerator Drink()
     {
         Debug.Log("Drink");
-        _thirst = _thirstMax;
+        thirst = _thirstMax;
         Debug.Log(IsThirsty);
         yield return new WaitForSeconds(1);
         yield break;
