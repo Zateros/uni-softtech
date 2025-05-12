@@ -336,31 +336,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartGame()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void GameLoop()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void PauseGame()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void GameLoad()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void GameSave()
-    {
-        throw new NotImplementedException();
-    }
-
     public int CalculateSatisfaction()
     {
         return 50;
