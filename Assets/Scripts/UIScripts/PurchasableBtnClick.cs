@@ -24,8 +24,7 @@ public class PurchasableBtnClick : MonoBehaviour
     public GameObject Tree;
     public GameObject Jeep;
     public GameObject Chip;
-    public RoadPlacer roadPlacer;
-    // public WaterPlacer waterPlacer;
+    public Placer placer;
 
     private Camera mainCamera;
     private Vector3 mousePosition;
@@ -174,7 +173,7 @@ public class PurchasableBtnClick : MonoBehaviour
     /// Buys count amount or roads.
     /// </summary>
     /// <param name="count"></param>
-    private void BuyRoad(int price)
+    private void Buy(int price)
     {
         GameManager.Instance.Buy(null, price);
     }
