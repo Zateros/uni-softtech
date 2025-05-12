@@ -105,6 +105,7 @@ public class Map : MonoBehaviour
     private Tilemap baseTilemap;
     private Tilemap waterTilemap;
     private Tilemap obstaclesTilemap;
+    private Tilemap roadsTilemap;
     private GenerationTools genTools;
     private Color[] map;
     private HashSet<Vector2> riverVisitedPositions = new HashSet<Vector2>();
@@ -123,6 +124,7 @@ public class Map : MonoBehaviour
         baseTilemap = GameObject.FindWithTag("Base").GetComponent<Tilemap>();
         waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
         obstaclesTilemap = GameObject.FindWithTag("Obstacles").GetComponent<Tilemap>();
+        roadsTilemap = GameObject.FindWithTag("UserBought").GetComponent<Tilemap>();
 
         genTools = new();
         GenerateMap();
@@ -397,6 +399,11 @@ public class Map : MonoBehaviour
         }
 
         Vector3Int pos = new Vector3Int(x, y);
+        if (terrain != Terrain.ROAD && gameMap[x, y] == Terrain.ROAD)
+        {
+            pos.z = -3;
+            roadsTilemap.SetTile(pos, null);
+        }
         if (terrain != Terrain.RIVER && terrain != Terrain.POND && (gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.POND))
         {
             pos.z = -1;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Tilemaps;
 
 public enum PlacerMode { LINE, SQUARE }
@@ -55,7 +56,6 @@ public class Placer : MonoBehaviour
         roadTilemap = GameObject.FindWithTag("UserBought").GetComponent<Tilemap>();
         waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
         SetMode(PlacerMode.LINE, PlacerType.ROAD);
-        defaultSortOrder = activeTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder;
     }
 
     void OnEnable()
@@ -69,8 +69,8 @@ public class Placer : MonoBehaviour
 
     void OnDisable()
     {
-        ClearGhostIfOutOfBounds();
-        ClearSingleGhost();
+        RemoveGhostShape();
+        RemoveSingleGhost();
         activeTilemap.transform.position = new Vector3(activeTilemap.transform.position.x, activeTilemap.transform.position.y, 0);
         activeTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = defaultSortOrder;
     }
@@ -82,7 +82,7 @@ public class Placer : MonoBehaviour
         currentCellPos = activeTilemap.WorldToCell(mouseWorldPos);
         currentCellPos.z = type == PlacerType.ROAD ? -3 : -1;
 
-        if (map.IsInBounds(currentCellPos.x, currentCellPos.y))
+        if (map.IsInBounds(currentCellPos.x, currentCellPos.y) && !EventSystem.current.IsPointerOverGameObject())
         {
             prevCellPos = activeTilemap.WorldToCell(lastMouseWorldPos);
             prevCellPos.z = type == PlacerType.ROAD ? -3 : -1;
@@ -98,7 +98,7 @@ public class Placer : MonoBehaviour
                 {
                     placing = true;
                     startPos = currentCellPos;
-                    activeTilemap.SetTile(currentCellPos, null);
+                    if (map.gameMap[currentCellPos.x, currentCellPos.y] != activeCheckingTerrain && !IsPermanentWater(currentCellPos)) activeTilemap.SetTile(currentCellPos, null);
                 }
                 else
                 {
@@ -127,30 +127,14 @@ public class Placer : MonoBehaviour
         }
         else
         {
-            ClearGhostIfOutOfBounds();
-            ClearSingleGhost();
+            RemoveGhostShape();
+            RemoveSingleGhost();
         }
 
         lastMouseWorldPos = mouseWorldPos;
     }
 
-    private void ClearGhostIfOutOfBounds()
-    {
-        if (inProgress != null)
-        {
-            foreach (var pos in inProgress)
-            {
-                if (map.IsInBounds(pos.x, pos.y) &&
-                    map.gameMap[pos.x, pos.y] != activeCheckingTerrain &&
-                    !IsPermanentWater(pos))
-                {
-                    activeTilemap.SetTile(pos, null);
-                }
-            }
-        }
-    }
-
-    private void ClearSingleGhost()
+    private void RemoveSingleGhost()
     {
         if (singleGhostPos.HasValue && map.IsInBounds(singleGhostPos.Value.x, singleGhostPos.Value.y))
         {
@@ -172,10 +156,17 @@ public class Placer : MonoBehaviour
 
     private void RemoveGhostShape()
     {
-        foreach (Vector3Int pos in inProgress)
+        if (inProgress != null)
         {
-            if (map.IsInBounds(pos.x, pos.y) &&
-            map.gameMap[pos.x, pos.y] != activeCheckingTerrain && !IsPermanentWater(pos)) activeTilemap.SetTile(pos, null);
+            foreach (var pos in inProgress)
+            {
+                if (map.IsInBounds(pos.x, pos.y) &&
+                    map.gameMap[pos.x, pos.y] != activeCheckingTerrain &&
+                    !IsPermanentWater(pos))
+                {
+                    activeTilemap.SetTile(pos, null);
+                }
+            }
         }
     }
 
@@ -224,7 +215,7 @@ public class Placer : MonoBehaviour
     {
 
         // Remove out-of-date ghosts
-        ClearSingleGhost();
+        RemoveSingleGhost();
 
         previewColor = validPlacement ? validColor : invalidColor;
 
@@ -293,6 +284,15 @@ public class Placer : MonoBehaviour
 
     public void SetMode(PlacerMode mode, PlacerType type)
     {
+        RemoveSingleGhost();
+        RemoveGhostShape();
+
+        if (activeTilemap != null)
+        {
+            activeTilemap.transform.position = new Vector3(activeTilemap.transform.position.x, activeTilemap.transform.position.y, 0);
+            activeTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = defaultSortOrder;
+        }
+
         this.mode = mode;
         this.type = type;
 
@@ -300,5 +300,10 @@ public class Placer : MonoBehaviour
         activeTile = type == PlacerType.ROAD ? roadTile : waterTile;
         activeCheckingTerrain = type == PlacerType.ROAD ? Terrain.ROAD : Terrain.POND;
         activePurchasable = type == PlacerType.ROAD ? new Road() : new Water();
+
+        defaultSortOrder = activeTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder;
+
+        activeTilemap.transform.position = new Vector3(activeTilemap.transform.position.x, activeTilemap.transform.position.y, -3);
+        activeTilemap.gameObject.GetComponent<TilemapRenderer>().sortingOrder = 0;
     }
 }
