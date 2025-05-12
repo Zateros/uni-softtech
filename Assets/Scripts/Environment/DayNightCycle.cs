@@ -22,6 +22,10 @@ public class DayNightCycle : MonoBehaviour
 
     private float currentTime = 1f; // [0..1] - 1f day, 0f night
 
+    public delegate void OnNight();
+    public static event OnNight onNight;
+    public delegate void OnDay();
+    public static event OnDay onDay;
     void Start()
     {
         StartCoroutine(WaitFor(dayLength));
@@ -41,6 +45,8 @@ public class DayNightCycle : MonoBehaviour
     private void CycleTime() {
         currentTime = currentTime == 0f ? 1f : 0f;
         GameManager.Instance.IsNight = currentTime == 0f;
+        if (GameManager.Instance.IsNight) onNight?.Invoke();
+        else onDay?.Invoke();
         StartCoroutine(WaitFor(currentTime == 0f ? nightLength : dayLength));
     }
 }

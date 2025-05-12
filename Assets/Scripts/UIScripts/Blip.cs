@@ -17,6 +17,11 @@ public class Blip : MonoBehaviour
     void Update()
     {
         rect.anchoredPosition = minimap.WorldToMinimap(mimic.transform.position);
+        if(mimic != null && !mimic.GetComponent<Animal>().HasChip && GameManager.Instance.IsNight) {
+            image.enabled = false;
+        }else {
+            image.enabled = true;
+        }
     }
 
 

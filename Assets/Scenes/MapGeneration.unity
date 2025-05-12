@@ -2749,6 +2749,7 @@ MonoBehaviour:
   grassPrefab: {fileID: 8611914066046990143, guid: 2ee5be45b579da242998b12b0153801c, type: 3}
   grassChance: 0.968
   treePrefab: {fileID: 1805458081363682743, guid: 27a0ee300845e4445a249f50162effe0, type: 3}
+  lightPrefab: {fileID: 6553965406949903933, guid: d356a60746f0a563fbd4d70ac3f155a8, type: 3}
 --- !u!156049354 &206398168
 Grid:
   m_ObjectHideFlags: 0

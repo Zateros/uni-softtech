@@ -82,16 +82,17 @@ public class Map : MonoBehaviour
     [SerializeField]
     private int foliageInset = 1;
     [SerializeField]
-    private GameObject bushPrefab;
+    public GameObject bushPrefab;
     [SerializeField, Range(0f, 1f)]
-    private float bushChance = 0.32f;
+    private float bushChance = 0.397f;
     [SerializeField]
-    private GameObject grassPrefab;
+    public GameObject grassPrefab;
     [SerializeField, Range(0f, 1f)]
-    private float grassChance = 0.79f;
+    private float grassChance = 0.968f;
     [SerializeField]
-    private GameObject treePrefab;
-
+    public GameObject treePrefab;
+    [SerializeField]
+    public GameObject lightPrefab;
 
     public delegate void OnMapGenerated();
     public delegate void OnMapChanged();
@@ -100,6 +101,7 @@ public class Map : MonoBehaviour
 
     // Can be serialized and be used for the minimap
     public Terrain[,] gameMap { get; private set; }
+    public GameObject[,] lights { get; private set; }
 
 
     private Tilemap baseTilemap;
@@ -127,7 +129,15 @@ public class Map : MonoBehaviour
         roadsTilemap = GameObject.FindWithTag("UserBought").GetComponent<Tilemap>();
 
         genTools = new();
-        GenerateMap();
+    }
+
+    void Start()
+    {
+        lights = new GameObject[size.x, size.y];
+        if (Application.isPlaying)
+        {
+            GenerateMap();
+        }
     }
 
     private void Init()
@@ -403,6 +413,8 @@ public class Map : MonoBehaviour
         {
             pos.z = -3;
             roadsTilemap.SetTile(pos, null);
+            Destroy(lights[x, y]);
+            lights[x, y] = null;
         }
         if (terrain != Terrain.RIVER && terrain != Terrain.POND && (gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.POND))
         {
@@ -413,6 +425,11 @@ public class Map : MonoBehaviour
         {
             pos.z = -4;
             obstaclesTilemap.SetTile(pos, null);
+        }
+        if (terrain == Terrain.ROAD)
+        {
+            lights[x, y] = Instantiate(lightPrefab, CellToWorld(pos), Quaternion.identity);
+            lights[x, y].GetComponent<NightLight>().isRoad = true;
         }
 
         gameMap[x, y] = terrain;
@@ -551,7 +568,8 @@ public class Map : MonoBehaviour
                         insideRandomCircle.z = 0f;
                         Vector3 foliagePosition = GetCellCenterWorld(new Vector3Int(x, y)) + insideRandomCircle;
                         foliage = Instantiate(foliagePrefab, foliagePosition, Quaternion.identity);
-                        foliage.GetComponent<FollowMouse>().enabled = false;
+                        FollowMouse mouse = foliage.GetComponent<FollowMouse>();
+                        if (mouse != null) mouse.enabled = false;
                         GameManager.Instance.Plants[x, y] = foliage.GetComponent<Plant>();
                     }
                 }
