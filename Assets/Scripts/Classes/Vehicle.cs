@@ -9,6 +9,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 {
     public readonly float visionRange = 3f;
+    private Vector2 _facing;
     private Vector2 _position;
     private readonly float _speed = 2f;
     private int _price;
@@ -39,6 +40,8 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             StartCoroutine(UpdatePath());
         }
     }
+
+    public Vector2 Facing { get => _facing; }
 
     public void Awake()
     {
