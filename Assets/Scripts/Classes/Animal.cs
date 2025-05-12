@@ -26,7 +26,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _size;
     protected int _price;
     protected int _salePrice;
-    protected int _age = 1;
+    public int _age = 0;
     protected int _maxage;
     public int hunger;
     protected readonly int _hungerMax = 100;
