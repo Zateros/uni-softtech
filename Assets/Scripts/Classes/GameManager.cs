@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour
     public List<Vehicle> Vehicles { get => _vehicles; }
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
+    public Vector2 Entrance { get => _enterance; }
     public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
     public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
     public float PrevSpeed { get => _prevSpeed; }
