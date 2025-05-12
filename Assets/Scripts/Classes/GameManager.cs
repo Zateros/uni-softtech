@@ -22,6 +22,8 @@ public class GameManager : MonoBehaviour
     private Minimap minimap;
 
     private DateTime _time;
+    private DateTime _prevDay;
+    private DateTime _prevWeek;
     private float _prevSpeed;
     private int _daysPassed;
     private int _monthsToWin;
@@ -185,6 +187,8 @@ public class GameManager : MonoBehaviour
         Cursor.SetCursor(cursor, Vector2.zero, CursorMode.ForceSoftware);
 
         Date = DateTime.Today;
+        _prevDay = Date;
+        _prevWeek = Date;
         _winningDate = Date.AddMonths(_monthsToWin);
         _notifiedMonthsReset = false;
         Time.timeScale = 1f;
@@ -242,8 +246,94 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if ((Date.AddDays(_daysPassed) - _prevDay).TotalDays == 1)
+        {
+            _prevDay = Date.AddDays(_daysPassed);
+            AnimalsHunger();
+        }
+
+        if((Date.AddDays(_daysPassed) - _prevWeek).TotalDays == 7)
+        {
+            _prevWeek = Date.AddDays(_daysPassed);
+            AnimalsAge();
+        }
+
+
         if (IsGameRunnning)
             _prevSpeed = Time.timeScale;
+    }
+
+    private void AnimalsHunger()
+    {
+        foreach (Rhino rhino in _rhinos)
+        {
+            rhino.hunger -= 10;
+            rhino.thirst -= 10;
+        }
+
+        foreach (Zebra zebra in _zebras)
+        {
+            zebra.hunger -= 10;
+            zebra.thirst -= 10;
+        }
+
+        foreach (Giraffe giraffe in _giraffes)
+        {
+            giraffe.hunger -= 10;
+            giraffe.thirst -= 10;
+        }
+
+        foreach (Lion lion in _lions)
+        {
+            lion.hunger -= 10;
+            lion.thirst -= 10;
+        }
+
+        foreach (Hyena hyena in _hyenas)
+        {
+            hyena.hunger -= 10;
+            hyena.thirst -= 10;
+        }
+
+        foreach (Cheetah cheetah in _cheetahs)
+        {
+            cheetah.hunger -= 10;
+            cheetah.thirst -= 10;
+        }
+    }
+
+
+    private void AnimalsAge()
+    {
+        foreach (Rhino rhino in _rhinos)
+        {
+            rhino.age++;
+        }
+
+        foreach (Zebra zebra in _zebras)
+        {
+            zebra.age++;
+        }
+
+        foreach (Giraffe giraffe in _giraffes)
+        {
+            giraffe.age++;
+        }
+
+        foreach (Lion lion in _lions)
+        {
+            lion.age++;
+        }
+
+        foreach (Hyena hyena in _hyenas)
+        {
+            hyena.age++;
+        }
+
+        foreach (Cheetah cheetah in _cheetahs)
+        {
+            cheetah.age++;
+        }
     }
 
     public void StartGame()
