@@ -36,6 +36,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _sleepDuration = 5f;
     private int targetIndex = 0;
     private bool placed;
+    public Vector2 Position { get => _position; }
     public bool Placed
     {
         get => placed; set
@@ -234,7 +235,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             target = (_position + dir * _position.magnitude);
         }
         yield return new WaitForSeconds(.1f);
-        PathManager.RequestPath(new PathRequest(_position, target, OnPathFound));
+        PathManager.RequestPath(new PathRequest(_position, target, OnPathFound),false);
         while (true)
         {
             if (_age == _maxage || thirst == 0 || hunger == 0)
@@ -318,7 +319,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     dir = dir.normalized;
                     target = (_position + dir * _position.magnitude);
                 }
-                PathManager.RequestPath(new PathRequest(_position, target, OnPathFound));
+                PathManager.RequestPath(new PathRequest(_position, target, OnPathFound),false);
             }
         }
     }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -157,6 +159,7 @@ public class RoadPlacer : MonoBehaviour
                 roadTilemap.SetTile(pos, null);
                 roadTilemap.SetTile(pos, roadTile);
                 map.SetCell(Terrain.ROAD, pos.x, pos.y);
+                GameManager.Instance.Roadmap[pos.x,pos.y] = new Node(pos.x,pos.x,1);
                 count++;
             }
             placing = false;

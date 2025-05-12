@@ -34,10 +34,10 @@ public class PathManager : MonoBehaviour
         }
     }
 
-    public static void RequestPath(PathRequest request)
+    public static void RequestPath(PathRequest request, bool road)
     {
         ThreadStart threadStart = delegate {
-            instance.pathfinding.FindPath(request, instance.FinishedProcessingPath);
+            instance.pathfinding.FindPath(request, instance.FinishedProcessingPath, road);
         };
         threadStart.Invoke();
     }

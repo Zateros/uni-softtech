@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine;
 using System.Xml;
+using NUnit.Framework.Internal;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,8 +40,8 @@ public class GameManager : MonoBehaviour
     private int _minTuristSatisfaction;
     public readonly float eps = 0.1f;
 
-    private Vector2 _enterance;
-    private Vector2 _exit;
+    public Vector2 enterance;
+    public Vector2 exit;
 
     private List<Rhino> _rhinos;
     private List<Zebra> _zebras;
@@ -75,6 +77,17 @@ public class GameManager : MonoBehaviour
             return herbivores;
         }
     }
+    public List<Carnivore> Carnivores
+    {
+        get
+        {
+            List<Carnivore> carnivores = new List<Carnivore>();
+            carnivores.AddRange(_lions);
+            carnivores.AddRange(_hyenas);
+            carnivores.AddRange(_cheetahs);
+            return carnivores;
+        }
+    }
     public List<Rhino> Rhinos { get => _rhinos; }
     public List<Zebra> Zebras { get => _zebras; }
     public List<Giraffe> Giraffes { get => _giraffes; }
@@ -95,8 +108,9 @@ public class GameManager : MonoBehaviour
             if (value != _isNight) _isNight = value;
         }
     }
-    public Heap<VehiclePath> Routes { get; private set; }
+    public Node[,] Roadmap { get; set; } 
     public bool IsGameRunnning { get; private set; }
+    public int satisfaction = 50;
     public int Money { get => _money; }
     public Difficulty Difficulty { get => _difficulty; }
     public bool PurchaseMode
@@ -169,15 +183,16 @@ public class GameManager : MonoBehaviour
 
         Date = DateTime.Today;
 
-        Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
+
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
+        Roadmap = new Node[gameTable.Size.x, gameTable.Size.y];
         Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
 
         Map.onMapGenerated += OnMapGenerated;
 
         DontDestroyOnLoad(this);
     }
-
+        
     void Update()
     {
         Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
@@ -186,6 +201,70 @@ public class GameManager : MonoBehaviour
             PurchaseMode = false;
         }
     }
+
+   /* public void UpdateBestPath()
+    {
+        Vector2 start = enterance;
+        Vector2 end = exit;
+        BestPath = Dijkstra(start, end);
+    }
+
+    private Vector2[] Dijkstra(Vector2 start, Vector2 end)
+    {
+        Dictionary<Vector2, float> dist = new Dictionary<Vector2, float>();
+        Dictionary<Vector2, bool> sptSet = new Dictionary<Vector2, bool>();
+        Dictionary<Vector2,Vector2> prev = new Dictionary<Vector2,Vector2>();
+
+        foreach (Vector2 vec in verticies)
+        {
+            dist[vec] = -1;
+            sptSet[vec] = false;
+        }
+
+        dist[start] = 0;
+        prev[start] = new Vector2(-1,-1);
+
+        for (int count = 0; count < verticies.Count - 1; count++)
+        {
+            Vector2 u = maxSatisfaction(dist, sptSet);
+
+            sptSet[u] = true;
+
+            foreach (Vector2 vec in verticies)
+            {
+                if (!sptSet[vec] && dist[u] != -1 && dist[u] + adjMatrix[u][vec].Item1 >= dist[vec])
+                {
+                    dist[vec] = dist[u] + adjMatrix[u][vec].Item1;
+                    prev[vec] = u;
+                }
+            }
+        }
+        var path = new LinkedList<Vector2>();
+        Vector2 currentNode = end;
+        while (currentNode != new Vector2(-1,-1))
+        {
+            path.AddFirst(currentNode);
+            currentNode = prev[currentNode];
+        }
+        return path.ToArray();
+    }
+
+    private Vector2 maxSatisfaction(Dictionary<Vector2, float> dist, Dictionary<Vector2, bool> sptSet)
+    {
+        float max = -1;
+        Vector2 max_index = new Vector2();
+
+        foreach (Vector2 vec in verticies)
+        {
+            if (!sptSet[vec] && dist[vec] >= max)
+            {
+                max = dist[vec];
+                max_index = vec;
+            }
+        }
+
+        return max_index;
+    }*/
 
     public void StartGame()
     {
@@ -212,10 +291,6 @@ public class GameManager : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    public int CalculateSatisfaction()
-    {
-        return 50;
-    }
 #nullable enable
     public void Buy(GameObject? gameObject)
     {
@@ -338,6 +413,7 @@ public class GameManager : MonoBehaviour
         {
             for (int j = 0; j < gameTable.Size.y; j++)
             {
+                Roadmap[i, j] = new Node(i, j, -1);
                 switch (gameTable.gameMap[i, j])
                 {
                     case Terrain.HILL:
@@ -349,6 +425,16 @@ public class GameManager : MonoBehaviour
                     case Terrain.POND:
                         WMap[i, j] = new Node(i, j, -1);
                         break;
+                    case Terrain.ENTRANCE:
+                        WMap[i,j] = new Node(i, j, 1);
+                        Roadmap[i,j] = new Node(i,j, 1);
+                        enterance = gameTable.CellToWorld(new Vector3Int(i, j));
+                        break;
+                    case Terrain.EXIT:
+                        WMap[i, j] = new Node(i, j, 1);
+                        Roadmap[i, j] = new Node(i, j, 1);
+                        exit = gameTable.CellToWorld(new Vector3Int(i, j));
+                        break;
                     default:
                         WMap[i, j] = new Node(i, j, 1);
                         break;
@@ -356,24 +442,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < gameTable.Size.x; i++)
-        {
-            for (int j = 0; j < gameTable.Size.y; j++)
-            {
-                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.ENTRANCE)
-                {
-                    _enterance = gameTable.CellToWorld(new Vector3Int(i, j, 0));
-                }
-                if ((i == gameTable.Size.x - 1 || j == gameTable.Size.y - 1 || i == 0 || j == 0) && gameTable.gameMap[i, j] == Terrain.EXIT)
-                {
-                    _exit = gameTable.CellToWorld(new Vector3Int(i, j, 0));
-                }
-            }
-        }
-
         for (int i = 0; i < _minTuristCount; i++)
         {
-            Instantiate(turist, _enterance, Quaternion.identity);
+            Instantiate(turist, enterance, Quaternion.identity);
         }
     }
 }

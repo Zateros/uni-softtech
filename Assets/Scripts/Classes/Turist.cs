@@ -1,13 +1,11 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public class Turist : MonoBehaviour, IEntity
 {
-    private readonly float _visionRange = 2f; //TODO: finallize
-    private readonly float _size = 1f; //TODO: finallize
-    private readonly float _speed = 1f; //TODO: finallize
-    private int _satisfaction;
+    private readonly float _visionRange = 2f;
+    private readonly float _speed = 0.25f;
+    public int satisfaction;
     private bool inJeep = false;
     private bool _enRoute = false;
     private Vehicle vehicle = null;
@@ -16,8 +14,8 @@ public class Turist : MonoBehaviour, IEntity
     private Vector2[] _path;
     private int targetIndex = 0;
 
-    public bool IsVisible { get => true; set => throw new Exception(); }
-    public int Satisfaction { get => _satisfaction; }
+    public bool IsVisible { get => true; }
+    public int Satisfaction { get => satisfaction; }
 
     private void Awake()
     {
@@ -26,13 +24,13 @@ public class Turist : MonoBehaviour, IEntity
         switch (GameManager.Instance.Difficulty)
         {
             case Difficulty.EASY:
-                _satisfaction = 70;
+                satisfaction = 70;
                 break;
             case Difficulty.MEDIUM:
-                _satisfaction = 60;
+                satisfaction = 60;
                 break;
             case Difficulty.HARD:
-                _satisfaction = 50;
+                satisfaction = 50;
                 break;
             default:
                 break;
@@ -41,59 +39,14 @@ public class Turist : MonoBehaviour, IEntity
 
     void Update()
     {
-        if (!inJeep && !_enRoute)
+        if (!inJeep)
         {
             vehicle = PickNearestVehicle();
             if (vehicle != null)
             {
-                PathManager.RequestPath(new PathRequest(_position, vehicle.Position, OnPathFound));
-                _enRoute = true;
+                bool succes = vehicle.Enter(this);
+                inJeep = succes;
             }
-        }
-    }
-
-    IEnumerator FollowPath()
-    {
-        Vector2 currentWaypoint = _path[0];
-        while (true)
-        {
-            if(vehicle.IsFull)
-            {
-                _enRoute = false;
-                yield break;
-            }
-            if (_position == currentWaypoint)
-            {
-                targetIndex++;
-                if (targetIndex >= _path.Length)
-                {
-                    bool succes = vehicle.Enter(this);
-                    if (succes)
-                    {
-                        _position = vehicle.Position;
-                        transform.position = new Vector3(_position.x, _position.y,-10);
-                    }
-                    inJeep = succes;
-                    _enRoute = false;
-                    yield break;
-                }
-                currentWaypoint = _path[targetIndex];
-            }
-
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed * Time.deltaTime);
-            _position = transform.position;
-            yield return null;
-        }
-    }
-
-    public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
-    {
-        if (pathSuccessful)
-        {
-            targetIndex = 0;
-            _path = waypoints;
-            StopCoroutine(FollowPath());
-            StartCoroutine(FollowPath());
         }
     }
 
