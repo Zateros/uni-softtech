@@ -41,8 +41,8 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public Sprite blipIcon;
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;
-
     public Vector2 Facing { get => _facing; }
+
     /// <summary>
     /// Sets the position and start everything after the animal is placed
     /// </summary>
