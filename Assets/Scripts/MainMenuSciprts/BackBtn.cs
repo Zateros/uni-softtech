@@ -1,9 +1,12 @@
 using UnityEngine;
 
+/// <summary>
+/// Takes player back to previious panel, sets current panel deactive.
+/// </summary>
 public class BackBtn : MonoBehaviour
 {
-    [SerializeField] public GameObject PreviousPanel;
-    [SerializeField] public GameObject CurrentPanel;
+    public GameObject PreviousPanel;
+    public GameObject CurrentPanel;
 
     public void OnBackBtnClick()
     {

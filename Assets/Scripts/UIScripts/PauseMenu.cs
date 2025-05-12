@@ -1,11 +1,18 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// Handles PauseBtnClick, opens pause menu.
+/// </summary>
 public class PauseMenu : MonoBehaviour
 {
-    [SerializeField] public GameObject PausePanel;
-    [SerializeField] public GameObject PauseBgPanel;
+    public GameObject PausePanel;
+    public GameObject PauseBgPanel;
 
+    /// <summary>
+    /// Opens up the pause menu, stops game.
+    /// </summary>
     public void OnSettingBtnClick()
     {
         PauseBgPanel.SetActive(true);
@@ -14,6 +21,9 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+    /// <summary>
+    /// Closes pause menu, resumes the game.
+    /// </summary>
     public void OnReturnBtnClick()
     {
         Time.timeScale = GameManager.Instance.PrevSpeed;
@@ -22,6 +32,9 @@ public class PauseMenu : MonoBehaviour
         GameManager.Instance.IsGameRunnning = true;
     }
 
+    /// <summary>
+    /// Quits the game, loads main menu.
+    /// </summary>
     public void OnQuitBtnClick()
     {
         Time.timeScale = 1f;

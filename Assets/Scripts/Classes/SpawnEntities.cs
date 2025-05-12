@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
-using System.Xml;
 using UnityEngine;
-using UnityEngine.Rendering;
 
+
+/// <summary>
+/// Spawns in mincount + 5 animals at beginning of game.
+/// Spawns random number of turists every 1 - 10 seconds based on satisfaction.
+/// </summary>
 public class SpawnEntities : MonoBehaviour
 {
     public GameObject Rhino;
@@ -30,6 +33,10 @@ public class SpawnEntities : MonoBehaviour
         _maxDailyTuristCount = 10;
     }
 
+    /// <summary>
+    /// Starts the turist spawning cycle.
+    /// Randomly chooses herbivores and carnivore and then spawns them in.
+    /// </summary>
     void Start()
     {
         CycleTime();
@@ -134,12 +141,20 @@ public class SpawnEntities : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Waits for parameter seconds.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     IEnumerator WaitFor(float time)
     {
         yield return new WaitForSeconds(time);
         CycleTime();
     }
 
+    /// <summary>
+    /// Spawns in turists randomized.
+    /// </summary>
     private void CycleTime()
     {
         if((GameManager.Instance.Date - _prevDay).TotalDays == 1)
