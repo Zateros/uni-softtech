@@ -203,15 +203,23 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 82251bfe2b0b6f81e63ae8ab0eca8a05dadc596b
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
         Roadmap = new Node[gameTable.Size.x, gameTable.Size.y];
         Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
 
         Map.onMapGenerated += OnMapGenerated;
 
+<<<<<<< HEAD
         IsGameRunnning = true;
 
         _hasWon = false;
+=======
+        DontDestroyOnLoad(this);
+>>>>>>> 82251bfe2b0b6f81e63ae8ab0eca8a05dadc596b
     }
         
     void Update()
@@ -233,6 +241,70 @@ public class GameManager : MonoBehaviour
         if (IsGameRunnning)
             _prevSpeed = Time.timeScale;
     }
+
+   /* public void UpdateBestPath()
+    {
+        Vector2 start = enterance;
+        Vector2 end = exit;
+        BestPath = Dijkstra(start, end);
+    }
+
+    private Vector2[] Dijkstra(Vector2 start, Vector2 end)
+    {
+        Dictionary<Vector2, float> dist = new Dictionary<Vector2, float>();
+        Dictionary<Vector2, bool> sptSet = new Dictionary<Vector2, bool>();
+        Dictionary<Vector2,Vector2> prev = new Dictionary<Vector2,Vector2>();
+
+        foreach (Vector2 vec in verticies)
+        {
+            dist[vec] = -1;
+            sptSet[vec] = false;
+        }
+
+        dist[start] = 0;
+        prev[start] = new Vector2(-1,-1);
+
+        for (int count = 0; count < verticies.Count - 1; count++)
+        {
+            Vector2 u = maxSatisfaction(dist, sptSet);
+
+            sptSet[u] = true;
+
+            foreach (Vector2 vec in verticies)
+            {
+                if (!sptSet[vec] && dist[u] != -1 && dist[u] + adjMatrix[u][vec].Item1 >= dist[vec])
+                {
+                    dist[vec] = dist[u] + adjMatrix[u][vec].Item1;
+                    prev[vec] = u;
+                }
+            }
+        }
+        var path = new LinkedList<Vector2>();
+        Vector2 currentNode = end;
+        while (currentNode != new Vector2(-1,-1))
+        {
+            path.AddFirst(currentNode);
+            currentNode = prev[currentNode];
+        }
+        return path.ToArray();
+    }
+
+    private Vector2 maxSatisfaction(Dictionary<Vector2, float> dist, Dictionary<Vector2, bool> sptSet)
+    {
+        float max = -1;
+        Vector2 max_index = new Vector2();
+
+        foreach (Vector2 vec in verticies)
+        {
+            if (!sptSet[vec] && dist[vec] >= max)
+            {
+                max = dist[vec];
+                max_index = vec;
+            }
+        }
+
+        return max_index;
+    }*/
 
     public void StartGame()
     {
