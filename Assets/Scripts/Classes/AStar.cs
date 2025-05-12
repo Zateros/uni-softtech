@@ -101,8 +101,6 @@ public class AStar : MonoBehaviour
             {
                 Node currentNode = openSet.RemoveFirst();
                 closedSet.Add(currentNode);
-                Debug.Log(currentNode.gridX);
-                Debug.Log(currentNode.gridY);
                 if (currentNode == targetNode)
                 {
                     pathSuccess = true;
@@ -205,7 +203,11 @@ public class AStar : MonoBehaviour
         for (int i = 1; i < path.Count; i++)
         {
             Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
-            if (directionNew != directionOld)
+            if (directionNew != directionOld && !_road)
+            {
+                waypoints.Add(path[i].worldPosition);
+            }
+            else if (_road)
             {
                 waypoints.Add(path[i].worldPosition);
             }

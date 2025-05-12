@@ -4,6 +4,7 @@ using System.Collections;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting;
 using UnityEngine.InputSystem.EnhancedTouch;
+using static UnityEngine.Rendering.DebugUI;
 
 public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 {
@@ -13,6 +14,7 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
     private int _price;
     private int _salePrice;
     private bool _goingBack = false;
+    private bool _atEnd = false;
     private List<Turist> _passengers;
     private List<Herbivore> herbivores;
     private List<Carnivore> carnivores;
@@ -58,6 +60,8 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
             default:
                 break;
         }
+        herbivores = new List<Herbivore>();
+        carnivores = new List<Carnivore>();
     }
 
     public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
@@ -66,13 +70,11 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
         if (pathSuccessful)
         {
             _path = waypoints;
-            Debug.Log("found");
             StopCoroutine(FollowPath());
             StartCoroutine(FollowPath());
         }
         else
         {
-            Debug.Log("Not found");
             StopCoroutine(FollowPath());
             StopCoroutine(UpdatePath());
             StartCoroutine(UpdatePath());
@@ -85,11 +87,11 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
         yield return new WaitForSeconds(.1f);
         while (true)
         {
-            if (!_goingBack || IsFull)
+            yield return new WaitForSeconds(.5f);
+            if (_goingBack || IsFull)
             {
                 if (targetIndex >= _path.Length)
                 {
-                    yield return new WaitForSeconds(.5f);
                     if (!_goingBack)
                     {
                         PathManager.RequestPath(new PathRequest(_position, GameManager.Instance.exit, OnPathFound), true);
@@ -98,10 +100,6 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
                     {
                         PathManager.RequestPath(new PathRequest(_position, GameManager.Instance.enterance, OnPathFound), true);
                     }
-                }
-                if (_path.Length == 0)
-                {
-                    yield break;
                 }
             }
         }
@@ -127,80 +125,104 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
                             {
                                 if (typesSeen[i]) ++cnt;
                             }
-                            int satisfaction = Mathf.Clamp(_passengers[0].satisfaction + (cnt - 3) * 10 + (5 - herbivores.Count) * 5 + (5 - carnivores.Count) * 5, 0, 100);
+                            int satisfaction = _passengers[0].satisfaction + (cnt - 3) * 10 + (herbivores.Count - 3) * 5 + (carnivores.Count - 3) * 5;
+                            if(satisfaction < 0) satisfaction = 0;
+                            if (satisfaction > 100) satisfaction = 100;
                             if (GameManager.Instance.satisfaction > satisfaction)
                             {
-                                GameManager.Instance.satisfaction = Mathf.Clamp(GameManager.Instance.satisfaction - (GameManager.Instance.satisfaction - satisfaction) / 2, 0, 100);
+                                
+                                GameManager.Instance.satisfaction = GameManager.Instance.satisfaction - (GameManager.Instance.satisfaction - satisfaction) / 2;
+                                foreach (Turist turist in _passengers)
+                                {
+                                    
+                                    GameManager.Instance.Turists.Remove(turist);
+                                    Destroy(turist.gameObject);
+                                }
+                                
+                                _passengers.Clear();
+                                yield break;
+                            }
+                            else if (GameManager.Instance.satisfaction < satisfaction)
+                            {
+                                GameManager.Instance.satisfaction = GameManager.Instance.satisfaction + (satisfaction - GameManager.Instance.satisfaction) / 2;
+                                foreach (Turist turist in _passengers)
+                                {
+                                    GameManager.Instance.Turists.Remove(turist);
+                                    Destroy(turist.gameObject);
+                                }
+                                _passengers.Clear();
+                                yield break;
                             }
                             else
                             {
-                                GameManager.Instance.satisfaction = Mathf.Clamp(GameManager.Instance.satisfaction - (GameManager.Instance.satisfaction + satisfaction) / 2, 0, 100);
+                                foreach (Turist turist in _passengers)
+                                {
+                                    GameManager.Instance.Turists.Remove(turist);
+                                    Destroy(turist.gameObject);
+                                }
+                                _passengers.Clear();
+                                yield break;
                             }
-                            foreach (Turist turist in _passengers)
-                            {
-                                GameManager.Instance.Turists.Remove(turist);
-                                Destroy(turist.gameObject);
-                            }
-                            _passengers.Clear();
                         }
-                        yield break;
+                       
                     }
                     currentWaypoint = _path[targetIndex];
+                    if (!_goingBack)
+                    {
+                        foreach (Rhino rhino in GameManager.Instance.Rhinos)
+                        {
+                            if (Vector2.Distance(rhino.Position, _position) <= visionRange)
+                            {
+                                typesSeen[0] = true;
+                                herbivores.Add(rhino);
+                            }
+                        }
+                        foreach (Zebra zebra in GameManager.Instance.Zebras)
+                        {
+                            if (Vector2.Distance(zebra.Position, _position) <= visionRange)
+                            {
+                                typesSeen[1] = true;
+                                herbivores.Add(zebra);
+                            }
+                        }
+                        foreach (Giraffe giraffe in GameManager.Instance.Giraffes)
+                        {
+                            if (Vector2.Distance(giraffe.Position, _position) <= visionRange)
+                            {
+                                typesSeen[2] = true;
+                                herbivores.Add(giraffe);
+                            }
+                        }
+                        foreach (Lion lion in GameManager.Instance.Lions)
+                        {
+                            if (Vector2.Distance(lion.Position, _position) <= visionRange)
+                            {
+                                typesSeen[3] = true;
+                                carnivores.Add(lion);
+                            }
+                        }
+                        foreach (Hyena hyena in GameManager.Instance.Hyenas)
+                        {
+                            if (Vector2.Distance(hyena.Position, _position) <= visionRange)
+                            {
+                                typesSeen[4] = true;
+                                carnivores.Add(hyena);
+                            }
+                        }
+                        foreach (Cheetah cheetah in GameManager.Instance.Cheetahs)
+                        {
+                            if (Vector2.Distance(cheetah.Position, _position) <= visionRange)
+                            {
+                                typesSeen[5] = true;
+                                carnivores.Add(cheetah);
+                            }
+                        }
+                    }
+                    
                 }
-                if (!_goingBack)
-                {
-                    foreach (Rhino rhino in GameManager.Instance.Rhinos)
-                    {
-                        if (Vector2.Distance(rhino.Position, _position) <= visionRange)
-                        {
-                            typesSeen[0] = true;
-                            herbivores.Add(rhino);
-                        }
-                    }
-                    foreach (Zebra zebra in GameManager.Instance.Zebras)
-                    {
-                        if (Vector2.Distance(zebra.Position, _position) <= visionRange)
-                        {
-                            typesSeen[1] = true;
-                            herbivores.Add(zebra);
-                        }
-                    }
-                    foreach (Giraffe giraffe in GameManager.Instance.Giraffes)
-                    {
-                        if (Vector2.Distance(giraffe.Position, _position) <= visionRange)
-                        {
-                            typesSeen[2] = true;
-                            herbivores.Add(giraffe);
-                        }
-                    }
-                    foreach (Lion lion in GameManager.Instance.Lions)
-                    {
-                        if (Vector2.Distance(lion.Position, _position) <= visionRange)
-                        {
-                            typesSeen[3] = true;
-                            carnivores.Add(lion);
-                        }
-                    }
-                    foreach (Hyena hyena in GameManager.Instance.Hyenas)
-                    {
-                        if (Vector2.Distance(hyena.Position, _position) <= visionRange)
-                        {
-                            typesSeen[4] = true;
-                            carnivores.Add(hyena);
-                        }
-                    }
-                    foreach (Cheetah cheetah in GameManager.Instance.Cheetahs)
-                    {
-                        if (Vector2.Distance(cheetah.Position, _position) <= visionRange)
-                        {
-                            typesSeen[5] = true;
-                            carnivores.Add(cheetah);
-                        }
-                    }
-                }
-                Vector3Int pos = GameManager.Instance.GameTable.WorldToCell(_position);
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed * Time.deltaTime);
                 _position = transform.position;
+                
             }
             yield return null;
         }

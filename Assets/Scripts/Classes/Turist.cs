@@ -4,15 +4,11 @@ using UnityEngine;
 public class Turist : MonoBehaviour, IEntity
 {
     private readonly float _visionRange = 2f;
-    private readonly float _speed = 0.25f;
     public int satisfaction;
     private bool inJeep = false;
-    private bool _enRoute = false;
     private Vehicle vehicle = null;
     protected Vector2 dir;
     protected Vector2 _position;
-    private Vector2[] _path;
-    private int targetIndex = 0;
 
     public bool IsVisible { get => true; }
     public int Satisfaction { get => satisfaction; }

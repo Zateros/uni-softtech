@@ -206,6 +206,11 @@ public class Placer : MonoBehaviour
 
                 onPlaced?.Invoke(price);
                 map.SetCell(activeCheckingTerrain, pos.x, pos.y);
+
+                if(activeCheckingTerrain == Terrain.ROAD)
+                {
+                    GameManager.Instance.Roadmap[pos.x, pos.y] = new Node(pos.x, pos.y, 1);
+                }
             }
             placing = false;
         }

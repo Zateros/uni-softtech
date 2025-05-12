@@ -31,26 +31,13 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public int hunger;
     protected readonly int _hungerMax = 100;
     public int thirst;
-    protected readonly int _thirstMax = 100;
+    protected readonly int _thirstMax = 50;
     protected bool _hasChip = false;
     protected bool _asleep = false;
     protected float _sleepDuration = 5f;
     private int targetIndex = 0;
     private bool placed;
     public Vector2 Position { get => _position; }
-<<<<<<< HEAD
-=======
-    public bool Placed
-    {
-        get => placed; set
-        {
-            _position = gameObject.transform.position;
-            Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
-            StartCoroutine(UpdatePath());
-            placed = true;
-        }
-    }
->>>>>>> 82251bfe2b0b6f81e63ae8ab0eca8a05dadc596b
     public Sprite _blipIcon;
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;

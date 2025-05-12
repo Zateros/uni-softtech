@@ -22,7 +22,7 @@ public class SpawnEntities : MonoBehaviour
 
     void Start()
     {
-        DepthSorting sorting;
+        /*DepthSorting sorting;
 
         System.Random rnd = new System.Random();
         int chosenAnimal;
@@ -120,7 +120,7 @@ public class SpawnEntities : MonoBehaviour
                     break;
             }
 
-        }
+        }*/
 
 
     }
