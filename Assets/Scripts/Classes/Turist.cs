@@ -8,13 +8,12 @@ public class Turist : MonoBehaviour, IEntity
     private bool inJeep = false;
     private Vehicle vehicle = null;
     protected Vector2 dir;
-    protected Vector2 _facing;
     protected Vector2 _position;
+    Vector2 _facing = Vector2.zero;
 
-    public bool IsVisible { get => true; set => throw new Exception(); }
-    public int Satisfaction { get => _satisfaction; }
+    public bool IsVisible { get => true; }
+    public int Satisfaction { get => satisfaction; }
     public Vector2 Facing { get => _facing; }
-
 
     private void Awake()
     {
@@ -43,57 +42,9 @@ public class Turist : MonoBehaviour, IEntity
             vehicle = PickNearestVehicle();
             if (vehicle != null)
             {
-                PathManager.RequestPath(new PathRequest(_position, vehicle.Position, OnPathFound));
-                _enRoute = true;
+                bool succes = vehicle.Enter(this);
+                inJeep = succes;
             }
-        }
-    }
-
-    IEnumerator FollowPath()
-    {
-        Vector2 currentWaypoint = _path[0];
-        dir = currentWaypoint.normalized;
-        while (true)
-        {
-            if(vehicle.IsFull)
-            {
-                _enRoute = false;
-                yield break;
-            }
-            if (_position == currentWaypoint)
-            {
-                targetIndex++;
-                if (targetIndex >= _path.Length)
-                {
-                    bool success = vehicle.Enter(this);
-                    if (success)
-                    {
-                        _position = vehicle.Position;
-                        transform.position = new Vector3(_position.x, _position.y,-10);
-                    }
-                    inJeep = success;
-                    _enRoute = false;
-                    yield break;
-                }
-                currentWaypoint = _path[targetIndex];
-                dir = currentWaypoint.normalized;
-            }
-
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed * Time.deltaTime);
-            _position = transform.position;
-            _facing = (currentWaypoint - _position).normalized;
-            yield return null;
-        }
-    }
-
-    public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
-    {
-        if (pathSuccessful)
-        {
-            targetIndex = 0;
-            _path = waypoints;
-            StopCoroutine(FollowPath());
-            StartCoroutine(FollowPath());
         }
     }
 
@@ -103,7 +54,7 @@ public class Turist : MonoBehaviour, IEntity
         float distance = -1;
         foreach (Vehicle vehicle in GameManager.Instance.Vehicles)
         {
-            if(distance == -1 && Vector2.Distance(_position, vehicle.Position) <= _visionRange && !vehicle.IsFull)
+            if (distance == -1 && Vector2.Distance(_position, vehicle.Position) <= _visionRange && !vehicle.IsFull)
             {
                 closest = vehicle;
                 distance = Vector2.Distance(_position, vehicle.Position);

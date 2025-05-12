@@ -1,10 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using static UnityEngine.GraphicsBuffer;
-using Unity.VisualScripting;
-using UnityEngine.InputSystem.EnhancedTouch;
-using static UnityEngine.Rendering.DebugUI;
 
 public class Vehicle : MonoBehaviour, IEntity, IPurchasable
 {

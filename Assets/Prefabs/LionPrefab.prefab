@@ -163,7 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ad4021afef6c9a4fa5ba97767f3f3b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blipIcon: {fileID: -366299152180960628, guid: 93d228fc347d3cfb4aa566429b4073ec, type: 3}
+  age: 0
+  hunger: 0
+  thirst: 0
+  blipIcon: {fileID: -366299152180960628, guid: 93d228fc347d3cfb4aa566429b4073ec, type: 3}
 --- !u!61 &6615700153433006471
 BoxCollider2D:
   m_ObjectHideFlags: 0
