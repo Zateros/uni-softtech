@@ -225,15 +225,11 @@ public class GameManager : MonoBehaviour
         {
             PurchaseMode = false;
         }
-    }
-
-            if (_winningDate == Date.AddDays(_daysPassed))
-            {
-                onGameWon?.Invoke();
-                _hasWon = true;
-            }
+        if (_winningDate == Date.AddDays(_daysPassed))
+        {
+            onGameWon?.Invoke();
+            _hasWon = true;
         }
-
         if (IsGameRunnning)
             _prevSpeed = Time.timeScale;
     }
