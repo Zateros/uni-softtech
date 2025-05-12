@@ -43,6 +43,9 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public event OnAnimalDestroy onAnimalDestroy;
 
     public Vector2 Facing { get => _facing; }
+    /// <summary>
+    /// Sets the position and start everything after the animal is placed
+    /// </summary>
     public bool Placed
     {
         get => placed; set
