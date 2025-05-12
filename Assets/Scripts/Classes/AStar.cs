@@ -2,31 +2,108 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+/// <summary>
+/// A* algorithim implamenntion, the road bool decides if we only wnat to go on roads
+/// </summary>
 public class AStar : MonoBehaviour
 {
-
-    public void FindPath(PathRequest request, Action<PathResult> callback)
+    private bool _road;
+    public void FindPath(PathRequest request, Action<PathResult> callback, bool road)
     {
-
+        _road = road;
         Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
         Vector3Int start = GameManager.Instance.GameTable.WorldToCell(request.pathStart);
         Vector3Int end = GameManager.Instance.GameTable.WorldToCell(request.pathEnd);
-        Node startNode = GameManager.Instance.WMap[start.x, start.y];
-        Node targetNode = GameManager.Instance.WMap[end.x, end.y];
+        if(!GameManager.Instance.GameTable.IsInBounds(end.x, end.y))
+        {
+            callback(new PathResult(new Vector2[0], false, request.callback));
+            return;
+        }
+        Node startNode;
+        Node targetNode;
+        if (road)
+        {
+            startNode = GameManager.Instance.Roadmap[start.x, start.y];
+            targetNode = GameManager.Instance.Roadmap[end.x, end.y];
+        }
+        else
+        {
+            startNode = GameManager.Instance.WMap[start.x, start.y];
+            targetNode = GameManager.Instance.WMap[end.x, end.y];
+        }
+        
         startNode.parent = startNode;
 
+        if(!targetNode.passible && !road)
+        {
+            var WMap = GameManager.Instance.WMap;
+            if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y - 1))
+            {
+                if (WMap[end.x - 1, end.y - 1].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y - 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y))
+            {
+                if (WMap[end.x - 1, end.y].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y + 1))
+            {
+                if (WMap[end.x - 1, end.y + 1].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y + 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x, end.y - 1))
+            {
+                if (WMap[end.x, end.y - 1].passible)
+                {
+                    targetNode = WMap[end.x, end.y - 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x, end.y + 1))
+            {
+                if (WMap[end.x, end.y + 1].passible)
+                {
+                    targetNode = WMap[end.x, end.y + 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x + 1, end.y - 1))
+            {
+                if (WMap[end.x + 1, end.y - 1].passible)
+                {
+                    targetNode = WMap[end.x + 1, end.y - 1];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x + 1, end.y))
+            {
+                if (WMap[end.x - 1, end.y].passible)
+                {
+                    targetNode = WMap[end.x - 1, end.y];
+                }
+            }
+            if (GameManager.Instance.GameTable.IsInBounds(end.x + 1, end.y + 1))
+            {
+                if (WMap[end.x + 1, end.y + 1].passible)
+                {
+                    targetNode = WMap[end.x + 1, end.y + 1];
+                }
+            }
+        }
         if (startNode.passible && targetNode.passible)
         {
             Heap<Node> openSet = new Heap<Node>(GameManager.Instance.GameTable.Size.x * GameManager.Instance.GameTable.Size.y);
             HashSet<Node> closedSet = new HashSet<Node>();
             openSet.Add(startNode);
-
             while (openSet.Count > 0)
             {
                 Node currentNode = openSet.RemoveFirst();
                 closedSet.Add(currentNode);
-
                 if (currentNode == targetNode)
                 {
                     pathSuccess = true;
@@ -88,9 +165,16 @@ public class AStar : MonoBehaviour
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
 
-                if (checkX >= 0 && checkX < GameManager.Instance.GameTable.Size.x && checkY >= 0 && checkY < GameManager.Instance.GameTable.Size.y)
+                if (GameManager.Instance.GameTable.IsInBounds(checkX,checkY))
                 {
-                    neighbours.Add(GameManager.Instance.WMap[checkX, checkY]);
+                    if (_road)
+                    {
+                        neighbours.Add(GameManager.Instance.Roadmap[checkX, checkY]);
+                    }
+                    else
+                    {
+                        neighbours.Add(GameManager.Instance.WMap[checkX, checkY]);
+                    }
                 }
             }
         }
@@ -122,7 +206,11 @@ public class AStar : MonoBehaviour
         for (int i = 1; i < path.Count; i++)
         {
             Vector2 directionNew = new Vector2(path[i - 1].gridX - path[i].gridX, path[i - 1].gridY - path[i].gridY);
-            if (directionNew != directionOld)
+            if (directionNew != directionOld && !_road)
+            {
+                waypoints.Add(path[i].worldPosition);
+            }
+            else if (_road)
             {
                 waypoints.Add(path[i].worldPosition);
             }

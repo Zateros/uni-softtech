@@ -9,6 +9,8 @@ public class Water : IPurchasable
     public int SalePrice { get => _salePrice; }
     public bool Placed { get; set; }
 
+    public static int DestroyExtraCost { get => 100; }
+
     public Water()
     {
 

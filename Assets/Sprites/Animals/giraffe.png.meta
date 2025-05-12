@@ -1,13 +1,31 @@
 fileFormatVersion: 2
-guid: d9229f71648dfe193b2e325bd11e07d5
+guid: 28aa5bf9d5680fca6bee37537c48af4b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4163216209006283368
-    second: Hill_0
+      213: 5604796196903453309
+    second: giraffe_0
   - first:
-      213: -1370701362830414662
-    second: Hill_1
+      213: 6075812288230892372
+    second: giraffe_1
+  - first:
+      213: -8210915678993814098
+    second: giraffe_2
+  - first:
+      213: 7934824715324052489
+    second: giraffe_3
+  - first:
+      213: -144614431509399618
+    second: giraffe_4
+  - first:
+      213: -332104285840276368
+    second: giraffe_5
+  - first:
+      213: -8945944684393686571
+    second: giraffe_6
+  - first:
+      213: -928853805117321491
+    second: giraffe_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,111 +121,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hill_0
+      name: giraffe_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 102
-        height: 78
+        width: 70
+        height: 91
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.4969254, y: 0.0222517}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 86ac7fc9517b6c930800000000000000
-      internalID: 4163216209006283368
+      spriteID: d7204e2127c38cd40800000000000000
+      internalID: 5604796196903453309
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_1
+      name: giraffe_1
       rect:
         serializedVersion: 2
-        x: 105
+        x: 70
         y: 0
-        width: 98
-        height: 78
+        width: 70
+        height: 91
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.4969254, y: 0.0222517}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: abc695f6f5a4afce0800000000000000
-      internalID: -1370701362830414662
+      spriteID: 453a4f9c51f915450800000000000000
+      internalID: 6075812288230892372
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_2
+      name: giraffe_2
       rect:
         serializedVersion: 2
-        x: 203
+        x: 140
         y: 0
-        width: 103
-        height: 78
+        width: 70
+        height: 91
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.4969254, y: 0.0222517}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: be1204485e02e87749ced8b97fe1a2ee
-      internalID: -333853335
+      spriteID: ead63e871b7fc0e80800000000000000
+      internalID: -8210915678993814098
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_3
+      name: giraffe_3
       rect:
         serializedVersion: 2
-        x: 306
+        x: 210
         y: 0
-        width: 102
-        height: 78
+        width: 70
+        height: 91
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.4969254, y: 0.0222517}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 4bd977a9cd06074a98dcdb344e071847
-      internalID: 335774649
+      spriteID: 90451efb9092e1e60800000000000000
+      internalID: 7934824715324052489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_4
+      name: giraffe_4
       rect:
         serializedVersion: 2
-        x: 408
+        x: 280
         y: 0
-        width: 102
-        height: 78
+        width: 70
+        height: 91
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.4969254, y: 0.0222517}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 27d13fe34c4dfbc55bd6ac73edbabb49
-      internalID: 586580089
+      spriteID: eb7bc74d0f93efdf0800000000000000
+      internalID: -144614431509399618
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: giraffe_5
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 0
+        width: 70
+        height: 91
+      alignment: 9
+      pivot: {x: 0.4969254, y: 0.0222517}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0740b1e59e0246bf0800000000000000
+      internalID: -332104285840276368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: giraffe_6
+      rect:
+        serializedVersion: 2
+        x: 420
+        y: 0
+        width: 70
+        height: 91
+      alignment: 9
+      pivot: {x: 0.4969254, y: 0.0222517}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d99b6a05be99d380800000000000000
+      internalID: -8945944684393686571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: giraffe_7
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 0
+        width: 70
+        height: 91
+      alignment: 9
+      pivot: {x: 0.4969254, y: 0.0222517}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dee46b1b26c0c13f0800000000000000
+      internalID: -928853805117321491
       vertices: []
       indices: 
       edges: []
@@ -216,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9eba347a7e6889138809a51494863682
+    spriteID: 62eebc910212c85448a9c04749101cc4
     internalID: 0
     vertices: []
     indices: 
@@ -226,11 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hill_0: 4163216209006283368
-      Hill_1: -1370701362830414662
-      Hill_2: -333853335
-      Hill_3: 335774649
-      Hill_4: 586580089
+      giraffe_0: 5604796196903453309
+      giraffe_1: 6075812288230892372
+      giraffe_2: -8210915678993814098
+      giraffe_3: 7934824715324052489
+      giraffe_4: -144614431509399618
+      giraffe_5: -332104285840276368
+      giraffe_6: -8945944684393686571
+      giraffe_7: -928853805117321491
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

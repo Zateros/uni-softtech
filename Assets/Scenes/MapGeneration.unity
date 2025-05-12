@@ -322,7 +322,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &23048939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2321,7 +2321,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 6283642253247966636, guid: bdef79afd9cda604f95ab5ef8243aedf, type: 3}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &178753294
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2730,7 +2730,7 @@ MonoBehaviour:
   sigma: 3
   scale: 3.79
   waterScale: 5.11
-  obstacleScale: 2.16
+  obstacleScale: 2.36
   amp: 5.97
   waterAmp: 2.67
   obstacleAmp: 2.98
@@ -2740,7 +2740,7 @@ MonoBehaviour:
   maxRiverWidth: 3
   sandyThreshold: 0.492
   waterThreshold: 0.769
-  obstacleThreshold: 0.754
+  obstacleThreshold: 0.723
   maxIterationForEntranceGeneration: 10
   foliageChance: 0.688
   foliageInset: 1
@@ -2793,7 +2793,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadTile: {fileID: 11400000, guid: adf81ef08d1befae394b91c12629e4de, type: 2}
-  userBoughtTag: UserBought
+  waterTile: {fileID: 11400000, guid: cfa14c8e9c1023a12bcaf840478e3ad7, type: 2}
+  roadTilemap: {fileID: 1012924397}
+  waterTilemap: {fileID: 241916132}
   validColor: {r: 0.6078, g: 0.9411, b: 0.9098, a: 0.8}
   invalidColor: {r: 1, g: 0.1921, b: 0, a: 0.8}
 --- !u!1 &211254483
@@ -3507,7 +3509,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!1 &314643573
 GameObject:
   m_ObjectHideFlags: 0
@@ -3650,7 +3652,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &333293816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5255,7 +5257,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &757151807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5492,7 +5494,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &801329734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5890,7 +5892,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &839706453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6052,7 +6054,7 @@ MonoBehaviour:
   Tree: {fileID: 1805458081363682743, guid: 27a0ee300845e4445a249f50162effe0, type: 3}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &842825167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6659,7 +6661,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 8975388108548339564, guid: 7523bbe818399d74badacfef22d68f09, type: 3}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &934612291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7353,7 +7355,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &1100828985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7609,7 +7611,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!1 &1107528529
 GameObject:
   m_ObjectHideFlags: 0
@@ -7835,7 +7837,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 206398170}
+  placer: {fileID: 206398170}
 --- !u!114 &1165414722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8583,7 +8585,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &1246704609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9430,7 +9432,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!1 &1336185915
 GameObject:
   m_ObjectHideFlags: 0
@@ -11008,7 +11010,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 0}
 --- !u!114 &1512162939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12942,7 +12944,7 @@ MonoBehaviour:
   Tree: {fileID: 0}
   Jeep: {fileID: 0}
   Chip: {fileID: 0}
-  roadPlacer: {fileID: 0}
+  placer: {fileID: 206398170}
 --- !u!114 &1836113954
 MonoBehaviour:
   m_ObjectHideFlags: 0

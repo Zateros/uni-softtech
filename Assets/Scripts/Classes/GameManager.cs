@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-using Unity.VisualScripting;
-using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine;
-using System.Xml;
 
 public class GameManager : MonoBehaviour
 {
@@ -35,7 +31,7 @@ public class GameManager : MonoBehaviour
 
     private int _money;
     private int _minMoney;
-    private int _entranceFee;
+    public int entranceFee;
     private int _herbivoreCount;
     private int _minHerbivoreCount;
     private int _carnivoreCount;
@@ -89,6 +85,17 @@ public class GameManager : MonoBehaviour
             return herbivores;
         }
     }
+    public List<Carnivore> Carnivores
+    {
+        get
+        {
+            List<Carnivore> carnivores = new List<Carnivore>();
+            carnivores.AddRange(_lions);
+            carnivores.AddRange(_hyenas);
+            carnivores.AddRange(_cheetahs);
+            return carnivores;
+        }
+    }
     public List<Rhino> Rhinos { get => _rhinos; }
     public List<Zebra> Zebras { get => _zebras; }
     public List<Giraffe> Giraffes { get => _giraffes; }
@@ -100,6 +107,7 @@ public class GameManager : MonoBehaviour
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
     public Vector2 Entrance { get => _enterance; }
+    public Vector2 Exit { get => _exit; }
     public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
     public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
     public float PrevSpeed { get => _prevSpeed; }
@@ -111,9 +119,14 @@ public class GameManager : MonoBehaviour
             if (value != _isNight) _isNight = value;
         }
     }
-    public Heap<VehiclePath> Routes { get; private set; }
+    public Node[,] Roadmap { get; set; } 
     public bool IsGameRunnning { get; set; }
-    public int Money { get => _money; }
+    public int satisfaction = 50;
+    public int Money { get => _money; set
+        {
+            _money = value;
+        }
+    }
     public Difficulty Difficulty { get => _difficulty; }
     public bool PurchaseMode
     {
@@ -140,7 +153,7 @@ public class GameManager : MonoBehaviour
                 _monthsToWin = 3;
                 _money = 1000000;
                 _minMoney = 10000;
-                _entranceFee = 5;
+                entranceFee = 5;
                 _minHerbivoreCount = 10;
                 _minCarnivoreCount = 10;
                 _minTuristCount = 10;
@@ -151,7 +164,7 @@ public class GameManager : MonoBehaviour
                 _monthsToWin = 6;
                 _money = 750000;
                 _minMoney = 15000;
-                _entranceFee = 10;
+                entranceFee = 10;
                 _minHerbivoreCount = 15;
                 _minCarnivoreCount = 15;
                 _minTuristCount = 15;
@@ -162,7 +175,7 @@ public class GameManager : MonoBehaviour
                 _monthsToWin = 12;
                 _money = 500000;
                 _minMoney = 20000;
-                _entranceFee = 15;
+                entranceFee = 15;
                 _minHerbivoreCount = 20;
                 _minCarnivoreCount = 20;
                 _minTuristCount = 20;
@@ -193,18 +206,18 @@ public class GameManager : MonoBehaviour
         _notifiedMonthsReset = false;
         Time.timeScale = 1f;
 
-        Routes = new Heap<VehiclePath>(gameTable.Size.x * gameTable.Size.y);
+
         WMap = new Node[gameTable.Size.x, gameTable.Size.y];
+        Roadmap = new Node[gameTable.Size.x, gameTable.Size.y];
         Plants = new Plant[gameTable.Size.x, gameTable.Size.y];
 
         Map.onMapGenerated += OnMapGenerated;
-
         IsGameRunnning = true;
 
         _hasWon = false;
+        DontDestroyOnLoad(this);
     }
-
-
+        
     void Update()
     {
 
@@ -215,35 +228,10 @@ public class GameManager : MonoBehaviour
         {
             PurchaseMode = false;
         }
-
-        _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
-        _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
-
-        if (!_hasWon)
+        if (_winningDate == Date.AddDays(_daysPassed))
         {
-            if (_herbivoreCount < _minHerbivoreCount || _carnivoreCount < _minCarnivoreCount || _money < _minMoney || CalculateSatisfaction() < _minTuristSatisfaction)
-            {
-                _winningDate = Date.AddDays(_daysPassed).AddMonths(_monthsToWin);
-                if (!_notifiedMonthsReset)
-                {
-                    string notifMsg = $"Winning requierements not met!\nMonths to win has been reset to {_winningDate.ToShortDateString()}!";
-                    Notifier.Instance.Notify(notifMsg);
-                    _notifiedMonthsReset = true;
-                }
-            }
-            else
-            {
-                _notifiedMonthsReset = false;
-            }
-
-            if ((_herbivoreCount == 0 && _carnivoreCount == 0) || _money == 0)
-                onGameOver?.Invoke();
-
-            if (_winningDate == Date.AddDays(_daysPassed))
-            {
-                onGameWon?.Invoke();
-                _hasWon = true;
-            }
+            onGameWon?.Invoke();
+            _hasWon = true;
         }
 
         if ((Date.AddDays(_daysPassed) - _prevDay).TotalDays == 1)
@@ -336,18 +324,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int CalculateSatisfaction()
-    {
-        return 50;
-    }
 #nullable enable
-    public void Buy(GameObject? gameObject)
+    public void Buy(GameObject? gameObject, int? objectPrice)
     {
         int price;
         if (gameObject == null)
         {
-            Road road = new();
-            price = road.Price;
+            price = objectPrice ?? 0;
         }
         else
         {
@@ -466,6 +449,7 @@ public class GameManager : MonoBehaviour
         {
             for (int j = 0; j < gameTable.Size.y; j++)
             {
+                Roadmap[i, j] = new Node(i, j, -1);
                 switch (gameTable.gameMap[i, j])
                 {
                     case Terrain.HILL:
@@ -476,6 +460,16 @@ public class GameManager : MonoBehaviour
                         break;
                     case Terrain.POND:
                         WMap[i, j] = new Node(i, j, -1);
+                        break;
+                    case Terrain.ENTRANCE:
+                        WMap[i,j] = new Node(i, j, 1);
+                        Roadmap[i,j] = new Node(i,j, 1);
+                        _enterance = gameTable.CellToWorld(new Vector3Int(i, j));
+                        break;
+                    case Terrain.EXIT:
+                        WMap[i, j] = new Node(i, j, 1);
+                        Roadmap[i, j] = new Node(i, j, 1);
+                        _exit = gameTable.CellToWorld(new Vector3Int(i, j));
                         break;
                     default:
                         WMap[i, j] = new Node(i, j, 1);

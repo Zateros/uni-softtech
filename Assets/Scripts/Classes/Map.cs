@@ -105,6 +105,7 @@ public class Map : MonoBehaviour
     private Tilemap baseTilemap;
     private Tilemap waterTilemap;
     private Tilemap obstaclesTilemap;
+    private Tilemap roadsTilemap;
     private GenerationTools genTools;
     private Color[] map;
     private HashSet<Vector2> riverVisitedPositions = new HashSet<Vector2>();
@@ -123,6 +124,7 @@ public class Map : MonoBehaviour
         baseTilemap = GameObject.FindWithTag("Base").GetComponent<Tilemap>();
         waterTilemap = GameObject.FindWithTag("Water").GetComponent<Tilemap>();
         obstaclesTilemap = GameObject.FindWithTag("Obstacles").GetComponent<Tilemap>();
+        roadsTilemap = GameObject.FindWithTag("UserBought").GetComponent<Tilemap>();
 
         genTools = new();
         GenerateMap();
@@ -281,7 +283,7 @@ public class Map : MonoBehaviour
             float noiseValue = genTools.PerlinNoise(swingSlice, step * 0.1f) - 0.5f;
             Vector2 direction = (p2 - pos).normalized;
             Vector2 perpendicular = new Vector2(-direction.y, direction.x);
-            Vector2 swing = perpendicular * noiseValue * (riverSwingMagnitude + riverDifficultySwingMagnitudeModif) ;
+            Vector2 swing = perpendicular * noiseValue * (riverSwingMagnitude + riverDifficultySwingMagnitudeModif);
 
             // Forward check for hills
             Vector2 nextStep = direction + swing;
@@ -395,6 +397,24 @@ public class Map : MonoBehaviour
             Destroy(GameManager.Instance.Plants[x, y].gameObject);
             GameManager.Instance.Plants[x, y] = null;
         }
+
+        Vector3Int pos = new Vector3Int(x, y);
+        if (terrain != Terrain.ROAD && gameMap[x, y] == Terrain.ROAD)
+        {
+            pos.z = -3;
+            roadsTilemap.SetTile(pos, null);
+        }
+        if (terrain != Terrain.RIVER && terrain != Terrain.POND && (gameMap[x, y] == Terrain.RIVER || gameMap[x, y] == Terrain.POND))
+        {
+            pos.z = -1;
+            waterTilemap.SetTile(pos, null);
+        }
+        if (gameMap[x, y] == Terrain.HILL)
+        {
+            pos.z = -4;
+            obstaclesTilemap.SetTile(pos, null);
+        }
+
         gameMap[x, y] = terrain;
         onMapChanged?.Invoke();
     }
@@ -428,7 +448,7 @@ public class Map : MonoBehaviour
                 Color temp = new(
                     genTools.Fbm(X * scale, Y * scale, octave) * amp, //Red - Base map
                     genTools.Fbm(2343f + X * obstacleScale, 233f + Y * obstacleScale, octave) * obstacleAmp, //Green - Obstacles
-                    -genTools.Fbm(545f + X * (waterScale - waterDifficultyScaleModif), 33f + Y * (waterScale - waterDifficultyScaleModif), octave) * waterAmp //Blue - Waters //TODO: Rivers
+                    -genTools.Fbm(545f + X * (waterScale - waterDifficultyScaleModif), 33f + Y * (waterScale - waterDifficultyScaleModif), octave) * waterAmp //Blue - Waters
                 );
                 SetMapColor(temp, xx, yy);
             }
@@ -473,7 +493,7 @@ public class Map : MonoBehaviour
                 {
                     int x = colorIndex / Size.x;
                     int y = colorIndex % Size.x;
-                    gameMap[x, y] = Terrain.RIVER;
+                    if (!isHill(x, y)) gameMap[x, y] = Terrain.RIVER;
                     colorIndex++;
                     return new Color(first.r, first.g, second.b);
                 }
@@ -527,7 +547,7 @@ public class Map : MonoBehaviour
                             foliagePrefab = treePrefab;
                             gameMap[x, y] = Terrain.TREE;
                         }
-                        Vector3 insideRandomCircle = Random.insideUnitCircle / 4f;
+                        Vector3 insideRandomCircle = Random.insideUnitCircle / 10f;
                         insideRandomCircle.z = 0f;
                         Vector3 foliagePosition = GetCellCenterWorld(new Vector3Int(x, y)) + insideRandomCircle;
                         foliage = Instantiate(foliagePrefab, foliagePosition, Quaternion.identity);

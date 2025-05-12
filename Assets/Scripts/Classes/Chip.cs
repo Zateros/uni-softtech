@@ -53,7 +53,7 @@ public class Chip : MonoBehaviour, IPurchasable
                 if (hitObject.tag == "Animal" && hitObject.GetComponent<Animal>().HasChip != true)
                 {
                     enabled = false;
-                    GameManager.Instance.Buy(gameObject);
+                    GameManager.Instance.Buy(gameObject, null);
                     hitObject.GetComponent<Animal>().HasChip = true;
                     Destroy(gameObject);
                 }

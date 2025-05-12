@@ -5,6 +5,7 @@ public class DepthSorting : MonoBehaviour
     [SerializeField]
     private bool isStatic = false;
     private SpriteRenderer spriteRenderer;
+    
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>() ?? GetComponentInChildren<SpriteRenderer>();
@@ -17,6 +18,6 @@ public class DepthSorting : MonoBehaviour
     }
 
     public void UpdateSorting() {
-        spriteRenderer.sortingOrder = -(int)(transform.position.y * 10) + 1;
+        spriteRenderer.sortingOrder = (int)(transform.position.y * -10) - (int)transform.position.x;
     }
 }

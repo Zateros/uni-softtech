@@ -1,13 +1,31 @@
 fileFormatVersion: 2
-guid: d9229f71648dfe193b2e325bd11e07d5
+guid: 09271e15d5b86af0a94196d4cbcb4589
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4163216209006283368
-    second: Hill_0
+      213: -8677609908639163057
+    second: cheetah_0
   - first:
-      213: -1370701362830414662
-    second: Hill_1
+      213: -2202052473807949725
+    second: cheetah_1
+  - first:
+      213: 3631027689592614498
+    second: cheetah_2
+  - first:
+      213: -6404937693580717656
+    second: cheetah_3
+  - first:
+      213: -8770886895034409351
+    second: cheetah_4
+  - first:
+      213: 6955174985564702545
+    second: cheetah_5
+  - first:
+      213: -754856729831885958
+    second: cheetah_6
+  - first:
+      213: 7235228528837604484
+    second: cheetah_7
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -103,111 +121,177 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hill_0
+      name: cheetah_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 102
-        height: 78
+        width: 151
+        height: 108
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.5012001, y: 0.01010821}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 86ac7fc9517b6c930800000000000000
-      internalID: 4163216209006283368
+      spriteID: f4d172893cfe29780800000000000000
+      internalID: -8677609908639163057
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_1
+      name: cheetah_1
       rect:
         serializedVersion: 2
-        x: 105
+        x: 151
         y: 0
-        width: 98
-        height: 78
+        width: 151
+        height: 108
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.5012001, y: 0.01010821}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: abc695f6f5a4afce0800000000000000
-      internalID: -1370701362830414662
+      spriteID: 36038e921fcb071e0800000000000000
+      internalID: -2202052473807949725
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_2
+      name: cheetah_2
       rect:
         serializedVersion: 2
-        x: 203
+        x: 302
         y: 0
-        width: 103
-        height: 78
+        width: 151
+        height: 108
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.5012001, y: 0.01010821}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: be1204485e02e87749ced8b97fe1a2ee
-      internalID: -333853335
+      spriteID: 26e66c71270046230800000000000000
+      internalID: 3631027689592614498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_3
+      name: cheetah_3
       rect:
         serializedVersion: 2
-        x: 306
+        x: 453
         y: 0
-        width: 102
-        height: 78
+        width: 151
+        height: 108
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.5012001, y: 0.01010821}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 4bd977a9cd06074a98dcdb344e071847
-      internalID: 335774649
+      spriteID: 8a19c9d3a171d17a0800000000000000
+      internalID: -6404937693580717656
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Hill_4
+      name: cheetah_4
       rect:
         serializedVersion: 2
-        x: 408
+        x: 604
         y: 0
-        width: 102
-        height: 78
+        width: 151
+        height: 108
       alignment: 9
-      pivot: {x: 0.4798257, y: 0.3468322}
+      pivot: {x: 0.5012001, y: 0.01010821}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 27d13fe34c4dfbc55bd6ac73edbabb49
-      internalID: 586580089
+      spriteID: 97e5850d6dc874680800000000000000
+      internalID: -8770886895034409351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cheetah_5
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 0
+        width: 151
+        height: 108
+      alignment: 9
+      pivot: {x: 0.5012001, y: 0.01010821}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 157444d9cceb58060800000000000000
+      internalID: 6955174985564702545
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cheetah_6
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 0
+        width: 151
+        height: 108
+      alignment: 9
+      pivot: {x: 0.5012001, y: 0.01010821}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a73be0abdc53685f0800000000000000
+      internalID: -754856729831885958
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cheetah_7
+      rect:
+        serializedVersion: 2
+        x: 1057
+        y: 0
+        width: 151
+        height: 108
+      alignment: 9
+      pivot: {x: 0.5012001, y: 0.01010821}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 484332a5302b86460800000000000000
+      internalID: 7235228528837604484
       vertices: []
       indices: 
       edges: []
@@ -216,7 +300,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 9eba347a7e6889138809a51494863682
+    spriteID: 4054fcb8ea8bbd1eeacdebc8065e1a9e
     internalID: 0
     vertices: []
     indices: 
@@ -226,11 +310,14 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Hill_0: 4163216209006283368
-      Hill_1: -1370701362830414662
-      Hill_2: -333853335
-      Hill_3: 335774649
-      Hill_4: 586580089
+      cheetah_0: -8677609908639163057
+      cheetah_1: -2202052473807949725
+      cheetah_2: 3631027689592614498
+      cheetah_3: -6404937693580717656
+      cheetah_4: -8770886895034409351
+      cheetah_5: 6955174985564702545
+      cheetah_6: -754856729831885958
+      cheetah_7: 7235228528837604484
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

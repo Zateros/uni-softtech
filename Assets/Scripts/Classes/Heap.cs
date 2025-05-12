@@ -1,6 +1,9 @@
 using System;
-using UnityEngine;
 
+/// <summary>
+/// Heap implamentation
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class Heap<T> where T : IHeapItem<T>
 {
 
@@ -114,9 +117,6 @@ public class Heap<T> where T : IHeapItem<T>
         itemA.HeapIndex = itemB.HeapIndex;
         itemB.HeapIndex = itemAIndex;
     }
-
-
-
 }
 
 public interface IHeapItem<T> : IComparable<T>
