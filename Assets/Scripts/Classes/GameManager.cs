@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
 
     public Node[,] WMap { get; private set; }
     public Plant[,] Plants { get; set; }
+    public Vector2 EntrancePosition { get => _enterance; }
     private bool _purchaseMode = false;
 
     public delegate void OnPurchaseModeDisable();
@@ -115,10 +116,12 @@ public class GameManager : MonoBehaviour
             if (value != _isNight) _isNight = value;
         }
     }
-    public Node[,] Roadmap { get; set; } 
+    public Node[,] Roadmap { get; set; }
     public bool IsGameRunnning { get; set; }
     public int satisfaction = 50;
-    public int Money { get => _money; set
+    public int Money
+    {
+        get => _money; set
         {
             _money = value;
         }
@@ -140,6 +143,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        gameTable = GameObject.FindWithTag("Map").GetComponent<Map>();
 
         _difficulty = (Difficulty)DifficultyBtns.difficulty;
 
@@ -212,38 +217,68 @@ public class GameManager : MonoBehaviour
         _hasWon = false;
         DontDestroyOnLoad(this);
     }
-        
+
     void Update()
     {
 
-        if(_money < 0)
+        if (_money < 0)
             _money = 0;
 
         if (Input.GetKeyDown(KeyCode.Escape) && PurchaseMode)
         {
             PurchaseMode = false;
         }
-        if (_winningDate == Date.AddDays(_daysPassed))
+
+        _herbivoreCount = _rhinos.Count + _zebras.Count + _giraffes.Count;
+        _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
+
+        if (!_hasWon)
         {
-            onGameWon?.Invoke();
-            _hasWon = true;
+            if (_herbivoreCount < _minHerbivoreCount || _carnivoreCount < _minCarnivoreCount || _money < _minMoney || satisfaction < _minTuristSatisfaction)
+            {
+                _winningDate = Date.AddDays(_daysPassed).AddMonths(_monthsToWin);
+                if (!_notifiedMonthsReset)
+                {
+                    string notifMsg = $"Winning requierements not met!\nMonths to win has been reset to {_winningDate.ToShortDateString()}!";
+                    if (Notifier.Instance != null) Notifier.Instance.Notify(notifMsg);
+                    _notifiedMonthsReset = true;
+                }
+            }
+            else
+            {
+                _notifiedMonthsReset = false;
+            }
+
+            if ((_herbivoreCount == 0 && _carnivoreCount == 0) || _money == 0)
+                onGameOver?.Invoke();
+
+            if (_winningDate == Date.AddDays(_daysPassed))
+            {
+                onGameWon?.Invoke();
+                _hasWon = true;
+            }
+            if (_winningDate == Date.AddDays(_daysPassed))
+            {
+                onGameWon?.Invoke();
+                _hasWon = true;
+            }
+
+            if ((Date.AddDays(_daysPassed) - _prevDay).TotalDays == 1)
+            {
+                _prevDay = Date.AddDays(_daysPassed);
+                AnimalsHunger();
+            }
+
+            if ((Date.AddDays(_daysPassed) - _prevWeek).TotalDays == 7)
+            {
+                _prevWeek = Date.AddDays(_daysPassed);
+                AnimalsAge();
+            }
+
+
+            if (IsGameRunnning)
+                _prevSpeed = Time.timeScale;
         }
-
-        if ((Date.AddDays(_daysPassed) - _prevDay).TotalDays == 1)
-        {
-            _prevDay = Date.AddDays(_daysPassed);
-            AnimalsHunger();
-        }
-
-        if((Date.AddDays(_daysPassed) - _prevWeek).TotalDays == 7)
-        {
-            _prevWeek = Date.AddDays(_daysPassed);
-            AnimalsAge();
-        }
-
-
-        if (IsGameRunnning)
-            _prevSpeed = Time.timeScale;
     }
 
     private void AnimalsHunger()
@@ -374,7 +409,7 @@ public class GameManager : MonoBehaviour
         }
 
         if (!_hasWon && _money <= _minMoney + 10000)
-            Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
+            if (Notifier.Instance != null) Notifier.Instance.Notify($"Money is low ({_money})!\nMin money: {_minMoney}");
 
         _money -= price;
     }
@@ -412,11 +447,11 @@ public class GameManager : MonoBehaviour
         _carnivoreCount = _lions.Count + _hyenas.Count + _cheetahs.Count;
 
         if (!_hasWon && _herbivoreCount <= _minHerbivoreCount + 2)
-            Notifier.Instance.Notify($"Herbivore count is low ({_herbivoreCount})!\nMin herbivore count: {_minHerbivoreCount}");
+            if (Notifier.Instance != null) Notifier.Instance.Notify($"Herbivore count is low ({_herbivoreCount})!\nMin herbivore count: {_minHerbivoreCount}");
 
 
         if (!_hasWon && _carnivoreCount <= _minCarnivoreCount + 2)
-            Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
+            if (Notifier.Instance != null) Notifier.Instance.Notify($"Carnivore count is low ({_carnivoreCount})!\nMin carnivore count: {_minCarnivoreCount}");
 
         int salePrice = gameObject.GetComponent<IPurchasable>().SalePrice;
         if (gameObject.tag == "Animal" && gameObject.GetComponent<Animal>().HasChip)
@@ -431,10 +466,30 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = Mathf.Clamp(Time.timeScale + 0.25f, 0f, 2f);
     }
-    
+
     public void SlowDown()
     {
         Time.timeScale = Mathf.Clamp(Time.timeScale - .25f, 0f, 2f);
+    }
+
+    public void SetWMap(Terrain? terrain, Vector3Int pos)
+    {
+        int x = pos.x;
+        int y = pos.y;
+        switch (terrain)
+        {
+            case null:
+                WMap[x, y] = null;
+                break;
+            case Terrain.RIVER:
+                WMap[x, y] = new Node(x, y, 2);
+                break;
+            case Terrain.POND:
+                WMap[x, y] = new Node(x, y, -1);
+                break;
+            default:
+                break;
+        }
     }
 
     private void OnMapGenerated()
@@ -457,8 +512,8 @@ public class GameManager : MonoBehaviour
                         WMap[i, j] = new Node(i, j, -1);
                         break;
                     case Terrain.ENTRANCE:
-                        WMap[i,j] = new Node(i, j, 1);
-                        Roadmap[i,j] = new Node(i,j, 1);
+                        WMap[i, j] = new Node(i, j, 1);
+                        Roadmap[i, j] = new Node(i, j, 1);
                         _enterance = gameTable.CellToWorld(new Vector3Int(i, j));
                         break;
                     case Terrain.EXIT:

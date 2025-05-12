@@ -107,42 +107,52 @@ public class PurchasableBtnClick : MonoBehaviour
         {
 
             case "RhinoBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myRhino = Instantiate(Rhino, mousePosition, Quaternion.identity);
                 myRhino.name = "Rhino";
                 break;
             case "ZebraBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myZebra = Instantiate(Zebra, mousePosition, Quaternion.identity);
                 myZebra.name = "Zebra";
                 break;
             case "GiraffeBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myGiraffe = Instantiate(Giraffe, mousePosition, Quaternion.identity);
                 myGiraffe.name = "Giraffe";
                 break;
             case "LionBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myLion = Instantiate(Lion, mousePosition, Quaternion.identity);
                 myLion.name = "Lion";
                 break;
             case "HyenaBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myHyena = Instantiate(Hyena, mousePosition, Quaternion.identity);
                 myHyena.name = "Hyena";
                 break;
             case "CheetahBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myCheetah = Instantiate(Cheetah, mousePosition, Quaternion.identity);
                 myCheetah.name = "Cheetah";
                 break;
             case "GrassBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myGrass = Instantiate(Grass, mousePosition, Quaternion.identity);
                 myGrass.name = "Grass";
                 break;
             case "BushBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myBush = Instantiate(Bush, mousePosition, Quaternion.identity);
                 myBush.name = "Bush";
                 break;
             case "TreeBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myTree = Instantiate(Tree, mousePosition, Quaternion.identity);
                 myTree.name = "Tree";
                 break;
             case "JeepBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myJeep = Instantiate(Jeep, mousePosition, Quaternion.identity);
                 myJeep.name = "Jeep";
                 break;
@@ -152,6 +162,7 @@ public class PurchasableBtnClick : MonoBehaviour
                 placer.enabled = true;
                 break;
             case "ChipBtn":
+                GameManager.Instance.PurchaseMode = false;
                 var myChip = Instantiate(Chip, mousePosition, Quaternion.identity);
                 myChip.name = "Chip";
                 break;

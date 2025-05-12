@@ -9,9 +9,11 @@ public class Turist : MonoBehaviour, IEntity
     private Vehicle vehicle = null;
     protected Vector2 dir;
     protected Vector2 _position;
+    Vector2 _facing = Vector2.zero;
 
     public bool IsVisible { get => true; }
     public int Satisfaction { get => satisfaction; }
+    public Vector2 Facing { get => _facing; }
 
     private void Awake()
     {
@@ -52,7 +54,7 @@ public class Turist : MonoBehaviour, IEntity
         float distance = -1;
         foreach (Vehicle vehicle in GameManager.Instance.Vehicles)
         {
-            if(distance == -1 && Vector2.Distance(_position, vehicle.Position) <= _visionRange && !vehicle.IsFull)
+            if (distance == -1 && Vector2.Distance(_position, vehicle.Position) <= _visionRange && !vehicle.IsFull)
             {
                 closest = vehicle;
                 distance = Vector2.Distance(_position, vehicle.Position);

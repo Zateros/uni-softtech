@@ -26,6 +26,7 @@ public class Plant : MonoBehaviour, IEntity, IPurchasable
         }
     }
 
+    public Vector2 Facing => throw new NotImplementedException();
 
     public void Eat()
     {
