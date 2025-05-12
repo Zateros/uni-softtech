@@ -203,7 +203,6 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        Time.timeScale = Mathf.Clamp(Time.timeScale, 0f, 2f);
 
         if(_money < 0)
             _money = 0;
@@ -385,8 +384,15 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SpeedUp() { Time.timeScale += .25f; }
-    public void SlowDown() { Time.timeScale -= .25f; }
+    public void SpeedUp()
+    {
+        Time.timeScale = Mathf.Clamp(Time.timeScale + 0.25f, 0f, 2f);
+    }
+    
+    public void SlowDown()
+    {
+        Time.timeScale = Mathf.Clamp(Time.timeScale - .25f, 0f, 2f);
+    }
 
     private void OnMapGenerated()
     {
