@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class AStar : MonoBehaviour
 {
-
-    public void FindPath(PathRequest request, Action<PathResult> callback)
+    private bool _road;
+    public void FindPath(PathRequest request, Action<PathResult> callback, bool road)
     {
+        _road = road;
         Vector2[] waypoints = new Vector2[0];
         bool pathSuccess = false;
         Vector3Int start = GameManager.Instance.GameTable.WorldToCell(request.pathStart);
@@ -16,11 +17,22 @@ public class AStar : MonoBehaviour
             callback(new PathResult(new Vector2[0], false, request.callback));
             return;
         }
-        Node startNode = GameManager.Instance.WMap[start.x, start.y];
-        Node targetNode = GameManager.Instance.WMap[end.x, end.y];
+        Node startNode;
+        Node targetNode;
+        if (road)
+        {
+            startNode = GameManager.Instance.Roadmap[start.x, start.y];
+            targetNode = GameManager.Instance.Roadmap[end.x, end.y];
+        }
+        else
+        {
+            startNode = GameManager.Instance.WMap[start.x, start.y];
+            targetNode = GameManager.Instance.WMap[end.x, end.y];
+        }
+        
         startNode.parent = startNode;
 
-        if(!targetNode.passible)
+        if(!targetNode.passible && !road)
         {
             var WMap = GameManager.Instance.WMap;
             if (GameManager.Instance.GameTable.IsInBounds(end.x - 1, end.y - 1))
@@ -85,12 +97,12 @@ public class AStar : MonoBehaviour
             Heap<Node> openSet = new Heap<Node>(GameManager.Instance.GameTable.Size.x * GameManager.Instance.GameTable.Size.y);
             HashSet<Node> closedSet = new HashSet<Node>();
             openSet.Add(startNode);
-
             while (openSet.Count > 0)
             {
                 Node currentNode = openSet.RemoveFirst();
                 closedSet.Add(currentNode);
-
+                Debug.Log(currentNode.gridX);
+                Debug.Log(currentNode.gridY);
                 if (currentNode == targetNode)
                 {
                     pathSuccess = true;
@@ -152,9 +164,16 @@ public class AStar : MonoBehaviour
                 int checkX = node.gridX + x;
                 int checkY = node.gridY + y;
 
-                if (checkX >= 0 && checkX < GameManager.Instance.GameTable.Size.x && checkY >= 0 && checkY < GameManager.Instance.GameTable.Size.y)
+                if (GameManager.Instance.GameTable.IsInBounds(checkX,checkY))
                 {
-                    neighbours.Add(GameManager.Instance.WMap[checkX, checkY]);
+                    if (_road)
+                    {
+                        neighbours.Add(GameManager.Instance.Roadmap[checkX, checkY]);
+                    }
+                    else
+                    {
+                        neighbours.Add(GameManager.Instance.WMap[checkX, checkY]);
+                    }
                 }
             }
         }

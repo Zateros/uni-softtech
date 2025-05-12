@@ -16,7 +16,7 @@ public class Node : IHeapItem<Node>
 
     public Node(int gridX, int gridY, int weigth)
     {
-        worldPosition = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(gridX,gridY,0));
+        worldPosition = GameManager.Instance.GameTable.CellToWorld(new Vector3Int(gridX,gridY));
         this.gridX = gridX;
         this.gridY = gridY;
         this.weigth = weigth;

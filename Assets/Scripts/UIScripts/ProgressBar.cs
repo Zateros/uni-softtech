@@ -18,7 +18,7 @@ public class ProgressBar : MonoBehaviour
 
     public void SetProgress()
     {
-        float progress = GameManager.Instance.CalculateSatisfaction() / (float)100;
+        float progress = GameManager.Instance.satisfaction / (float)100;
 
         if (progress != ProgressImage.fillAmount)
         {
