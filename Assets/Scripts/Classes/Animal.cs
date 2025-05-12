@@ -14,7 +14,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float minPathUpdateTime = .01f;
     protected int _childCount = 0;
     protected int _maxChildCount;
-    protected Vector2 dir;
+    protected Vector2 _dir;
     protected Vector2 _facing = Vector2.zero;
     protected Vector2 _position;
     protected Vector2[] _path;
@@ -26,7 +26,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _size;
     protected int _price;
     protected int _salePrice;
-    public int _age = 0;
+    public int age = 0;
     protected int _maxage;
     public int hunger;
     protected readonly int _hungerMax = 100;
@@ -35,10 +35,10 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected bool _hasChip = false;
     protected bool _asleep = false;
     protected float _sleepDuration = 5f;
-    private int targetIndex = 0;
-    private bool placed;
+    private int _targetIndex = 0;
+    private bool _placed;
     public Vector2 Position { get => _position; }
-    public Sprite _blipIcon;
+    public Sprite blipIcon;
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;
 
@@ -48,19 +48,18 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     /// </summary>
     public bool Placed
     {
-        get => placed; set
+        get => _placed; set
         {
             _position = gameObject.transform.position;
-            Vector3 pos = GameManager.Instance.GameTable.WorldToCell(_position);
             StartCoroutine(UpdatePath());
-            placed = true;
+            _placed = true;
         }
     }
 
     public bool IsVisible { get => _hasChip; }
-    public Sprite BlipIcon { get => _blipIcon; set { _blipIcon = value; } }
+    public Sprite BlipIcon { get => blipIcon; set { blipIcon = value; } }
     public bool IsAsleep { get => _asleep; }
-    public bool IsAdult { get => _age >= 5; }
+    public bool IsAdult { get => age >= 5; }
     public bool IsThirsty { get => thirst <= _thirstMax / 2; }
     public bool IsHungry { get => hunger <= _hungerMax / 2; }
     public bool HasChip { get => _hasChip; set => _hasChip = value; }
@@ -74,7 +73,10 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         hunger = _hungerMax;
         thirst = _thirstMax;
     }
-
+    /// <summary>
+    /// Calculates seperation
+    /// </summary>
+    /// <returns>A vector towrds the seperation direction</returns>
     Vector2 Seperation()
     {
         Vector2 sepVec = new Vector2();
@@ -82,7 +84,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         if (neighbours.Count == 0) return sepVec;
         foreach (var neighbour in neighbours)
         {
-            if (inFOV(neighbour._position))
+            if (InFOV(neighbour._position))
             {
                 Vector2 movTowards = _position - neighbour._position;
                 if (movTowards.magnitude > 0)
@@ -94,6 +96,10 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         return sepVec.normalized;
     }
 
+    /// <summary>
+    /// Calculates alligment
+    /// </summary>
+    /// <returns>A vector towrds the alligment direction</returns>
     Vector2 Alligment()
     {
         Vector2 allign = new Vector2();
@@ -101,15 +107,19 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         if (neighbours.Count == 0) return allign;
         foreach (var neighbour in neighbours)
         {
-            if (inFOV(neighbour._position))
+            if (InFOV(neighbour._position))
             {
-                allign += neighbour.dir;
+                allign += neighbour._dir;
             }
         }
         allign = allign.normalized;
         return allign;
     }
 
+    /// <summary>
+    /// Calculates cohesion
+    /// </summary>
+    /// <returns>A vector towrds the cohesion direction</returns>
     Vector2 Cohesion()
     {
         Vector2 cohesion = new Vector2();
@@ -118,7 +128,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         if (neighbours.Count == 0) return cohesion;
         foreach (var neighbour in neighbours)
         {
-            if (inFOV(neighbour._position))
+            if (InFOV(neighbour._position))
             {
                 cohesion += neighbour._position;
                 cnt++;
@@ -131,11 +141,20 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         return cohesion;
     }
 
-    private bool inFOV(Vector2 pos)
+    /// <summary>
+    /// Checks if the animal can see teh given point
+    /// </summary>
+    /// <param name="pos"></param>
+    /// <returns></returns>
+    private bool InFOV(Vector2 pos)
     {
-        return Vector2.Angle(dir, pos - _position) <= _FOV;
+        return Vector2.Angle(_dir, pos - _position) <= _FOV;
     }
 
+    /// <summary>
+    /// Generates random direction
+    /// </summary>
+    /// <returns>Random direction</returns>
     private Vector2 GenerateRandomTarget()
     {
         return UnityEngine.Random.insideUnitCircle;
@@ -146,10 +165,14 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         onAnimalDestroy?.Invoke();
     }
 
-
+    /// <summary>
+    /// Handles A* returns
+    /// </summary>
+    /// <param name="waypoints"></param>
+    /// <param name="pathSuccessful"></param>
     public void OnPathFound(Vector2[] waypoints, bool pathSuccessful)
     {
-        targetIndex = 0;
+        _targetIndex = 0;
         if (pathSuccessful)
         {
             _path = waypoints;
@@ -164,11 +187,15 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         }
     }
 
+    /// <summary>
+    /// Path generation and update loop, handles animal logic
+    /// </summary>
+    /// <returns></returns>
     IEnumerator UpdatePath()
     {
         _position = transform.position;
         Vector3Int pos;
-        if (_age == _maxage || thirst == 0 || hunger == 0)
+        if (age == _maxage || thirst == 0 || hunger == 0)
         {
             Die();
             yield break;
@@ -237,15 +264,15 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         }
         else
         {
-            dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
-            dir = dir.normalized;
-            target = (_position + dir * _position.magnitude);
+            _dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
+            _dir = _dir.normalized;
+            target = (_position + _dir * _position.magnitude);
         }
         yield return new WaitForSeconds(.1f);
         PathManager.RequestPath(new PathRequest(_position, target, OnPathFound),false);
         while (true)
         {
-            if (_age == _maxage || thirst == 0 || hunger == 0)
+            if (age == _maxage || thirst == 0 || hunger == 0)
             {
                 Die();
                 yield break;
@@ -260,9 +287,9 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             {
                 StartCoroutine(Drink());
             }
-            if (targetIndex >= _path.Length)
+            if (_targetIndex >= _path.Length)
             {
-                targetIndex = 0;
+                _targetIndex = 0;
                 if (IsThirsty)
                 {
 
@@ -322,15 +349,19 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 }
                 else
                 {
-                    dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
-                    dir = dir.normalized;
-                    target = (_position + dir * _position.magnitude);
+                    _dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
+                    _dir = _dir.normalized;
+                    target = (_position + _dir * _position.magnitude);
                 }
                 PathManager.RequestPath(new PathRequest(_position, target, OnPathFound),false);
             }
         }
     }
 
+    /// <summary>
+    /// Searches for nearby Herbivores
+    /// </summary>
+    /// <returns>A herbivore if there is one in vison</returns>
     private Herbivore FoodNearBy()
     {
         Herbivore closest = null;
@@ -351,23 +382,27 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         return closest;
     }
 
+    /// <summary>
+    /// Follows the give path
+    /// </summary>
+    /// <returns></returns>
     IEnumerator FollowPath()
     {
         Vector2 currentWaypoint = _path[0];
-        dir = currentWaypoint.normalized;
+        _dir = currentWaypoint.normalized;
         while (true)
         {
             if (!_asleep)
             {
                 if (_position == currentWaypoint)
                 {
-                    targetIndex++;
-                    if (targetIndex >= _path.Length)
+                    _targetIndex++;
+                    if (_targetIndex >= _path.Length)
                     {
                         yield break;
                     }
-                    currentWaypoint = _path[targetIndex];
-                    dir = currentWaypoint.normalized;
+                    currentWaypoint = _path[_targetIndex];
+                    _dir = currentWaypoint.normalized;
                 }
                 Vector3Int pos = GameManager.Instance.GameTable.WorldToCell(_position);
                 var WMap = GameManager.Instance.WMap;
@@ -379,7 +414,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     if (Vector2.Distance(_lastWaterSource, _position) <= 1)
                     {
                         StartCoroutine(Drink());
-                        targetIndex = _path.Length;
+                        _targetIndex = _path.Length;
                         yield break;
                     }
                 }
@@ -389,7 +424,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     {
                         pos = GameManager.Instance.GameTable.WorldToCell(_lastFoodSource);
                         StartCoroutine(Eat(GameManager.Instance.Plants[pos.x, pos.y]));
-                        targetIndex = _path.Length;
+                        _targetIndex = _path.Length;
                         yield break;
                     }
                 }
@@ -557,6 +592,10 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public abstract List<Animal> GetNeighbours(float range);
     public abstract void Die();
 
+    /// <summary>
+    /// Drinks water
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Drink()
     {
         _asleep = true;
@@ -566,6 +605,9 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         yield break;
     }
 
+    /// <summary>
+    /// If 2 adults of the same kind are near eachother and can still have kids, they will mate
+    /// </summary>
     public void Mate()
     {
         if (IsAdult && _childCount < _maxChildCount)
@@ -573,7 +615,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             var neighbours = GetNeighbours(_visionRange);
             foreach (var neighbour in neighbours)
             {
-                if (neighbour.IsAdult && neighbour._childCount < neighbour._maxChildCount && inFOV(neighbour._position))
+                if (neighbour.IsAdult && neighbour._childCount < neighbour._maxChildCount && InFOV(neighbour._position))
                 {
                     _childCount++;
                     neighbour._childCount++;

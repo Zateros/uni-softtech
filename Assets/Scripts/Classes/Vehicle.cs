@@ -94,11 +94,11 @@ public class Vehicle : MonoBehaviour, IEntity, IPurchasable
                 {
                     if (!_goingBack)
                     {
-                        PathManager.RequestPath(new PathRequest(_position, GameManager.Instance.exit, OnPathFound), true);
+                        PathManager.RequestPath(new PathRequest(_position, GameManager.Instance.Exit, OnPathFound), true);
                     }
                     else
                     {
-                        PathManager.RequestPath(new PathRequest(_position, GameManager.Instance.enterance, OnPathFound), true);
+                        PathManager.RequestPath(new PathRequest(_position, GameManager.Instance.Entrance, OnPathFound), true);
                     }
                 }
             }

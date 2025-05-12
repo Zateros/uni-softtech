@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
     private int _minTuristSatisfaction;
     public readonly float eps = 0.1f;
 
-    public Vector2 enterance;
-    public Vector2 exit;
+    private Vector2 _enterance;
+    private Vector2 _exit;
 
     private List<Rhino> _rhinos;
     private List<Zebra> _zebras;
@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour
     public Map GameTable { get => gameTable; }
     public Minimap Minimap { get => minimap; }
     public Vector2 Entrance { get => _enterance; }
+    public Vector2 Exit { get => _exit; }
     public int DaysPassed { get => _daysPassed; private set { if (value != _daysPassed) _daysPassed = value; } }
     public DateTime Date { get => _time; private set { if (value != _time) _time = value; } }
     public float PrevSpeed { get => _prevSpeed; }
@@ -465,12 +466,12 @@ public class GameManager : MonoBehaviour
                     case Terrain.ENTRANCE:
                         WMap[i,j] = new Node(i, j, 1);
                         Roadmap[i,j] = new Node(i,j, 1);
-                        enterance = gameTable.CellToWorld(new Vector3Int(i, j));
+                        _enterance = gameTable.CellToWorld(new Vector3Int(i, j));
                         break;
                     case Terrain.EXIT:
                         WMap[i, j] = new Node(i, j, 1);
                         Roadmap[i, j] = new Node(i, j, 1);
-                        exit = gameTable.CellToWorld(new Vector3Int(i, j));
+                        _exit = gameTable.CellToWorld(new Vector3Int(i, j));
                         break;
                     default:
                         WMap[i, j] = new Node(i, j, 1);

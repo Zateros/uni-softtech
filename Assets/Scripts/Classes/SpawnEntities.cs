@@ -144,7 +144,7 @@ public class SpawnEntities : MonoBehaviour
     {
         if((GameManager.Instance.Date - _prevDay).TotalDays == 1)
         {
-            _maxDailyTuristCount = GameManager.Instance.CalculateSatisfaction() / 5;
+            _maxDailyTuristCount = GameManager.Instance.satisfaction / 5;
         }
 
         if (_dailyTuristCount != _maxDailyTuristCount)

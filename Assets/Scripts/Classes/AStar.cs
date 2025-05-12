@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+/// <summary>
+/// A* algorithim implamenntion, the road bool decides if we only wnat to go on roads
+/// </summary>
 public class AStar : MonoBehaviour
 {
     private bool _road;
