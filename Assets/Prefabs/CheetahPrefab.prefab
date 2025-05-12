@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStatic: 0
+  addition: 0
 --- !u!1 &3566539005264405374
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b8db2e5381f5c408218fa22db92ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blipIcon: {fileID: 0}
+  _blipIcon: {fileID: 677053892208842488, guid: 93d228fc347d3cfb4aa566429b4073ec, type: 3}
 --- !u!61 &6710430140805138924
 BoxCollider2D:
   m_ObjectHideFlags: 0
