@@ -1,14 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
+
+/// <summary>
+/// Destroys current object after a given time.
+/// </summary>
+
 public class DestroyOverTime : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         StartCoroutine(CountDown(15));
     }
 
+    /// <summary>
+    /// Waits then destroys object.
+    /// </summary>
+    /// <param name="value">Time to wait before destruction</param>
     IEnumerator CountDown(float value)
     {
         float normalizedTime = 0;

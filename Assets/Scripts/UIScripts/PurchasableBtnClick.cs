@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static Map;
 
+/// <summary>
+/// Handles the shop UI interactions
+/// </summary>
 public class PurchasableBtnClick : MonoBehaviour
 {
     public GameObject PanelAnimal;
@@ -11,19 +13,19 @@ public class PurchasableBtnClick : MonoBehaviour
 
     public Slider SellToggle;
 
-    [SerializeField] public GameObject Rhino;
-    [SerializeField] public GameObject Zebra;
-    [SerializeField] public GameObject Giraffe;
-    [SerializeField] public GameObject Lion;
-    [SerializeField] public GameObject Hyena;
-    [SerializeField] public GameObject Cheetah;
-    [SerializeField] public GameObject Grass;
-    [SerializeField] public GameObject Bush;
-    [SerializeField] public GameObject Tree;
-    [SerializeField] public GameObject Jeep;
-    [SerializeField] public GameObject Chip;
-    [SerializeField] private RoadPlacer roadPlacer;
-    // [SerializeField] private WaterPlacer waterPlacer;
+    public GameObject Rhino;
+    public GameObject Zebra;
+    public GameObject Giraffe;
+    public GameObject Lion;
+    public GameObject Hyena;
+    public GameObject Cheetah;
+    public GameObject Grass;
+    public GameObject Bush;
+    public GameObject Tree;
+    public GameObject Jeep;
+    public GameObject Chip;
+    public RoadPlacer roadPlacer;
+    // public WaterPlacer waterPlacer;
 
     private Camera mainCamera;
     private Vector3 mousePosition;
@@ -38,6 +40,9 @@ public class PurchasableBtnClick : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// On Animal/Plant/Else Button click opens/closes panels
+    /// </summary>
     public void OnBtnClick()
     {
         if (SellToggle.GetComponent<ToggleSwitch>().IsToggled)
@@ -90,6 +95,9 @@ public class PurchasableBtnClick : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawns entity based on which button was clicked
+    /// </summary>
     public void SpawnEntity()
     {
         string clickedBtnName = EventSystem.current.currentSelectedGameObject.name;
@@ -156,6 +164,10 @@ public class PurchasableBtnClick : MonoBehaviour
         if (PanelVehicle != null && PanelVehicle.activeInHierarchy) { PanelVehicle.SetActive(false); }
     }
 
+    /// <summary>
+    /// Buys count amount or roads.
+    /// </summary>
+    /// <param name="count"></param>
     private void BuyRoad(int count)
     {
         while (count != 0)
@@ -165,6 +177,9 @@ public class PurchasableBtnClick : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Disables purchase mode
+    /// </summary>
     private void DisablePurchaseMode()
     {
         roadPlacer.enabled = false;

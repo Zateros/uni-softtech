@@ -1,27 +1,34 @@
 using UnityEngine;
 using TMPro;
 
+
+/// <summary>
+/// Handles Prices button click, opens prices panel.
+/// </summary>
 public class PricesPanelScript : MonoBehaviour
 {
-    [SerializeField] public GameObject PricesPanel;
-    [SerializeField] public TextMeshProUGUI ItemsText;
-    [SerializeField] public TextMeshProUGUI PricesText;
-    [SerializeField] public TextMeshProUGUI SalePricesText;
+    public GameObject PricesPanel;
+    public TextMeshProUGUI ItemsText;
+    public TextMeshProUGUI PricesText;
+    public TextMeshProUGUI SalePricesText;
 
-    [SerializeField] public GameObject Rhino;
-    [SerializeField] public GameObject Zebra;
-    [SerializeField] public GameObject Giraffe;
-    [SerializeField] public GameObject Lion;
-    [SerializeField] public GameObject Hyena;
-    [SerializeField] public GameObject Cheetah;
-    [SerializeField] public GameObject Grass;
-    [SerializeField] public GameObject Bush;
-    [SerializeField] public GameObject Tree;
-    [SerializeField] public GameObject Jeep;
-    [SerializeField] public GameObject Chip;
+    public GameObject Rhino;
+    public GameObject Zebra;
+    public GameObject Giraffe;
+    public GameObject Lion;
+    public GameObject Hyena;
+    public GameObject Cheetah;
+    public GameObject Grass;
+    public GameObject Bush;
+    public GameObject Tree;
+    public GameObject Jeep;
+    public GameObject Chip;
     public Road Road;
     public Water Water;
 
+    /// <summary>
+    /// Opens up Prices panel, writes purchasable items' prices on it based on difficulty.
+    /// </summary>
     public void OnPricesBtnClick()
     {
         if (PricesPanel.activeSelf)

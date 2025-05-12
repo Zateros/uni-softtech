@@ -1,11 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Handles settings.
+/// </summary>
 public class SettingsScripts : MonoBehaviour
 {
-    [SerializeField] public Toggle FullScreenToggle;
-    [SerializeField] public Toggle VSyncToggle;
+    public Toggle FullScreenToggle;
+    public Toggle VSyncToggle;
 
+    /// <summary>
+    /// Changes the checkboxes based on current screen and vsync settings.
+    /// </summary>
     void Start()
     {
         FullScreenToggle.isOn = Screen.fullScreen;
@@ -20,6 +26,9 @@ public class SettingsScripts : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes screen, vsync setting based on the checkboxes.
+    /// </summary>
     public void ApplyGraphics()
     {
         Screen.fullScreen = FullScreenToggle.isOn;

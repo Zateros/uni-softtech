@@ -1,11 +1,13 @@
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// Updates money count on toolbar.
+/// </summary>
 public class MoneyLabelUpdater : MonoBehaviour
 {
-    [SerializeField] public TextMeshProUGUI MoneyLabel;
+    public TextMeshProUGUI MoneyLabel;
 
-    // Update is called once per frame
     void Update()
     {
         MoneyLabel.text = "$ " + GameManager.Instance.Money.ToString();

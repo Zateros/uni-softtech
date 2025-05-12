@@ -1,27 +1,37 @@
 using UnityEngine;
 using TMPro;
-using System;
 
+/// <summary>
+/// Sends in-game notifications to the player.
+/// </summary>
 public class Notifier : MonoBehaviour
 {
-    [SerializeField] public GameObject ScrollView;
-    [SerializeField] public GameObject NotifHolder;
+    public GameObject ScrollView;
+    public GameObject NotifHolder;
     public static Notifier Instance;
     public GameObject NotificationText;
 
-    public bool NotifiedMonthsReset;
+    public bool notifiedMonthsReset;
 
     private void Awake()
     {
         Instance = this;
     }
 
+    /// <summary>
+    /// Deavtivates notification holder panel if there are no notifications.
+    /// </summary>
     void Update()
     {
         if(NotifHolder.transform.childCount == 0)
             ScrollView.SetActive(false);
     }
 
+    /// <summary>
+    /// Activates notification panel if it wasnt active before.
+    /// Creates and sends new notification to player.
+    /// </summary>
+    /// <param name="message">Notification message</param>
     public void Notify(string message)
     {
         if(!ScrollView.activeSelf)
