@@ -11,14 +11,14 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected float _FOV;
     protected float _visionRange;
     protected float _speed;
-    protected float minPathUpdateTime = .01f;
+    protected float _minPathUpdateTime = .01f;
     protected int _childCount = 0;
     protected int _maxChildCount;
     protected Vector2 _dir;
     protected Vector2 _facing = Vector2.zero;
     protected Vector2 _position;
     protected Vector2[] _path;
-    protected Vector2 target;
+    protected Vector2 _target;
     protected bool _foundWater = false;
     protected bool _foundFood = false;
     protected Vector2 _lastWaterSource;
@@ -27,7 +27,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     protected int _price;
     protected int _salePrice;
     public int age = 0;
-    protected int _maxage;
+    protected int _maxage = 10;
     public int hunger;
     protected readonly int _hungerMax = 100;
     public int thirst;
@@ -42,7 +42,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
     public delegate void OnAnimalDestroy();
     public event OnAnimalDestroy onAnimalDestroy;
 
-    public Vector2 Facing { get => _facing; }
+    public Vector2 Facing { get => _dir; }
     /// <summary>
     /// Sets the position and start everything after the animal is placed
     /// </summary>
@@ -211,7 +211,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             {
                 if (Vector2.Distance(_lastWaterSource, _position) > 1)
                 {
-                    target = _lastWaterSource;
+                    _target = _lastWaterSource;
                 }
                 else
                 {
@@ -220,7 +220,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             }
             else
             {
-                target = _position + GenerateRandomTarget() * _position.magnitude;
+                _target = _position + GenerateRandomTarget() * _position.magnitude;
             }
         }
         else if (IsHungry)
@@ -229,7 +229,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
             {
                 if (Vector2.Distance(_lastFoodSource, _position) > 1)
                 {
-                    target = _lastFoodSource;
+                    _target = _lastFoodSource;
                 }
                 else if (this is Herbivore)
                 {
@@ -249,27 +249,27 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     else
                     {
                         Debug.Log(food._position);
-                        target = food._position;
+                        _target = food._position;
                     }
                 }
                 else
                 {
-                    target = _position + GenerateRandomTarget() * _position.magnitude;
+                    _target = _position + GenerateRandomTarget() * _position.magnitude;
                 }
             }
             else
             {
-                target = _position + GenerateRandomTarget() * _position.magnitude;
+                _target = _position + GenerateRandomTarget() * _position.magnitude;
             }
         }
         else
         {
-            _dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
-            _dir = _dir.normalized;
-            target = (_position + _dir * _position.magnitude);
+            Vector2 tmp = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
+            tmp = tmp.normalized;
+            _target = (_position + tmp * _position.magnitude);
         }
         yield return new WaitForSeconds(.1f);
-        PathManager.RequestPath(new PathRequest(_position, target, OnPathFound),false);
+        PathManager.RequestPath(new PathRequest(_position, _target, OnPathFound),false);
         while (true)
         {
             if (age == _maxage || thirst == 0 || hunger == 0)
@@ -277,7 +277,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 Die();
                 yield break;
             }
-            yield return new WaitForSeconds(minPathUpdateTime);
+            yield return new WaitForSeconds(_minPathUpdateTime);
             if (_path.Length == 0)
             {
                 yield break;
@@ -297,7 +297,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     {
                         if (Vector2.Distance(_lastWaterSource, _position) > 1)
                         {
-                            target = _lastWaterSource;
+                            _target = _lastWaterSource;
                         }
                         else
                         {
@@ -306,7 +306,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     }
                     else
                     {
-                        target = (_position + GenerateRandomTarget() * _position.magnitude);
+                        _target = (_position + GenerateRandomTarget() * _position.magnitude);
                     }
                 }
                 else if (IsHungry)
@@ -315,7 +315,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                     {
                         if (Vector2.Distance(_lastFoodSource, _position) > 1)
                         {
-                            target = _lastFoodSource;
+                            _target = _lastFoodSource;
                         }
                         else if (this is Herbivore)
                         {
@@ -334,26 +334,26 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                             }
                             else
                             {
-                                target = food._position;
+                                _target = food._position;
                             }
                         }
                         else
                         {
-                            target = _position + GenerateRandomTarget() * _position.magnitude;
+                            _target = _position + GenerateRandomTarget() * _position.magnitude;
                         }
                     }
                     else
                     {
-                        target = _position + GenerateRandomTarget() * _position.magnitude;
+                        _target = _position + GenerateRandomTarget() * _position.magnitude;
                     }
                 }
                 else
                 {
-                    _dir = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
-                    _dir = _dir.normalized;
-                    target = (_position + _dir * _position.magnitude);
+                    Vector2 tmp = GenerateRandomTarget() * _wonderPriority + Cohesion() * _cohesionPriority + Alligment() * _alligmentPriority + Seperation() * _seperationPriority;
+                    tmp = tmp.normalized;
+                    _target = (_position + tmp * _position.magnitude);
                 }
-                PathManager.RequestPath(new PathRequest(_position, target, OnPathFound),false);
+                PathManager.RequestPath(new PathRequest(_position, _target, OnPathFound),false);
             }
         }
     }
@@ -581,6 +581,7 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
                 {
                     speed *= -1;
                 }
+                _dir = currentWaypoint.normalized;
                 transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
                 _position = transform.position;
             }
@@ -588,8 +589,21 @@ public abstract class Animal : MonoBehaviour, IEntity, IPurchasable
         }
     }
 
+    /// <summary>
+    /// Eats the given entity
+    /// </summary>
+    /// <param name="e">entity to be eaten</param>
+    /// <returns></returns>
     public abstract IEnumerator Eat(IEntity e);
+    /// <summary>
+    /// Returns the nearby animals within the range
+    /// </summary>
+    /// <param name="range"></param>
+    /// <returns>List of the nearby animals</returns>
     public abstract List<Animal> GetNeighbours(float range);
+    /// <summary>
+    /// The animal dies
+    /// </summary>
     public abstract void Die();
 
     /// <summary>

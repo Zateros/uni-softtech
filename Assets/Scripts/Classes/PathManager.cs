@@ -34,6 +34,11 @@ public class PathManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Creates a path request
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="road">only path on roads</param>
     public static void RequestPath(PathRequest request, bool road)
     {
         ThreadStart threadStart = delegate {

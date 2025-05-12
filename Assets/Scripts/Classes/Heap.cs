@@ -1,5 +1,9 @@
 using System;
 
+/// <summary>
+/// Heap implamentation
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class Heap<T> where T : IHeapItem<T>
 {
 

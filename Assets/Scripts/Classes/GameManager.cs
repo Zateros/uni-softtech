@@ -1,12 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor;
-using Unity.VisualScripting;
-using static UnityEngine.EventSystems.EventTrigger;
 using UnityEngine;
-using System.Xml;
-using NUnit.Framework.Internal;
-using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -130,7 +124,7 @@ public class GameManager : MonoBehaviour
     public int satisfaction = 50;
     public int Money { get => _money; set
         {
-            Money = value;
+            _money = value;
         }
     }
     public Difficulty Difficulty { get => _difficulty; }
