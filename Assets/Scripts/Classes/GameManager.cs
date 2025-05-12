@@ -523,11 +523,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        for (int i = 0; i < _minTuristCount; i++)
-        {
-            Instantiate(turist, _enterance, Quaternion.identity);
-        }
     }
 
     private void OnDisable()

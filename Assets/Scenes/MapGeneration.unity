@@ -11666,6 +11666,7 @@ MonoBehaviour:
   Hyena: {fileID: 7562999939974041744, guid: a717a2bcdd3a926458e044e24c3be2af, type: 3}
   Cheetah: {fileID: 3566539005264405374, guid: f66ee8f582987734a932c399249fb7a1, type: 3}
   Jeep: {fileID: 6283642253247966636, guid: bdef79afd9cda604f95ab5ef8243aedf, type: 3}
+  Turist: {fileID: 6283642253247966636, guid: ce79856c4abd1c84bb5f1e32debcca33, type: 3}
 --- !u!114 &1585813865
 MonoBehaviour:
   m_ObjectHideFlags: 0
